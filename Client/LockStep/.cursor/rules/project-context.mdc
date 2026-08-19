@@ -1,0 +1,25 @@
+---
+description: 帧同步仓库布局：本工作区仅为 Unity 客户端，服务端/工具/配置/计划在上级目录
+alwaysApply: true
+---
+
+# 仓库范围
+
+本仓库是**帧同步（LockStep）**项目。当前工作目录 `E:\Unity\Project\LockStep\Client\LockStep` **只有 Unity 客户端**。
+
+完整工程根目录：`E:\Unity\Project\LockStep`
+
+| 部分 | 路径 |
+|------|------|
+| 客户端（本工作区） | `E:\Unity\Project\LockStep\Client\LockStep` |
+| 服务端 | `E:\Unity\Project\LockStep\Server` |
+| 工具 | `E:\Unity\Project\LockStep\Tools` |
+| 配置 | `E:\Unity\Project\LockStep\Config` |
+| 计划/设计文档 | `E:\Unity\Project\LockStep\Plan` |
+
+# 行为要求
+
+- 处理协议、帧同步逻辑、对战状态、服务端、工具、配置或设计方案时，**主动读取上级目录**对应内容，不要只在本工作区里猜。
+- 客户端改动若依赖协议或配置，先核对 `Plan`、`Config`、`Server` 是否已有约定，再改 Unity 代码。
+- 不要把服务端、工具、配置、计划文件写进本 Unity 工程；它们属于上级目录。
+- 本规则仅约束本项目工作区，不要当作全局用户规则。

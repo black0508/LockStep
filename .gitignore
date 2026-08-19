@@ -1,0 +1,11 @@
+# OS
+Thumbs.db
+.DS_Store
+Desktop.ini
+
+# IDE
+.vs/
+.idea/
+*.user
+*.suo
+*.userprefs
