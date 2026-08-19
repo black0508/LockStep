@@ -9,3 +9,10 @@ Desktop.ini
 *.user
 *.suo
 *.userprefs
+
+# .NET
+bin/
+obj/
+*.userosscache
+project.lock.json
+artifacts/
