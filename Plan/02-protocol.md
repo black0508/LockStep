@@ -1,6 +1,6 @@
 # 协议草案
 
-`.proto` 是消息的唯一源。C# / C++ 都从同一份生成。下面是草案，实现阶段再放到 `proto/lockstep.proto`。
+`.proto` 是消息的唯一源。C# / C++ 都从同一份生成。源文件：[`Config/lockstep.proto`](../Config/lockstep.proto)。生成：跑 [`Tools/gen-proto.bat`](../Tools/gen-proto.bat)，会写出客户端和服务端各一份 `Lockstep.cs`。
 
 ## 传输约定
 
@@ -8,9 +8,9 @@
 |---|---|
 | 默认端口 | `7777` UDP |
 | 传输 | Fantasy 同款 KCP 内核（ikcp）+ 自写极简握手，**不是** Fantasy `Session` |
-| 业务包格式 | `uint16` 小端 `msgId` + protobuf 体 |
+| 业务包格式 | 一条 KCP 报文 = 一个 `Packet`（protobuf `oneof body`） |
 | 粘包 | 不做（KCP 一条 `Send` 对应一条 `Recv`） |
-| 字节序 | protobuf 自身；`msgId` 小端 |
+| 字节序 | protobuf 自身 |
 | protocol_version | `1`，不匹配则 `JoinReject` |
 
 客户端 **KCP 握手完成** 后立刻发 `Join`，不要静默等。
@@ -30,11 +30,11 @@ Fan_LockStep 的 Fantasy KCP 在 ikcp 外面还有 5 字节保留头 + 连接状
 | `0x06 ReceiveData` | 握手后的 KCP 数据报 |
 | `0x07 Disconnect` | 任一侧断开 |
 
-`Join` / `InputCmd` 等只出现在 `ReceiveData` 解开 ikcp 之后。Transport 禁止在握手包里塞玩法字段。握手不属于 protobuf，见下方「KCP 握手」。
+`Join` / `InputCmd` 等只出现在 `ReceiveData` 解开 ikcp 之后。Transport 禁止在握手包里塞玩法字段。握手不属于 protobuf。
 
-## msgId
+## Packet oneof（字段号冻结）
 
-| id | 消息 | 方向 |
+| 号 | 消息 | 方向 |
 |---:|---|---|
 | 1 | `Ping` | C → S |
 | 2 | `Pong` | S → C |
@@ -54,6 +54,22 @@ Fan_LockStep 的 Fantasy KCP 在 ikcp 外面还有 5 字节保留头 + 连接状
 ```protobuf
 syntax = "proto3";
 package lockstep;
+option csharp_namespace = "Lockstep.Proto";
+
+message Packet {
+  oneof body {
+    Ping ping = 1;
+    Pong pong = 2;
+    Join join = 3;
+    JoinAck join_ack = 4;
+    JoinReject join_reject = 5;
+    MatchStart match_start = 6;
+    InputCmd input_cmd = 7;
+    FrameInputs frame_inputs = 8;
+    Checksum checksum = 9;
+    Desync desync = 10;
+  }
+}
 
 message Ping {
   uint32 client_send_ms = 1;

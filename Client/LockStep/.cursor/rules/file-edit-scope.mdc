@@ -1,0 +1,15 @@
+---
+description: 无特别要求时只改 .cs/.md/.txt，禁止改 Unity 依赖与资源文件（.meta、.uasset 等）
+alwaysApply: true
+---
+
+# 可修改文件范围
+
+无用户特别要求时，**只允许创建、修改、删除** `.cs`、`.md`、`.txt`。
+
+**禁止**改动 Unity 工程依赖与资源文件，包括但不限于：
+
+- `.meta`（GUID 与导入设置，由 Unity 自动生成）
+- `.uasset`、`.asset`、`.prefab`、`.unity`、`.mat`、`.controller`、`.anim` 等资源
+
+仅当用户明确要求改某类文件时，才可改动对应类型。本规则仅约束本项目工作区。

@@ -1,0 +1,75 @@
+syntax = "proto3";
+package lockstep;
+option csharp_namespace = "Lockstep.Proto";
+
+message Packet {
+  oneof body {
+    Ping ping = 1;
+    Pong pong = 2;
+    Join join = 3;
+    JoinAck join_ack = 4;
+    JoinReject join_reject = 5;
+    MatchStart match_start = 6;
+    InputCmd input_cmd = 7;
+    FrameInputs frame_inputs = 8;
+    Checksum checksum = 9;
+    Desync desync = 10;
+  }
+}
+
+message Ping {
+  uint32 client_send_ms = 1;
+}
+
+message Pong {
+  uint32 client_send_ms = 1;
+}
+
+message Join {
+  uint32 protocol_version = 1;
+}
+
+message JoinAck {
+  uint32 player_id = 1;
+}
+
+message JoinReject {
+  uint32 reason = 1;
+}
+
+message MatchStart {
+  uint32 tick_hz = 1;
+  uint32 input_delay_frames = 2;
+  uint32 seed = 3;
+  int32 arena_half_extent_mm = 4;
+}
+
+message InputCmd {
+  uint32 frame = 1;
+  sint32 dx = 2;
+  sint32 dz = 3;
+  bool attack = 4;
+}
+
+message PlayerInput {
+  uint32 player_id = 1;
+  sint32 dx = 2;
+  sint32 dz = 3;
+  bool attack = 4;
+}
+
+message FrameInputs {
+  uint32 frame = 1;
+  repeated PlayerInput inputs = 2;
+}
+
+message Checksum {
+  uint32 frame = 1;
+  uint64 hash = 2;
+}
+
+message Desync {
+  uint32 frame = 1;
+  uint64 hash_player0 = 2;
+  uint64 hash_player1 = 3;
+}

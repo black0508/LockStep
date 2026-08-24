@@ -1,11 +1,47 @@
-﻿namespace LockStep.Server;
+﻿using System;
+using System.Threading;
+using LockStep.Server.Net;
 
-class Program
+namespace LockStep.Server
 {
-    static void Main()
+    class Program
     {
-        Console.WriteLine("[LockStep] server stub started (.NET 9).");
-        Console.WriteLine("Press Enter to exit.");
-        Console.ReadLine();
+        static void Main()
+        {
+            KcpServerTransport server = new KcpServerTransport();
+            Room room = new Room();
+            server.Bind(7777);
+            Console.WriteLine("[LockStep] listening UDP 7777");
+            Console.WriteLine("Press Enter to exit (debugger: click Stop).");
+
+            while (true)
+            {
+                if (IsEnterPressed())
+                {
+                    break;
+                }
+
+                server.Tick();
+                room.Tick(server);
+                Thread.Sleep(1);
+            }
+        }
+
+        static bool IsEnterPressed()
+        {
+            try
+            {
+                if (Console.IsInputRedirected)
+                {
+                    return false;
+                }
+
+                return Console.KeyAvailable && Console.ReadKey(true).Key == ConsoleKey.Enter;
+            }
+            catch (InvalidOperationException)
+            {
+                return false;
+            }
+        }
     }
 }
