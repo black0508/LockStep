@@ -6,7 +6,7 @@
 
 | 天 | 做 | 过关 |
 |---|---|---|
-| D1 | Transport：Fantasy 同款 KCP 内核 + 握手 + Protocol Ping/Pong | Unity `NetPump` 与控制台能收发；**还没有** Session/Sim；不引用 Fantasy.Scene |
+| D1 | Transport：kcp2k + Protocol Ping/Pong | Unity `NetworkManager` 与控制台能收发；**还没有** Session/Sim；不引用 Fantasy.Scene |
 | D2 | Room + Session：Join / JoinAck / MatchStart | 两客户端拿到 0/1，同时收到 MatchStart |
 | D3 | 锁帧调度，空输入也能推进 | 双方 `frame` 一起涨；未齐帧时逻辑停 |
 | D4 | Sim 移动 + 边界 + hash | 相同输入下坐标一致，Checksum 相同 |
@@ -23,7 +23,7 @@ D1 的意义：证明网络底层可以单独存在。如果 D1 就把移动写�
 | D8 | `GameState` 快照 + 单机故意改输入再回滚 | 不需要网络也能测 Restore |
 | D9 | 远程 sticky-last-input 预测 | 本机操作变跟手；确认仍以 FrameInputs 为准 |
 | D10 | 真双端误预测（变向） | 回滚后 hash 与对方最终一致；HUD 有次数 |
-| D11–12 | C++：UDP + KCP + 同一 proto + Room | 行为对齐 C# 服务器 |
+| D11–12 | C++：说 kcp2k 线协议 + 同一 proto + Room | 行为对齐 C# 服务器 |
 | D13 | 客户端只改地址/进程，切 C++ 回归 | 移动/攻击/回滚仍过 |
 | D14 | 笔记 | Lockstep vs Rollback vs 状态同步；没做的列出 |
 

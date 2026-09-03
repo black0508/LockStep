@@ -1,231 +1,137 @@
 using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Net.Sockets;
-using KCP;
+using System.Runtime.InteropServices;
+using kcp2k;
 
 namespace LockStep.Server.Net
 {
-    public class KcpServerPeer
+    // Windows 下 UDP 收到 ICMP Port Unreachable（客户端退出、端口没人听）时，
+    // 下一次 ReceiveFrom 会抛 SocketException 10054。kcp2k 只在 DualMode 的
+    // IPv6 分支禁用了这个行为，IPv4 分支没有，所以这里补上。
+    class Ipv4KcpServer : KcpServer
     {
-        public uint ChannelId;
-        public IPEndPoint Remote;
-        public uint LastHeardMs;
-        public Queue<byte[]> RecvQueue = new Queue<byte[]>();
-
-        internal Kcp Kcp;
-
-        public void Send(byte[] payload)
+        public Ipv4KcpServer(Action<int> onConnected,
+                             Action<int, ArraySegment<byte>, KcpChannel> onData,
+                             Action<int> onDisconnected,
+                             Action<int, ErrorCode, string> onError,
+                             KcpConfig config)
+            : base(onConnected, onData, onDisconnected, onError, config)
         {
-            Kcp.Send(payload);
         }
 
-        public bool TryRecv(out byte[] payload)
+        public override void Start(ushort port)
         {
-            if (RecvQueue.Count == 0)
-            {
-                payload = null;
-                return false;
-            }
+            base.Start(port);
 
-            payload = RecvQueue.Dequeue();
-            return true;
-        }
-
-        internal void Pull()
-        {
-            while (true)
-            {
-                int size = Kcp.PeekSize();
-                if (size < 0)
-                {
-                    return;
-                }
-
-                byte[] msg = new byte[size];
-                Kcp.Receive(msg);
-                RecvQueue.Enqueue(msg);
-            }
-        }
-    }
-
-    public class KcpServerTransport
-    {
-        const int Head = 5;
-        const int Mtu = 470;
-
-        Socket socket;
-        byte[] recvBuf = new byte[2048];
-        EndPoint recvFrom = new IPEndPoint(IPAddress.Any, 0);
-        Dictionary<uint, IPEndPoint> pending = new Dictionary<uint, IPEndPoint>();
-        public List<KcpServerPeer> Peers = new List<KcpServerPeer>();
-
-        public void Bind(int port)
-        {
-            socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-            socket.Blocking = false;
-            socket.Bind(new IPEndPoint(IPAddress.Any, port));
-        }
-
-        public void Tick()
-        {
-            if (socket == null)
+            if (socket == null || !RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 return;
             }
 
-            RecvUdp();
-            uint now = (uint)Environment.TickCount;
-            for (int i = Peers.Count - 1; i >= 0; i--)
+            const uint IOC_IN = 0x80000000U;
+            const uint IOC_VENDOR = 0x18000000U;
+            const int SIO_UDP_CONNRESET = unchecked((int)(IOC_IN | IOC_VENDOR | 12));
+            socket.IOControl(SIO_UDP_CONNRESET, new byte[] { 0x00 }, null);
+        }
+    }
+
+    public class KcpServerTransport : INetworkServerTransport
+    {
+        public event Action<int> Connected;
+        public event Action<int> Disconnected;
+        public event Action<int, byte[]> OnReceivedpacket;
+        public event Action<int, Exception> TransportError;
+
+        KcpServer server;
+
+        public bool IsActive
+        {
+            get { return server != null && server.IsActive(); }
+        }
+
+        public void Start(int port)
+        {
+            Stop();
+
+            var config = new KcpConfig(
+                DualMode: false,
+                NoDelay: true,
+                Interval: 10,
+                FastResend: 2,
+                CongestionWindow: false
+            );
+
+            server = new Ipv4KcpServer(OnConnected, OnData, OnDisconnected, OnError, config);
+            server.Start((ushort)port);
+        }
+
+        public void TickIncoming()
+        {
+            if (server != null)
             {
-                KcpServerPeer peer = Peers[i];
-                peer.Kcp.Update(now);
-                peer.Pull();
-                if ((int)(now - peer.LastHeardMs) > 3000)
-                {
-                    Console.WriteLine("[LockStep] timeout channel=" + peer.ChannelId);
-                    SendHead(KcpHeader.Disconnect, peer.ChannelId, peer.Remote);
-                    peer.Kcp.Dispose();
-                    Peers.RemoveAt(i);
-                }
+                server.TickIncoming();
             }
         }
 
-        void RecvUdp()
+        public void TickOutgoing()
         {
-            while (socket.Poll(0, SelectMode.SelectRead))
+            if (server != null)
             {
-                int n;
-                try
-                {
-                    n = socket.ReceiveFrom(recvBuf, ref recvFrom);
-                }
-                catch (SocketException)
-                {
-                    return;
-                }
-
-                if (n < Head)
-                {
-                    continue;
-                }
-
-                KcpHeader header = (KcpHeader)recvBuf[0];
-                uint conv = ReadU32(recvBuf, 1);
-                IPEndPoint remote = (IPEndPoint)recvFrom;
-
-                if (header == KcpHeader.RequestConnection)
-                {
-                    if (FindPeer(conv) != null)
-                    {
-                        SendHead(KcpHeader.ConfirmConnection, conv, remote);
-                        continue;
-                    }
-
-                    pending[conv] = new IPEndPoint(remote.Address, remote.Port);
-                    SendHead(KcpHeader.WaitConfirmConnection, conv, remote);
-                    continue;
-                }
-
-                if (header == KcpHeader.ConfirmConnection)
-                {
-                    if (FindPeer(conv) != null)
-                    {
-                        SendHead(KcpHeader.ConfirmConnection, conv, remote);
-                        continue;
-                    }
-
-                    if (!pending.ContainsKey(conv))
-                    {
-                        continue;
-                    }
-
-                    pending.Remove(conv);
-                    KcpServerPeer peer = AddPeer(conv, new IPEndPoint(remote.Address, remote.Port));
-                    SendHead(KcpHeader.ConfirmConnection, conv, remote);
-                    Console.WriteLine("[LockStep] handshake ok channel=" + conv);
-                    continue;
-                }
-
-                KcpServerPeer live = FindPeer(conv);
-                if (live == null)
-                {
-                    continue;
-                }
-
-                live.LastHeardMs = (uint)Environment.TickCount;
-                if (header == KcpHeader.ReceiveData)
-                {
-                    byte[] pack = new byte[n - Head];
-                    Array.Copy(recvBuf, Head, pack, 0, pack.Length);
-                    live.Kcp.Input(pack);
-                }
-                else if (header == KcpHeader.Disconnect)
-                {
-                    Console.WriteLine("[LockStep] disconnect channel=" + conv);
-                    Peers.Remove(live);
-                    live.Kcp.Dispose();
-                }
+                server.TickOutgoing();
             }
         }
 
-        KcpServerPeer AddPeer(uint conv, IPEndPoint remote)
+        public void Send(int connectionId, byte[] payload)
         {
-            KcpServerPeer peer = new KcpServerPeer();
-            peer.ChannelId = conv;
-            peer.Remote = remote;
-            peer.Kcp = new Kcp(conv, (buffer, length) =>
+            if (server != null)
             {
-                if (socket == null)
-                {
-                    return;
-                }
-
-                buffer[0] = (byte)KcpHeader.ReceiveData;
-                WriteU32(buffer, 1, conv);
-                socket.SendTo(buffer, 0, length + Head, SocketFlags.None, remote);
-            }, Head);
-            peer.Kcp.SetNoDelay(1, 5, 2, 1);
-            peer.Kcp.SetWindowSize(256, 256);
-            peer.Kcp.SetMtu(Mtu);
-            peer.Kcp.SetMinrto(30);
-            peer.LastHeardMs = (uint)Environment.TickCount;
-            Peers.Add(peer);
-            return peer;
+                server.Send(connectionId, new ArraySegment<byte>(payload), KcpChannel.Reliable);
+            }
         }
 
-        KcpServerPeer FindPeer(uint conv)
+        public void Disconnect(int connectionId)
         {
-            for (int i = 0; i < Peers.Count; i++)
+            if (server != null)
             {
-                if (Peers[i].ChannelId == conv)
-                {
-                    return Peers[i];
-                }
+                server.Disconnect(connectionId);
+            }
+        }
+
+        public void Stop()
+        {
+            if (server == null)
+            {
+                return;
             }
 
-            return null;
+            server.Stop();
+            server = null;
         }
 
-        void SendHead(KcpHeader header, uint conv, EndPoint remote)
+        public void Dispose()
         {
-            byte[] buf = new byte[Head];
-            buf[0] = (byte)header;
-            WriteU32(buf, 1, conv);
-            socket.SendTo(buf, remote);
+            Stop();
         }
 
-        static void WriteU32(byte[] buf, int offset, uint v)
+        void OnConnected(int connectionId)
         {
-            buf[offset] = (byte)v;
-            buf[offset + 1] = (byte)(v >> 8);
-            buf[offset + 2] = (byte)(v >> 16);
-            buf[offset + 3] = (byte)(v >> 24);
+            Connected?.Invoke(connectionId);
         }
 
-        static uint ReadU32(byte[] buf, int offset)
+        void OnDisconnected(int connectionId)
         {
-            return (uint)(buf[offset] | (buf[offset + 1] << 8) | (buf[offset + 2] << 16) | (buf[offset + 3] << 24));
+            Disconnected?.Invoke(connectionId);
+        }
+
+        void OnData(int connectionId, ArraySegment<byte> data, KcpChannel channel)
+        {
+            byte[] payload = new byte[data.Count];
+            Buffer.BlockCopy(data.Array, data.Offset, payload, 0, data.Count);
+            OnReceivedpacket?.Invoke(connectionId, payload);
+        }
+
+        void OnError(int connectionId, ErrorCode error, string message)
+        {
+            TransportError?.Invoke(connectionId, new Exception("kcp error " + error + " - " + message));
         }
     }
 }

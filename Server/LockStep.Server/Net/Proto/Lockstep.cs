@@ -25,45 +25,23 @@ namespace Lockstep.Proto {
     static LockstepReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "Cg5sb2Nrc3RlcC5wcm90bxIIbG9ja3N0ZXAilQMKBlBhY2tldBIeCgRwaW5n",
-            "GAEgASgLMg4ubG9ja3N0ZXAuUGluZ0gAEh4KBHBvbmcYAiABKAsyDi5sb2Nr",
-            "c3RlcC5Qb25nSAASHgoEam9pbhgDIAEoCzIOLmxvY2tzdGVwLkpvaW5IABIl",
-            "Cghqb2luX2FjaxgEIAEoCzIRLmxvY2tzdGVwLkpvaW5BY2tIABIrCgtqb2lu",
-            "X3JlamVjdBgFIAEoCzIULmxvY2tzdGVwLkpvaW5SZWplY3RIABIrCgttYXRj",
-            "aF9zdGFydBgGIAEoCzIULmxvY2tzdGVwLk1hdGNoU3RhcnRIABInCglpbnB1",
-            "dF9jbWQYByABKAsyEi5sb2Nrc3RlcC5JbnB1dENtZEgAEi0KDGZyYW1lX2lu",
-            "cHV0cxgIIAEoCzIVLmxvY2tzdGVwLkZyYW1lSW5wdXRzSAASJgoIY2hlY2tz",
-            "dW0YCSABKAsyEi5sb2Nrc3RlcC5DaGVja3N1bUgAEiIKBmRlc3luYxgKIAEo",
-            "CzIQLmxvY2tzdGVwLkRlc3luY0gAQgYKBGJvZHkiHgoEUGluZxIWCg5jbGll",
-            "bnRfc2VuZF9tcxgBIAEoDSIeCgRQb25nEhYKDmNsaWVudF9zZW5kX21zGAEg",
-            "ASgNIiAKBEpvaW4SGAoQcHJvdG9jb2xfdmVyc2lvbhgBIAEoDSIcCgdKb2lu",
-            "QWNrEhEKCXBsYXllcl9pZBgBIAEoDSIcCgpKb2luUmVqZWN0Eg4KBnJlYXNv",
-            "bhgBIAEoDSJlCgpNYXRjaFN0YXJ0Eg8KB3RpY2tfaHoYASABKA0SGgoSaW5w",
-            "dXRfZGVsYXlfZnJhbWVzGAIgASgNEgwKBHNlZWQYAyABKA0SHAoUYXJlbmFf",
-            "aGFsZl9leHRlbnRfbW0YBCABKAUiQQoISW5wdXRDbWQSDQoFZnJhbWUYASAB",
-            "KA0SCgoCZHgYAiABKBESCgoCZHoYAyABKBESDgoGYXR0YWNrGAQgASgIIkgK",
-            "C1BsYXllcklucHV0EhEKCXBsYXllcl9pZBgBIAEoDRIKCgJkeBgCIAEoERIK",
-            "CgJkehgDIAEoERIOCgZhdHRhY2sYBCABKAgiQwoLRnJhbWVJbnB1dHMSDQoF",
-            "ZnJhbWUYASABKA0SJQoGaW5wdXRzGAIgAygLMhUubG9ja3N0ZXAuUGxheWVy",
-            "SW5wdXQiJwoIQ2hlY2tzdW0SDQoFZnJhbWUYASABKA0SDAoEaGFzaBgCIAEo",
-            "BCJDCgZEZXN5bmMSDQoFZnJhbWUYASABKA0SFAoMaGFzaF9wbGF5ZXIwGAIg",
-            "ASgEEhQKDGhhc2hfcGxheWVyMRgDIAEoBEIRqgIOTG9ja3N0ZXAuUHJvdG9i",
-            "BnByb3RvMw=="));
+            "Cg5sb2Nrc3RlcC5wcm90bxIIbG9ja3N0ZXAiIgoIQzJTX1BpbmcSFgoOY2xp",
+            "ZW50X3NlbmRfbXMYASABKA0iIgoIUzJDX1BvbmcSFgoOY2xpZW50X3NlbmRf",
+            "bXMYASABKA0iJAoIQzJTX0pvaW4SGAoQcHJvdG9jb2xfdmVyc2lvbhgBIAEo",
+            "DSIgCgtTMkNfSm9pbkFjaxIRCglwbGF5ZXJfaWQYASABKA0iIAoOUzJDX0pv",
+            "aW5SZWplY3QSDgoGcmVhc29uGAEgASgNImkKDlMyQ19NYXRjaFN0YXJ0Eg8K",
+            "B3RpY2tfaHoYASABKA0SGgoSaW5wdXRfZGVsYXlfZnJhbWVzGAIgASgNEgwK",
+            "BHNlZWQYAyABKA0SHAoUYXJlbmFfaGFsZl9leHRlbnRfbW0YBCABKAVCEaoC",
+            "DkxvY2tzdGVwLlByb3RvYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Lockstep.Proto.Packet), global::Lockstep.Proto.Packet.Parser, new[]{ "Ping", "Pong", "Join", "JoinAck", "JoinReject", "MatchStart", "InputCmd", "FrameInputs", "Checksum", "Desync" }, new[]{ "Body" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Lockstep.Proto.Ping), global::Lockstep.Proto.Ping.Parser, new[]{ "ClientSendMs" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Lockstep.Proto.Pong), global::Lockstep.Proto.Pong.Parser, new[]{ "ClientSendMs" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Lockstep.Proto.Join), global::Lockstep.Proto.Join.Parser, new[]{ "ProtocolVersion" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Lockstep.Proto.JoinAck), global::Lockstep.Proto.JoinAck.Parser, new[]{ "PlayerId" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Lockstep.Proto.JoinReject), global::Lockstep.Proto.JoinReject.Parser, new[]{ "Reason" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Lockstep.Proto.MatchStart), global::Lockstep.Proto.MatchStart.Parser, new[]{ "TickHz", "InputDelayFrames", "Seed", "ArenaHalfExtentMm" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Lockstep.Proto.InputCmd), global::Lockstep.Proto.InputCmd.Parser, new[]{ "Frame", "Dx", "Dz", "Attack" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Lockstep.Proto.PlayerInput), global::Lockstep.Proto.PlayerInput.Parser, new[]{ "PlayerId", "Dx", "Dz", "Attack" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Lockstep.Proto.FrameInputs), global::Lockstep.Proto.FrameInputs.Parser, new[]{ "Frame", "Inputs" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Lockstep.Proto.Checksum), global::Lockstep.Proto.Checksum.Parser, new[]{ "Frame", "Hash" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Lockstep.Proto.Desync), global::Lockstep.Proto.Desync.Parser, new[]{ "Frame", "HashPlayer0", "HashPlayer1" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Lockstep.Proto.C2S_Ping), global::Lockstep.Proto.C2S_Ping.Parser, new[]{ "ClientSendMs" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Lockstep.Proto.S2C_Pong), global::Lockstep.Proto.S2C_Pong.Parser, new[]{ "ClientSendMs" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Lockstep.Proto.C2S_Join), global::Lockstep.Proto.C2S_Join.Parser, new[]{ "ProtocolVersion" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Lockstep.Proto.S2C_JoinAck), global::Lockstep.Proto.S2C_JoinAck.Parser, new[]{ "PlayerId" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Lockstep.Proto.S2C_JoinReject), global::Lockstep.Proto.S2C_JoinReject.Parser, new[]{ "Reason" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Lockstep.Proto.S2C_MatchStart), global::Lockstep.Proto.S2C_MatchStart.Parser, new[]{ "TickHz", "InputDelayFrames", "Seed", "ArenaHalfExtentMm" }, null, null, null, null)
           }));
     }
     #endregion
@@ -71,16 +49,16 @@ namespace Lockstep.Proto {
   }
   #region Messages
   [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
-  public sealed partial class Packet : pb::IMessage<Packet>
+  public sealed partial class C2S_Ping : pb::IMessage<C2S_Ping>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
   #endif
   {
-    private static readonly pb::MessageParser<Packet> _parser = new pb::MessageParser<Packet>(() => new Packet());
+    private static readonly pb::MessageParser<C2S_Ping> _parser = new pb::MessageParser<C2S_Ping>(() => new C2S_Ping());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pb::MessageParser<Packet> Parser { get { return _parser; } }
+    public static pb::MessageParser<C2S_Ping> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -96,7 +74,7 @@ namespace Lockstep.Proto {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public Packet() {
+    public C2S_Ping() {
       OnConstruction();
     }
 
@@ -104,224 +82,45 @@ namespace Lockstep.Proto {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public Packet(Packet other) : this() {
-      switch (other.BodyCase) {
-        case BodyOneofCase.Ping:
-          Ping = other.Ping.Clone();
-          break;
-        case BodyOneofCase.Pong:
-          Pong = other.Pong.Clone();
-          break;
-        case BodyOneofCase.Join:
-          Join = other.Join.Clone();
-          break;
-        case BodyOneofCase.JoinAck:
-          JoinAck = other.JoinAck.Clone();
-          break;
-        case BodyOneofCase.JoinReject:
-          JoinReject = other.JoinReject.Clone();
-          break;
-        case BodyOneofCase.MatchStart:
-          MatchStart = other.MatchStart.Clone();
-          break;
-        case BodyOneofCase.InputCmd:
-          InputCmd = other.InputCmd.Clone();
-          break;
-        case BodyOneofCase.FrameInputs:
-          FrameInputs = other.FrameInputs.Clone();
-          break;
-        case BodyOneofCase.Checksum:
-          Checksum = other.Checksum.Clone();
-          break;
-        case BodyOneofCase.Desync:
-          Desync = other.Desync.Clone();
-          break;
-      }
-
+    public C2S_Ping(C2S_Ping other) : this() {
+      clientSendMs_ = other.clientSendMs_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public Packet Clone() {
-      return new Packet(this);
+    public C2S_Ping Clone() {
+      return new C2S_Ping(this);
     }
 
-    /// <summary>Field number for the "ping" field.</summary>
-    public const int PingFieldNumber = 1;
+    /// <summary>Field number for the "client_send_ms" field.</summary>
+    public const int ClientSendMsFieldNumber = 1;
+    private uint clientSendMs_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Lockstep.Proto.Ping Ping {
-      get { return bodyCase_ == BodyOneofCase.Ping ? (global::Lockstep.Proto.Ping) body_ : null; }
+    public uint ClientSendMs {
+      get { return clientSendMs_; }
       set {
-        body_ = value;
-        bodyCase_ = value == null ? BodyOneofCase.None : BodyOneofCase.Ping;
+        clientSendMs_ = value;
       }
-    }
-
-    /// <summary>Field number for the "pong" field.</summary>
-    public const int PongFieldNumber = 2;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Lockstep.Proto.Pong Pong {
-      get { return bodyCase_ == BodyOneofCase.Pong ? (global::Lockstep.Proto.Pong) body_ : null; }
-      set {
-        body_ = value;
-        bodyCase_ = value == null ? BodyOneofCase.None : BodyOneofCase.Pong;
-      }
-    }
-
-    /// <summary>Field number for the "join" field.</summary>
-    public const int JoinFieldNumber = 3;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Lockstep.Proto.Join Join {
-      get { return bodyCase_ == BodyOneofCase.Join ? (global::Lockstep.Proto.Join) body_ : null; }
-      set {
-        body_ = value;
-        bodyCase_ = value == null ? BodyOneofCase.None : BodyOneofCase.Join;
-      }
-    }
-
-    /// <summary>Field number for the "join_ack" field.</summary>
-    public const int JoinAckFieldNumber = 4;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Lockstep.Proto.JoinAck JoinAck {
-      get { return bodyCase_ == BodyOneofCase.JoinAck ? (global::Lockstep.Proto.JoinAck) body_ : null; }
-      set {
-        body_ = value;
-        bodyCase_ = value == null ? BodyOneofCase.None : BodyOneofCase.JoinAck;
-      }
-    }
-
-    /// <summary>Field number for the "join_reject" field.</summary>
-    public const int JoinRejectFieldNumber = 5;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Lockstep.Proto.JoinReject JoinReject {
-      get { return bodyCase_ == BodyOneofCase.JoinReject ? (global::Lockstep.Proto.JoinReject) body_ : null; }
-      set {
-        body_ = value;
-        bodyCase_ = value == null ? BodyOneofCase.None : BodyOneofCase.JoinReject;
-      }
-    }
-
-    /// <summary>Field number for the "match_start" field.</summary>
-    public const int MatchStartFieldNumber = 6;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Lockstep.Proto.MatchStart MatchStart {
-      get { return bodyCase_ == BodyOneofCase.MatchStart ? (global::Lockstep.Proto.MatchStart) body_ : null; }
-      set {
-        body_ = value;
-        bodyCase_ = value == null ? BodyOneofCase.None : BodyOneofCase.MatchStart;
-      }
-    }
-
-    /// <summary>Field number for the "input_cmd" field.</summary>
-    public const int InputCmdFieldNumber = 7;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Lockstep.Proto.InputCmd InputCmd {
-      get { return bodyCase_ == BodyOneofCase.InputCmd ? (global::Lockstep.Proto.InputCmd) body_ : null; }
-      set {
-        body_ = value;
-        bodyCase_ = value == null ? BodyOneofCase.None : BodyOneofCase.InputCmd;
-      }
-    }
-
-    /// <summary>Field number for the "frame_inputs" field.</summary>
-    public const int FrameInputsFieldNumber = 8;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Lockstep.Proto.FrameInputs FrameInputs {
-      get { return bodyCase_ == BodyOneofCase.FrameInputs ? (global::Lockstep.Proto.FrameInputs) body_ : null; }
-      set {
-        body_ = value;
-        bodyCase_ = value == null ? BodyOneofCase.None : BodyOneofCase.FrameInputs;
-      }
-    }
-
-    /// <summary>Field number for the "checksum" field.</summary>
-    public const int ChecksumFieldNumber = 9;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Lockstep.Proto.Checksum Checksum {
-      get { return bodyCase_ == BodyOneofCase.Checksum ? (global::Lockstep.Proto.Checksum) body_ : null; }
-      set {
-        body_ = value;
-        bodyCase_ = value == null ? BodyOneofCase.None : BodyOneofCase.Checksum;
-      }
-    }
-
-    /// <summary>Field number for the "desync" field.</summary>
-    public const int DesyncFieldNumber = 10;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Lockstep.Proto.Desync Desync {
-      get { return bodyCase_ == BodyOneofCase.Desync ? (global::Lockstep.Proto.Desync) body_ : null; }
-      set {
-        body_ = value;
-        bodyCase_ = value == null ? BodyOneofCase.None : BodyOneofCase.Desync;
-      }
-    }
-
-    private object body_;
-    /// <summary>Enum of possible cases for the "body" oneof.</summary>
-    public enum BodyOneofCase {
-      None = 0,
-      Ping = 1,
-      Pong = 2,
-      Join = 3,
-      JoinAck = 4,
-      JoinReject = 5,
-      MatchStart = 6,
-      InputCmd = 7,
-      FrameInputs = 8,
-      Checksum = 9,
-      Desync = 10,
-    }
-    private BodyOneofCase bodyCase_ = BodyOneofCase.None;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public BodyOneofCase BodyCase {
-      get { return bodyCase_; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void ClearBody() {
-      bodyCase_ = BodyOneofCase.None;
-      body_ = null;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
-      return Equals(other as Packet);
+      return Equals(other as C2S_Ping);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(Packet other) {
+    public bool Equals(C2S_Ping other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (!object.Equals(Ping, other.Ping)) return false;
-      if (!object.Equals(Pong, other.Pong)) return false;
-      if (!object.Equals(Join, other.Join)) return false;
-      if (!object.Equals(JoinAck, other.JoinAck)) return false;
-      if (!object.Equals(JoinReject, other.JoinReject)) return false;
-      if (!object.Equals(MatchStart, other.MatchStart)) return false;
-      if (!object.Equals(InputCmd, other.InputCmd)) return false;
-      if (!object.Equals(FrameInputs, other.FrameInputs)) return false;
-      if (!object.Equals(Checksum, other.Checksum)) return false;
-      if (!object.Equals(Desync, other.Desync)) return false;
-      if (BodyCase != other.BodyCase) return false;
+      if (ClientSendMs != other.ClientSendMs) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -329,17 +128,7 @@ namespace Lockstep.Proto {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
-      if (bodyCase_ == BodyOneofCase.Ping) hash ^= Ping.GetHashCode();
-      if (bodyCase_ == BodyOneofCase.Pong) hash ^= Pong.GetHashCode();
-      if (bodyCase_ == BodyOneofCase.Join) hash ^= Join.GetHashCode();
-      if (bodyCase_ == BodyOneofCase.JoinAck) hash ^= JoinAck.GetHashCode();
-      if (bodyCase_ == BodyOneofCase.JoinReject) hash ^= JoinReject.GetHashCode();
-      if (bodyCase_ == BodyOneofCase.MatchStart) hash ^= MatchStart.GetHashCode();
-      if (bodyCase_ == BodyOneofCase.InputCmd) hash ^= InputCmd.GetHashCode();
-      if (bodyCase_ == BodyOneofCase.FrameInputs) hash ^= FrameInputs.GetHashCode();
-      if (bodyCase_ == BodyOneofCase.Checksum) hash ^= Checksum.GetHashCode();
-      if (bodyCase_ == BodyOneofCase.Desync) hash ^= Desync.GetHashCode();
-      hash ^= (int) bodyCase_;
+      if (ClientSendMs != 0) hash ^= ClientSendMs.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -358,45 +147,9 @@ namespace Lockstep.Proto {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
-      if (bodyCase_ == BodyOneofCase.Ping) {
-        output.WriteRawTag(10);
-        output.WriteMessage(Ping);
-      }
-      if (bodyCase_ == BodyOneofCase.Pong) {
-        output.WriteRawTag(18);
-        output.WriteMessage(Pong);
-      }
-      if (bodyCase_ == BodyOneofCase.Join) {
-        output.WriteRawTag(26);
-        output.WriteMessage(Join);
-      }
-      if (bodyCase_ == BodyOneofCase.JoinAck) {
-        output.WriteRawTag(34);
-        output.WriteMessage(JoinAck);
-      }
-      if (bodyCase_ == BodyOneofCase.JoinReject) {
-        output.WriteRawTag(42);
-        output.WriteMessage(JoinReject);
-      }
-      if (bodyCase_ == BodyOneofCase.MatchStart) {
-        output.WriteRawTag(50);
-        output.WriteMessage(MatchStart);
-      }
-      if (bodyCase_ == BodyOneofCase.InputCmd) {
-        output.WriteRawTag(58);
-        output.WriteMessage(InputCmd);
-      }
-      if (bodyCase_ == BodyOneofCase.FrameInputs) {
-        output.WriteRawTag(66);
-        output.WriteMessage(FrameInputs);
-      }
-      if (bodyCase_ == BodyOneofCase.Checksum) {
-        output.WriteRawTag(74);
-        output.WriteMessage(Checksum);
-      }
-      if (bodyCase_ == BodyOneofCase.Desync) {
-        output.WriteRawTag(82);
-        output.WriteMessage(Desync);
+      if (ClientSendMs != 0) {
+        output.WriteRawTag(8);
+        output.WriteUInt32(ClientSendMs);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -408,45 +161,9 @@ namespace Lockstep.Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (bodyCase_ == BodyOneofCase.Ping) {
-        output.WriteRawTag(10);
-        output.WriteMessage(Ping);
-      }
-      if (bodyCase_ == BodyOneofCase.Pong) {
-        output.WriteRawTag(18);
-        output.WriteMessage(Pong);
-      }
-      if (bodyCase_ == BodyOneofCase.Join) {
-        output.WriteRawTag(26);
-        output.WriteMessage(Join);
-      }
-      if (bodyCase_ == BodyOneofCase.JoinAck) {
-        output.WriteRawTag(34);
-        output.WriteMessage(JoinAck);
-      }
-      if (bodyCase_ == BodyOneofCase.JoinReject) {
-        output.WriteRawTag(42);
-        output.WriteMessage(JoinReject);
-      }
-      if (bodyCase_ == BodyOneofCase.MatchStart) {
-        output.WriteRawTag(50);
-        output.WriteMessage(MatchStart);
-      }
-      if (bodyCase_ == BodyOneofCase.InputCmd) {
-        output.WriteRawTag(58);
-        output.WriteMessage(InputCmd);
-      }
-      if (bodyCase_ == BodyOneofCase.FrameInputs) {
-        output.WriteRawTag(66);
-        output.WriteMessage(FrameInputs);
-      }
-      if (bodyCase_ == BodyOneofCase.Checksum) {
-        output.WriteRawTag(74);
-        output.WriteMessage(Checksum);
-      }
-      if (bodyCase_ == BodyOneofCase.Desync) {
-        output.WriteRawTag(82);
-        output.WriteMessage(Desync);
+      if (ClientSendMs != 0) {
+        output.WriteRawTag(8);
+        output.WriteUInt32(ClientSendMs);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
@@ -458,35 +175,8 @@ namespace Lockstep.Proto {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
-      if (bodyCase_ == BodyOneofCase.Ping) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Ping);
-      }
-      if (bodyCase_ == BodyOneofCase.Pong) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Pong);
-      }
-      if (bodyCase_ == BodyOneofCase.Join) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Join);
-      }
-      if (bodyCase_ == BodyOneofCase.JoinAck) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(JoinAck);
-      }
-      if (bodyCase_ == BodyOneofCase.JoinReject) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(JoinReject);
-      }
-      if (bodyCase_ == BodyOneofCase.MatchStart) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(MatchStart);
-      }
-      if (bodyCase_ == BodyOneofCase.InputCmd) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(InputCmd);
-      }
-      if (bodyCase_ == BodyOneofCase.FrameInputs) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(FrameInputs);
-      }
-      if (bodyCase_ == BodyOneofCase.Checksum) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Checksum);
-      }
-      if (bodyCase_ == BodyOneofCase.Desync) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Desync);
+      if (ClientSendMs != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(ClientSendMs);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -496,73 +186,13 @@ namespace Lockstep.Proto {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(Packet other) {
+    public void MergeFrom(C2S_Ping other) {
       if (other == null) {
         return;
       }
-      switch (other.BodyCase) {
-        case BodyOneofCase.Ping:
-          if (Ping == null) {
-            Ping = new global::Lockstep.Proto.Ping();
-          }
-          Ping.MergeFrom(other.Ping);
-          break;
-        case BodyOneofCase.Pong:
-          if (Pong == null) {
-            Pong = new global::Lockstep.Proto.Pong();
-          }
-          Pong.MergeFrom(other.Pong);
-          break;
-        case BodyOneofCase.Join:
-          if (Join == null) {
-            Join = new global::Lockstep.Proto.Join();
-          }
-          Join.MergeFrom(other.Join);
-          break;
-        case BodyOneofCase.JoinAck:
-          if (JoinAck == null) {
-            JoinAck = new global::Lockstep.Proto.JoinAck();
-          }
-          JoinAck.MergeFrom(other.JoinAck);
-          break;
-        case BodyOneofCase.JoinReject:
-          if (JoinReject == null) {
-            JoinReject = new global::Lockstep.Proto.JoinReject();
-          }
-          JoinReject.MergeFrom(other.JoinReject);
-          break;
-        case BodyOneofCase.MatchStart:
-          if (MatchStart == null) {
-            MatchStart = new global::Lockstep.Proto.MatchStart();
-          }
-          MatchStart.MergeFrom(other.MatchStart);
-          break;
-        case BodyOneofCase.InputCmd:
-          if (InputCmd == null) {
-            InputCmd = new global::Lockstep.Proto.InputCmd();
-          }
-          InputCmd.MergeFrom(other.InputCmd);
-          break;
-        case BodyOneofCase.FrameInputs:
-          if (FrameInputs == null) {
-            FrameInputs = new global::Lockstep.Proto.FrameInputs();
-          }
-          FrameInputs.MergeFrom(other.FrameInputs);
-          break;
-        case BodyOneofCase.Checksum:
-          if (Checksum == null) {
-            Checksum = new global::Lockstep.Proto.Checksum();
-          }
-          Checksum.MergeFrom(other.Checksum);
-          break;
-        case BodyOneofCase.Desync:
-          if (Desync == null) {
-            Desync = new global::Lockstep.Proto.Desync();
-          }
-          Desync.MergeFrom(other.Desync);
-          break;
+      if (other.ClientSendMs != 0) {
+        ClientSendMs = other.ClientSendMs;
       }
-
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
 
@@ -582,94 +212,8 @@ namespace Lockstep.Proto {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
-          case 10: {
-            global::Lockstep.Proto.Ping subBuilder = new global::Lockstep.Proto.Ping();
-            if (bodyCase_ == BodyOneofCase.Ping) {
-              subBuilder.MergeFrom(Ping);
-            }
-            input.ReadMessage(subBuilder);
-            Ping = subBuilder;
-            break;
-          }
-          case 18: {
-            global::Lockstep.Proto.Pong subBuilder = new global::Lockstep.Proto.Pong();
-            if (bodyCase_ == BodyOneofCase.Pong) {
-              subBuilder.MergeFrom(Pong);
-            }
-            input.ReadMessage(subBuilder);
-            Pong = subBuilder;
-            break;
-          }
-          case 26: {
-            global::Lockstep.Proto.Join subBuilder = new global::Lockstep.Proto.Join();
-            if (bodyCase_ == BodyOneofCase.Join) {
-              subBuilder.MergeFrom(Join);
-            }
-            input.ReadMessage(subBuilder);
-            Join = subBuilder;
-            break;
-          }
-          case 34: {
-            global::Lockstep.Proto.JoinAck subBuilder = new global::Lockstep.Proto.JoinAck();
-            if (bodyCase_ == BodyOneofCase.JoinAck) {
-              subBuilder.MergeFrom(JoinAck);
-            }
-            input.ReadMessage(subBuilder);
-            JoinAck = subBuilder;
-            break;
-          }
-          case 42: {
-            global::Lockstep.Proto.JoinReject subBuilder = new global::Lockstep.Proto.JoinReject();
-            if (bodyCase_ == BodyOneofCase.JoinReject) {
-              subBuilder.MergeFrom(JoinReject);
-            }
-            input.ReadMessage(subBuilder);
-            JoinReject = subBuilder;
-            break;
-          }
-          case 50: {
-            global::Lockstep.Proto.MatchStart subBuilder = new global::Lockstep.Proto.MatchStart();
-            if (bodyCase_ == BodyOneofCase.MatchStart) {
-              subBuilder.MergeFrom(MatchStart);
-            }
-            input.ReadMessage(subBuilder);
-            MatchStart = subBuilder;
-            break;
-          }
-          case 58: {
-            global::Lockstep.Proto.InputCmd subBuilder = new global::Lockstep.Proto.InputCmd();
-            if (bodyCase_ == BodyOneofCase.InputCmd) {
-              subBuilder.MergeFrom(InputCmd);
-            }
-            input.ReadMessage(subBuilder);
-            InputCmd = subBuilder;
-            break;
-          }
-          case 66: {
-            global::Lockstep.Proto.FrameInputs subBuilder = new global::Lockstep.Proto.FrameInputs();
-            if (bodyCase_ == BodyOneofCase.FrameInputs) {
-              subBuilder.MergeFrom(FrameInputs);
-            }
-            input.ReadMessage(subBuilder);
-            FrameInputs = subBuilder;
-            break;
-          }
-          case 74: {
-            global::Lockstep.Proto.Checksum subBuilder = new global::Lockstep.Proto.Checksum();
-            if (bodyCase_ == BodyOneofCase.Checksum) {
-              subBuilder.MergeFrom(Checksum);
-            }
-            input.ReadMessage(subBuilder);
-            Checksum = subBuilder;
-            break;
-          }
-          case 82: {
-            global::Lockstep.Proto.Desync subBuilder = new global::Lockstep.Proto.Desync();
-            if (bodyCase_ == BodyOneofCase.Desync) {
-              subBuilder.MergeFrom(Desync);
-            }
-            input.ReadMessage(subBuilder);
-            Desync = subBuilder;
+          case 8: {
+            ClientSendMs = input.ReadUInt32();
             break;
           }
         }
@@ -691,94 +235,8 @@ namespace Lockstep.Proto {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
-          case 10: {
-            global::Lockstep.Proto.Ping subBuilder = new global::Lockstep.Proto.Ping();
-            if (bodyCase_ == BodyOneofCase.Ping) {
-              subBuilder.MergeFrom(Ping);
-            }
-            input.ReadMessage(subBuilder);
-            Ping = subBuilder;
-            break;
-          }
-          case 18: {
-            global::Lockstep.Proto.Pong subBuilder = new global::Lockstep.Proto.Pong();
-            if (bodyCase_ == BodyOneofCase.Pong) {
-              subBuilder.MergeFrom(Pong);
-            }
-            input.ReadMessage(subBuilder);
-            Pong = subBuilder;
-            break;
-          }
-          case 26: {
-            global::Lockstep.Proto.Join subBuilder = new global::Lockstep.Proto.Join();
-            if (bodyCase_ == BodyOneofCase.Join) {
-              subBuilder.MergeFrom(Join);
-            }
-            input.ReadMessage(subBuilder);
-            Join = subBuilder;
-            break;
-          }
-          case 34: {
-            global::Lockstep.Proto.JoinAck subBuilder = new global::Lockstep.Proto.JoinAck();
-            if (bodyCase_ == BodyOneofCase.JoinAck) {
-              subBuilder.MergeFrom(JoinAck);
-            }
-            input.ReadMessage(subBuilder);
-            JoinAck = subBuilder;
-            break;
-          }
-          case 42: {
-            global::Lockstep.Proto.JoinReject subBuilder = new global::Lockstep.Proto.JoinReject();
-            if (bodyCase_ == BodyOneofCase.JoinReject) {
-              subBuilder.MergeFrom(JoinReject);
-            }
-            input.ReadMessage(subBuilder);
-            JoinReject = subBuilder;
-            break;
-          }
-          case 50: {
-            global::Lockstep.Proto.MatchStart subBuilder = new global::Lockstep.Proto.MatchStart();
-            if (bodyCase_ == BodyOneofCase.MatchStart) {
-              subBuilder.MergeFrom(MatchStart);
-            }
-            input.ReadMessage(subBuilder);
-            MatchStart = subBuilder;
-            break;
-          }
-          case 58: {
-            global::Lockstep.Proto.InputCmd subBuilder = new global::Lockstep.Proto.InputCmd();
-            if (bodyCase_ == BodyOneofCase.InputCmd) {
-              subBuilder.MergeFrom(InputCmd);
-            }
-            input.ReadMessage(subBuilder);
-            InputCmd = subBuilder;
-            break;
-          }
-          case 66: {
-            global::Lockstep.Proto.FrameInputs subBuilder = new global::Lockstep.Proto.FrameInputs();
-            if (bodyCase_ == BodyOneofCase.FrameInputs) {
-              subBuilder.MergeFrom(FrameInputs);
-            }
-            input.ReadMessage(subBuilder);
-            FrameInputs = subBuilder;
-            break;
-          }
-          case 74: {
-            global::Lockstep.Proto.Checksum subBuilder = new global::Lockstep.Proto.Checksum();
-            if (bodyCase_ == BodyOneofCase.Checksum) {
-              subBuilder.MergeFrom(Checksum);
-            }
-            input.ReadMessage(subBuilder);
-            Checksum = subBuilder;
-            break;
-          }
-          case 82: {
-            global::Lockstep.Proto.Desync subBuilder = new global::Lockstep.Proto.Desync();
-            if (bodyCase_ == BodyOneofCase.Desync) {
-              subBuilder.MergeFrom(Desync);
-            }
-            input.ReadMessage(subBuilder);
-            Desync = subBuilder;
+          case 8: {
+            ClientSendMs = input.ReadUInt32();
             break;
           }
         }
@@ -789,16 +247,16 @@ namespace Lockstep.Proto {
   }
 
   [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
-  public sealed partial class Ping : pb::IMessage<Ping>
+  public sealed partial class S2C_Pong : pb::IMessage<S2C_Pong>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
   #endif
   {
-    private static readonly pb::MessageParser<Ping> _parser = new pb::MessageParser<Ping>(() => new Ping());
+    private static readonly pb::MessageParser<S2C_Pong> _parser = new pb::MessageParser<S2C_Pong>(() => new S2C_Pong());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pb::MessageParser<Ping> Parser { get { return _parser; } }
+    public static pb::MessageParser<S2C_Pong> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -814,7 +272,7 @@ namespace Lockstep.Proto {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public Ping() {
+    public S2C_Pong() {
       OnConstruction();
     }
 
@@ -822,15 +280,15 @@ namespace Lockstep.Proto {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public Ping(Ping other) : this() {
+    public S2C_Pong(S2C_Pong other) : this() {
       clientSendMs_ = other.clientSendMs_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public Ping Clone() {
-      return new Ping(this);
+    public S2C_Pong Clone() {
+      return new S2C_Pong(this);
     }
 
     /// <summary>Field number for the "client_send_ms" field.</summary>
@@ -848,12 +306,12 @@ namespace Lockstep.Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
-      return Equals(other as Ping);
+      return Equals(other as S2C_Pong);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(Ping other) {
+    public bool Equals(S2C_Pong other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
@@ -926,7 +384,7 @@ namespace Lockstep.Proto {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(Ping other) {
+    public void MergeFrom(S2C_Pong other) {
       if (other == null) {
         return;
       }
@@ -987,16 +445,16 @@ namespace Lockstep.Proto {
   }
 
   [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
-  public sealed partial class Pong : pb::IMessage<Pong>
+  public sealed partial class C2S_Join : pb::IMessage<C2S_Join>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
   #endif
   {
-    private static readonly pb::MessageParser<Pong> _parser = new pb::MessageParser<Pong>(() => new Pong());
+    private static readonly pb::MessageParser<C2S_Join> _parser = new pb::MessageParser<C2S_Join>(() => new C2S_Join());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pb::MessageParser<Pong> Parser { get { return _parser; } }
+    public static pb::MessageParser<C2S_Join> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -1012,7 +470,7 @@ namespace Lockstep.Proto {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public Pong() {
+    public C2S_Join() {
       OnConstruction();
     }
 
@@ -1020,213 +478,15 @@ namespace Lockstep.Proto {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public Pong(Pong other) : this() {
-      clientSendMs_ = other.clientSendMs_;
-      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public Pong Clone() {
-      return new Pong(this);
-    }
-
-    /// <summary>Field number for the "client_send_ms" field.</summary>
-    public const int ClientSendMsFieldNumber = 1;
-    private uint clientSendMs_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public uint ClientSendMs {
-      get { return clientSendMs_; }
-      set {
-        clientSendMs_ = value;
-      }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override bool Equals(object other) {
-      return Equals(other as Pong);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(Pong other) {
-      if (ReferenceEquals(other, null)) {
-        return false;
-      }
-      if (ReferenceEquals(other, this)) {
-        return true;
-      }
-      if (ClientSendMs != other.ClientSendMs) return false;
-      return Equals(_unknownFields, other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override int GetHashCode() {
-      int hash = 1;
-      if (ClientSendMs != 0) hash ^= ClientSendMs.GetHashCode();
-      if (_unknownFields != null) {
-        hash ^= _unknownFields.GetHashCode();
-      }
-      return hash;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override string ToString() {
-      return pb::JsonFormatter.ToDiagnosticString(this);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void WriteTo(pb::CodedOutputStream output) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      output.WriteRawMessage(this);
-    #else
-      if (ClientSendMs != 0) {
-        output.WriteRawTag(8);
-        output.WriteUInt32(ClientSendMs);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(output);
-      }
-    #endif
-    }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (ClientSendMs != 0) {
-        output.WriteRawTag(8);
-        output.WriteUInt32(ClientSendMs);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(ref output);
-      }
-    }
-    #endif
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public int CalculateSize() {
-      int size = 0;
-      if (ClientSendMs != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(ClientSendMs);
-      }
-      if (_unknownFields != null) {
-        size += _unknownFields.CalculateSize();
-      }
-      return size;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(Pong other) {
-      if (other == null) {
-        return;
-      }
-      if (other.ClientSendMs != 0) {
-        ClientSendMs = other.ClientSendMs;
-      }
-      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(pb::CodedInputStream input) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      input.ReadRawMessage(this);
-    #else
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-      if ((tag & 7) == 4) {
-        // Abort on any end group tag.
-        return;
-      }
-      switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
-            break;
-          case 8: {
-            ClientSendMs = input.ReadUInt32();
-            break;
-          }
-        }
-      }
-    #endif
-    }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-      if ((tag & 7) == 4) {
-        // Abort on any end group tag.
-        return;
-      }
-      switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
-            break;
-          case 8: {
-            ClientSendMs = input.ReadUInt32();
-            break;
-          }
-        }
-      }
-    }
-    #endif
-
-  }
-
-  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
-  public sealed partial class Join : pb::IMessage<Join>
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-  #endif
-  {
-    private static readonly pb::MessageParser<Join> _parser = new pb::MessageParser<Join>(() => new Join());
-    private pb::UnknownFieldSet _unknownFields;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pb::MessageParser<Join> Parser { get { return _parser; } }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pbr::MessageDescriptor Descriptor {
-      get { return global::Lockstep.Proto.LockstepReflection.Descriptor.MessageTypes[3]; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    pbr::MessageDescriptor pb::IMessage.Descriptor {
-      get { return Descriptor; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public Join() {
-      OnConstruction();
-    }
-
-    partial void OnConstruction();
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public Join(Join other) : this() {
+    public C2S_Join(C2S_Join other) : this() {
       protocolVersion_ = other.protocolVersion_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public Join Clone() {
-      return new Join(this);
+    public C2S_Join Clone() {
+      return new C2S_Join(this);
     }
 
     /// <summary>Field number for the "protocol_version" field.</summary>
@@ -1244,12 +504,12 @@ namespace Lockstep.Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
-      return Equals(other as Join);
+      return Equals(other as C2S_Join);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(Join other) {
+    public bool Equals(C2S_Join other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
@@ -1322,7 +582,7 @@ namespace Lockstep.Proto {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(Join other) {
+    public void MergeFrom(C2S_Join other) {
       if (other == null) {
         return;
       }
@@ -1383,21 +643,21 @@ namespace Lockstep.Proto {
   }
 
   [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
-  public sealed partial class JoinAck : pb::IMessage<JoinAck>
+  public sealed partial class S2C_JoinAck : pb::IMessage<S2C_JoinAck>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
   #endif
   {
-    private static readonly pb::MessageParser<JoinAck> _parser = new pb::MessageParser<JoinAck>(() => new JoinAck());
+    private static readonly pb::MessageParser<S2C_JoinAck> _parser = new pb::MessageParser<S2C_JoinAck>(() => new S2C_JoinAck());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pb::MessageParser<JoinAck> Parser { get { return _parser; } }
+    public static pb::MessageParser<S2C_JoinAck> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Lockstep.Proto.LockstepReflection.Descriptor.MessageTypes[4]; }
+      get { return global::Lockstep.Proto.LockstepReflection.Descriptor.MessageTypes[3]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1408,7 +668,7 @@ namespace Lockstep.Proto {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public JoinAck() {
+    public S2C_JoinAck() {
       OnConstruction();
     }
 
@@ -1416,15 +676,15 @@ namespace Lockstep.Proto {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public JoinAck(JoinAck other) : this() {
+    public S2C_JoinAck(S2C_JoinAck other) : this() {
       playerId_ = other.playerId_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public JoinAck Clone() {
-      return new JoinAck(this);
+    public S2C_JoinAck Clone() {
+      return new S2C_JoinAck(this);
     }
 
     /// <summary>Field number for the "player_id" field.</summary>
@@ -1442,12 +702,12 @@ namespace Lockstep.Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
-      return Equals(other as JoinAck);
+      return Equals(other as S2C_JoinAck);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(JoinAck other) {
+    public bool Equals(S2C_JoinAck other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
@@ -1520,7 +780,7 @@ namespace Lockstep.Proto {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(JoinAck other) {
+    public void MergeFrom(S2C_JoinAck other) {
       if (other == null) {
         return;
       }
@@ -1581,21 +841,21 @@ namespace Lockstep.Proto {
   }
 
   [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
-  public sealed partial class JoinReject : pb::IMessage<JoinReject>
+  public sealed partial class S2C_JoinReject : pb::IMessage<S2C_JoinReject>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
   #endif
   {
-    private static readonly pb::MessageParser<JoinReject> _parser = new pb::MessageParser<JoinReject>(() => new JoinReject());
+    private static readonly pb::MessageParser<S2C_JoinReject> _parser = new pb::MessageParser<S2C_JoinReject>(() => new S2C_JoinReject());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pb::MessageParser<JoinReject> Parser { get { return _parser; } }
+    public static pb::MessageParser<S2C_JoinReject> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Lockstep.Proto.LockstepReflection.Descriptor.MessageTypes[5]; }
+      get { return global::Lockstep.Proto.LockstepReflection.Descriptor.MessageTypes[4]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1606,7 +866,7 @@ namespace Lockstep.Proto {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public JoinReject() {
+    public S2C_JoinReject() {
       OnConstruction();
     }
 
@@ -1614,15 +874,15 @@ namespace Lockstep.Proto {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public JoinReject(JoinReject other) : this() {
+    public S2C_JoinReject(S2C_JoinReject other) : this() {
       reason_ = other.reason_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public JoinReject Clone() {
-      return new JoinReject(this);
+    public S2C_JoinReject Clone() {
+      return new S2C_JoinReject(this);
     }
 
     /// <summary>Field number for the "reason" field.</summary>
@@ -1640,12 +900,12 @@ namespace Lockstep.Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
-      return Equals(other as JoinReject);
+      return Equals(other as S2C_JoinReject);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(JoinReject other) {
+    public bool Equals(S2C_JoinReject other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
@@ -1718,7 +978,7 @@ namespace Lockstep.Proto {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(JoinReject other) {
+    public void MergeFrom(S2C_JoinReject other) {
       if (other == null) {
         return;
       }
@@ -1779,21 +1039,21 @@ namespace Lockstep.Proto {
   }
 
   [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
-  public sealed partial class MatchStart : pb::IMessage<MatchStart>
+  public sealed partial class S2C_MatchStart : pb::IMessage<S2C_MatchStart>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
   #endif
   {
-    private static readonly pb::MessageParser<MatchStart> _parser = new pb::MessageParser<MatchStart>(() => new MatchStart());
+    private static readonly pb::MessageParser<S2C_MatchStart> _parser = new pb::MessageParser<S2C_MatchStart>(() => new S2C_MatchStart());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pb::MessageParser<MatchStart> Parser { get { return _parser; } }
+    public static pb::MessageParser<S2C_MatchStart> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Lockstep.Proto.LockstepReflection.Descriptor.MessageTypes[6]; }
+      get { return global::Lockstep.Proto.LockstepReflection.Descriptor.MessageTypes[5]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1804,7 +1064,7 @@ namespace Lockstep.Proto {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public MatchStart() {
+    public S2C_MatchStart() {
       OnConstruction();
     }
 
@@ -1812,7 +1072,7 @@ namespace Lockstep.Proto {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public MatchStart(MatchStart other) : this() {
+    public S2C_MatchStart(S2C_MatchStart other) : this() {
       tickHz_ = other.tickHz_;
       inputDelayFrames_ = other.inputDelayFrames_;
       seed_ = other.seed_;
@@ -1822,8 +1082,8 @@ namespace Lockstep.Proto {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public MatchStart Clone() {
-      return new MatchStart(this);
+    public S2C_MatchStart Clone() {
+      return new S2C_MatchStart(this);
     }
 
     /// <summary>Field number for the "tick_hz" field.</summary>
@@ -1877,12 +1137,12 @@ namespace Lockstep.Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
-      return Equals(other as MatchStart);
+      return Equals(other as S2C_MatchStart);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(MatchStart other) {
+    public bool Equals(S2C_MatchStart other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
@@ -1994,7 +1254,7 @@ namespace Lockstep.Proto {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(MatchStart other) {
+    public void MergeFrom(S2C_MatchStart other) {
       if (other == null) {
         return;
       }
@@ -2078,1355 +1338,6 @@ namespace Lockstep.Proto {
           }
           case 32: {
             ArenaHalfExtentMm = input.ReadInt32();
-            break;
-          }
-        }
-      }
-    }
-    #endif
-
-  }
-
-  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
-  public sealed partial class InputCmd : pb::IMessage<InputCmd>
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-  #endif
-  {
-    private static readonly pb::MessageParser<InputCmd> _parser = new pb::MessageParser<InputCmd>(() => new InputCmd());
-    private pb::UnknownFieldSet _unknownFields;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pb::MessageParser<InputCmd> Parser { get { return _parser; } }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pbr::MessageDescriptor Descriptor {
-      get { return global::Lockstep.Proto.LockstepReflection.Descriptor.MessageTypes[7]; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    pbr::MessageDescriptor pb::IMessage.Descriptor {
-      get { return Descriptor; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public InputCmd() {
-      OnConstruction();
-    }
-
-    partial void OnConstruction();
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public InputCmd(InputCmd other) : this() {
-      frame_ = other.frame_;
-      dx_ = other.dx_;
-      dz_ = other.dz_;
-      attack_ = other.attack_;
-      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public InputCmd Clone() {
-      return new InputCmd(this);
-    }
-
-    /// <summary>Field number for the "frame" field.</summary>
-    public const int FrameFieldNumber = 1;
-    private uint frame_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public uint Frame {
-      get { return frame_; }
-      set {
-        frame_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "dx" field.</summary>
-    public const int DxFieldNumber = 2;
-    private int dx_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public int Dx {
-      get { return dx_; }
-      set {
-        dx_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "dz" field.</summary>
-    public const int DzFieldNumber = 3;
-    private int dz_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public int Dz {
-      get { return dz_; }
-      set {
-        dz_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "attack" field.</summary>
-    public const int AttackFieldNumber = 4;
-    private bool attack_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Attack {
-      get { return attack_; }
-      set {
-        attack_ = value;
-      }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override bool Equals(object other) {
-      return Equals(other as InputCmd);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(InputCmd other) {
-      if (ReferenceEquals(other, null)) {
-        return false;
-      }
-      if (ReferenceEquals(other, this)) {
-        return true;
-      }
-      if (Frame != other.Frame) return false;
-      if (Dx != other.Dx) return false;
-      if (Dz != other.Dz) return false;
-      if (Attack != other.Attack) return false;
-      return Equals(_unknownFields, other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override int GetHashCode() {
-      int hash = 1;
-      if (Frame != 0) hash ^= Frame.GetHashCode();
-      if (Dx != 0) hash ^= Dx.GetHashCode();
-      if (Dz != 0) hash ^= Dz.GetHashCode();
-      if (Attack != false) hash ^= Attack.GetHashCode();
-      if (_unknownFields != null) {
-        hash ^= _unknownFields.GetHashCode();
-      }
-      return hash;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override string ToString() {
-      return pb::JsonFormatter.ToDiagnosticString(this);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void WriteTo(pb::CodedOutputStream output) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      output.WriteRawMessage(this);
-    #else
-      if (Frame != 0) {
-        output.WriteRawTag(8);
-        output.WriteUInt32(Frame);
-      }
-      if (Dx != 0) {
-        output.WriteRawTag(16);
-        output.WriteSInt32(Dx);
-      }
-      if (Dz != 0) {
-        output.WriteRawTag(24);
-        output.WriteSInt32(Dz);
-      }
-      if (Attack != false) {
-        output.WriteRawTag(32);
-        output.WriteBool(Attack);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(output);
-      }
-    #endif
-    }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (Frame != 0) {
-        output.WriteRawTag(8);
-        output.WriteUInt32(Frame);
-      }
-      if (Dx != 0) {
-        output.WriteRawTag(16);
-        output.WriteSInt32(Dx);
-      }
-      if (Dz != 0) {
-        output.WriteRawTag(24);
-        output.WriteSInt32(Dz);
-      }
-      if (Attack != false) {
-        output.WriteRawTag(32);
-        output.WriteBool(Attack);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(ref output);
-      }
-    }
-    #endif
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public int CalculateSize() {
-      int size = 0;
-      if (Frame != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(Frame);
-      }
-      if (Dx != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeSInt32Size(Dx);
-      }
-      if (Dz != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeSInt32Size(Dz);
-      }
-      if (Attack != false) {
-        size += 1 + 1;
-      }
-      if (_unknownFields != null) {
-        size += _unknownFields.CalculateSize();
-      }
-      return size;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(InputCmd other) {
-      if (other == null) {
-        return;
-      }
-      if (other.Frame != 0) {
-        Frame = other.Frame;
-      }
-      if (other.Dx != 0) {
-        Dx = other.Dx;
-      }
-      if (other.Dz != 0) {
-        Dz = other.Dz;
-      }
-      if (other.Attack != false) {
-        Attack = other.Attack;
-      }
-      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(pb::CodedInputStream input) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      input.ReadRawMessage(this);
-    #else
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-      if ((tag & 7) == 4) {
-        // Abort on any end group tag.
-        return;
-      }
-      switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
-            break;
-          case 8: {
-            Frame = input.ReadUInt32();
-            break;
-          }
-          case 16: {
-            Dx = input.ReadSInt32();
-            break;
-          }
-          case 24: {
-            Dz = input.ReadSInt32();
-            break;
-          }
-          case 32: {
-            Attack = input.ReadBool();
-            break;
-          }
-        }
-      }
-    #endif
-    }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-      if ((tag & 7) == 4) {
-        // Abort on any end group tag.
-        return;
-      }
-      switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
-            break;
-          case 8: {
-            Frame = input.ReadUInt32();
-            break;
-          }
-          case 16: {
-            Dx = input.ReadSInt32();
-            break;
-          }
-          case 24: {
-            Dz = input.ReadSInt32();
-            break;
-          }
-          case 32: {
-            Attack = input.ReadBool();
-            break;
-          }
-        }
-      }
-    }
-    #endif
-
-  }
-
-  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
-  public sealed partial class PlayerInput : pb::IMessage<PlayerInput>
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-  #endif
-  {
-    private static readonly pb::MessageParser<PlayerInput> _parser = new pb::MessageParser<PlayerInput>(() => new PlayerInput());
-    private pb::UnknownFieldSet _unknownFields;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pb::MessageParser<PlayerInput> Parser { get { return _parser; } }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pbr::MessageDescriptor Descriptor {
-      get { return global::Lockstep.Proto.LockstepReflection.Descriptor.MessageTypes[8]; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    pbr::MessageDescriptor pb::IMessage.Descriptor {
-      get { return Descriptor; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public PlayerInput() {
-      OnConstruction();
-    }
-
-    partial void OnConstruction();
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public PlayerInput(PlayerInput other) : this() {
-      playerId_ = other.playerId_;
-      dx_ = other.dx_;
-      dz_ = other.dz_;
-      attack_ = other.attack_;
-      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public PlayerInput Clone() {
-      return new PlayerInput(this);
-    }
-
-    /// <summary>Field number for the "player_id" field.</summary>
-    public const int PlayerIdFieldNumber = 1;
-    private uint playerId_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public uint PlayerId {
-      get { return playerId_; }
-      set {
-        playerId_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "dx" field.</summary>
-    public const int DxFieldNumber = 2;
-    private int dx_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public int Dx {
-      get { return dx_; }
-      set {
-        dx_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "dz" field.</summary>
-    public const int DzFieldNumber = 3;
-    private int dz_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public int Dz {
-      get { return dz_; }
-      set {
-        dz_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "attack" field.</summary>
-    public const int AttackFieldNumber = 4;
-    private bool attack_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Attack {
-      get { return attack_; }
-      set {
-        attack_ = value;
-      }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override bool Equals(object other) {
-      return Equals(other as PlayerInput);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(PlayerInput other) {
-      if (ReferenceEquals(other, null)) {
-        return false;
-      }
-      if (ReferenceEquals(other, this)) {
-        return true;
-      }
-      if (PlayerId != other.PlayerId) return false;
-      if (Dx != other.Dx) return false;
-      if (Dz != other.Dz) return false;
-      if (Attack != other.Attack) return false;
-      return Equals(_unknownFields, other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override int GetHashCode() {
-      int hash = 1;
-      if (PlayerId != 0) hash ^= PlayerId.GetHashCode();
-      if (Dx != 0) hash ^= Dx.GetHashCode();
-      if (Dz != 0) hash ^= Dz.GetHashCode();
-      if (Attack != false) hash ^= Attack.GetHashCode();
-      if (_unknownFields != null) {
-        hash ^= _unknownFields.GetHashCode();
-      }
-      return hash;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override string ToString() {
-      return pb::JsonFormatter.ToDiagnosticString(this);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void WriteTo(pb::CodedOutputStream output) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      output.WriteRawMessage(this);
-    #else
-      if (PlayerId != 0) {
-        output.WriteRawTag(8);
-        output.WriteUInt32(PlayerId);
-      }
-      if (Dx != 0) {
-        output.WriteRawTag(16);
-        output.WriteSInt32(Dx);
-      }
-      if (Dz != 0) {
-        output.WriteRawTag(24);
-        output.WriteSInt32(Dz);
-      }
-      if (Attack != false) {
-        output.WriteRawTag(32);
-        output.WriteBool(Attack);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(output);
-      }
-    #endif
-    }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (PlayerId != 0) {
-        output.WriteRawTag(8);
-        output.WriteUInt32(PlayerId);
-      }
-      if (Dx != 0) {
-        output.WriteRawTag(16);
-        output.WriteSInt32(Dx);
-      }
-      if (Dz != 0) {
-        output.WriteRawTag(24);
-        output.WriteSInt32(Dz);
-      }
-      if (Attack != false) {
-        output.WriteRawTag(32);
-        output.WriteBool(Attack);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(ref output);
-      }
-    }
-    #endif
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public int CalculateSize() {
-      int size = 0;
-      if (PlayerId != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(PlayerId);
-      }
-      if (Dx != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeSInt32Size(Dx);
-      }
-      if (Dz != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeSInt32Size(Dz);
-      }
-      if (Attack != false) {
-        size += 1 + 1;
-      }
-      if (_unknownFields != null) {
-        size += _unknownFields.CalculateSize();
-      }
-      return size;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(PlayerInput other) {
-      if (other == null) {
-        return;
-      }
-      if (other.PlayerId != 0) {
-        PlayerId = other.PlayerId;
-      }
-      if (other.Dx != 0) {
-        Dx = other.Dx;
-      }
-      if (other.Dz != 0) {
-        Dz = other.Dz;
-      }
-      if (other.Attack != false) {
-        Attack = other.Attack;
-      }
-      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(pb::CodedInputStream input) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      input.ReadRawMessage(this);
-    #else
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-      if ((tag & 7) == 4) {
-        // Abort on any end group tag.
-        return;
-      }
-      switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
-            break;
-          case 8: {
-            PlayerId = input.ReadUInt32();
-            break;
-          }
-          case 16: {
-            Dx = input.ReadSInt32();
-            break;
-          }
-          case 24: {
-            Dz = input.ReadSInt32();
-            break;
-          }
-          case 32: {
-            Attack = input.ReadBool();
-            break;
-          }
-        }
-      }
-    #endif
-    }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-      if ((tag & 7) == 4) {
-        // Abort on any end group tag.
-        return;
-      }
-      switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
-            break;
-          case 8: {
-            PlayerId = input.ReadUInt32();
-            break;
-          }
-          case 16: {
-            Dx = input.ReadSInt32();
-            break;
-          }
-          case 24: {
-            Dz = input.ReadSInt32();
-            break;
-          }
-          case 32: {
-            Attack = input.ReadBool();
-            break;
-          }
-        }
-      }
-    }
-    #endif
-
-  }
-
-  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
-  public sealed partial class FrameInputs : pb::IMessage<FrameInputs>
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-  #endif
-  {
-    private static readonly pb::MessageParser<FrameInputs> _parser = new pb::MessageParser<FrameInputs>(() => new FrameInputs());
-    private pb::UnknownFieldSet _unknownFields;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pb::MessageParser<FrameInputs> Parser { get { return _parser; } }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pbr::MessageDescriptor Descriptor {
-      get { return global::Lockstep.Proto.LockstepReflection.Descriptor.MessageTypes[9]; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    pbr::MessageDescriptor pb::IMessage.Descriptor {
-      get { return Descriptor; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public FrameInputs() {
-      OnConstruction();
-    }
-
-    partial void OnConstruction();
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public FrameInputs(FrameInputs other) : this() {
-      frame_ = other.frame_;
-      inputs_ = other.inputs_.Clone();
-      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public FrameInputs Clone() {
-      return new FrameInputs(this);
-    }
-
-    /// <summary>Field number for the "frame" field.</summary>
-    public const int FrameFieldNumber = 1;
-    private uint frame_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public uint Frame {
-      get { return frame_; }
-      set {
-        frame_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "inputs" field.</summary>
-    public const int InputsFieldNumber = 2;
-    private static readonly pb::FieldCodec<global::Lockstep.Proto.PlayerInput> _repeated_inputs_codec
-        = pb::FieldCodec.ForMessage(18, global::Lockstep.Proto.PlayerInput.Parser);
-    private readonly pbc::RepeatedField<global::Lockstep.Proto.PlayerInput> inputs_ = new pbc::RepeatedField<global::Lockstep.Proto.PlayerInput>();
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::Lockstep.Proto.PlayerInput> Inputs {
-      get { return inputs_; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override bool Equals(object other) {
-      return Equals(other as FrameInputs);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(FrameInputs other) {
-      if (ReferenceEquals(other, null)) {
-        return false;
-      }
-      if (ReferenceEquals(other, this)) {
-        return true;
-      }
-      if (Frame != other.Frame) return false;
-      if(!inputs_.Equals(other.inputs_)) return false;
-      return Equals(_unknownFields, other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override int GetHashCode() {
-      int hash = 1;
-      if (Frame != 0) hash ^= Frame.GetHashCode();
-      hash ^= inputs_.GetHashCode();
-      if (_unknownFields != null) {
-        hash ^= _unknownFields.GetHashCode();
-      }
-      return hash;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override string ToString() {
-      return pb::JsonFormatter.ToDiagnosticString(this);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void WriteTo(pb::CodedOutputStream output) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      output.WriteRawMessage(this);
-    #else
-      if (Frame != 0) {
-        output.WriteRawTag(8);
-        output.WriteUInt32(Frame);
-      }
-      inputs_.WriteTo(output, _repeated_inputs_codec);
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(output);
-      }
-    #endif
-    }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (Frame != 0) {
-        output.WriteRawTag(8);
-        output.WriteUInt32(Frame);
-      }
-      inputs_.WriteTo(ref output, _repeated_inputs_codec);
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(ref output);
-      }
-    }
-    #endif
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public int CalculateSize() {
-      int size = 0;
-      if (Frame != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(Frame);
-      }
-      size += inputs_.CalculateSize(_repeated_inputs_codec);
-      if (_unknownFields != null) {
-        size += _unknownFields.CalculateSize();
-      }
-      return size;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(FrameInputs other) {
-      if (other == null) {
-        return;
-      }
-      if (other.Frame != 0) {
-        Frame = other.Frame;
-      }
-      inputs_.Add(other.inputs_);
-      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(pb::CodedInputStream input) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      input.ReadRawMessage(this);
-    #else
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-      if ((tag & 7) == 4) {
-        // Abort on any end group tag.
-        return;
-      }
-      switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
-            break;
-          case 8: {
-            Frame = input.ReadUInt32();
-            break;
-          }
-          case 18: {
-            inputs_.AddEntriesFrom(input, _repeated_inputs_codec);
-            break;
-          }
-        }
-      }
-    #endif
-    }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-      if ((tag & 7) == 4) {
-        // Abort on any end group tag.
-        return;
-      }
-      switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
-            break;
-          case 8: {
-            Frame = input.ReadUInt32();
-            break;
-          }
-          case 18: {
-            inputs_.AddEntriesFrom(ref input, _repeated_inputs_codec);
-            break;
-          }
-        }
-      }
-    }
-    #endif
-
-  }
-
-  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
-  public sealed partial class Checksum : pb::IMessage<Checksum>
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-  #endif
-  {
-    private static readonly pb::MessageParser<Checksum> _parser = new pb::MessageParser<Checksum>(() => new Checksum());
-    private pb::UnknownFieldSet _unknownFields;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pb::MessageParser<Checksum> Parser { get { return _parser; } }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pbr::MessageDescriptor Descriptor {
-      get { return global::Lockstep.Proto.LockstepReflection.Descriptor.MessageTypes[10]; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    pbr::MessageDescriptor pb::IMessage.Descriptor {
-      get { return Descriptor; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public Checksum() {
-      OnConstruction();
-    }
-
-    partial void OnConstruction();
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public Checksum(Checksum other) : this() {
-      frame_ = other.frame_;
-      hash_ = other.hash_;
-      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public Checksum Clone() {
-      return new Checksum(this);
-    }
-
-    /// <summary>Field number for the "frame" field.</summary>
-    public const int FrameFieldNumber = 1;
-    private uint frame_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public uint Frame {
-      get { return frame_; }
-      set {
-        frame_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "hash" field.</summary>
-    public const int HashFieldNumber = 2;
-    private ulong hash_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public ulong Hash {
-      get { return hash_; }
-      set {
-        hash_ = value;
-      }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override bool Equals(object other) {
-      return Equals(other as Checksum);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(Checksum other) {
-      if (ReferenceEquals(other, null)) {
-        return false;
-      }
-      if (ReferenceEquals(other, this)) {
-        return true;
-      }
-      if (Frame != other.Frame) return false;
-      if (Hash != other.Hash) return false;
-      return Equals(_unknownFields, other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override int GetHashCode() {
-      int hash = 1;
-      if (Frame != 0) hash ^= Frame.GetHashCode();
-      if (Hash != 0UL) hash ^= Hash.GetHashCode();
-      if (_unknownFields != null) {
-        hash ^= _unknownFields.GetHashCode();
-      }
-      return hash;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override string ToString() {
-      return pb::JsonFormatter.ToDiagnosticString(this);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void WriteTo(pb::CodedOutputStream output) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      output.WriteRawMessage(this);
-    #else
-      if (Frame != 0) {
-        output.WriteRawTag(8);
-        output.WriteUInt32(Frame);
-      }
-      if (Hash != 0UL) {
-        output.WriteRawTag(16);
-        output.WriteUInt64(Hash);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(output);
-      }
-    #endif
-    }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (Frame != 0) {
-        output.WriteRawTag(8);
-        output.WriteUInt32(Frame);
-      }
-      if (Hash != 0UL) {
-        output.WriteRawTag(16);
-        output.WriteUInt64(Hash);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(ref output);
-      }
-    }
-    #endif
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public int CalculateSize() {
-      int size = 0;
-      if (Frame != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(Frame);
-      }
-      if (Hash != 0UL) {
-        size += 1 + pb::CodedOutputStream.ComputeUInt64Size(Hash);
-      }
-      if (_unknownFields != null) {
-        size += _unknownFields.CalculateSize();
-      }
-      return size;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(Checksum other) {
-      if (other == null) {
-        return;
-      }
-      if (other.Frame != 0) {
-        Frame = other.Frame;
-      }
-      if (other.Hash != 0UL) {
-        Hash = other.Hash;
-      }
-      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(pb::CodedInputStream input) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      input.ReadRawMessage(this);
-    #else
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-      if ((tag & 7) == 4) {
-        // Abort on any end group tag.
-        return;
-      }
-      switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
-            break;
-          case 8: {
-            Frame = input.ReadUInt32();
-            break;
-          }
-          case 16: {
-            Hash = input.ReadUInt64();
-            break;
-          }
-        }
-      }
-    #endif
-    }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-      if ((tag & 7) == 4) {
-        // Abort on any end group tag.
-        return;
-      }
-      switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
-            break;
-          case 8: {
-            Frame = input.ReadUInt32();
-            break;
-          }
-          case 16: {
-            Hash = input.ReadUInt64();
-            break;
-          }
-        }
-      }
-    }
-    #endif
-
-  }
-
-  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
-  public sealed partial class Desync : pb::IMessage<Desync>
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-  #endif
-  {
-    private static readonly pb::MessageParser<Desync> _parser = new pb::MessageParser<Desync>(() => new Desync());
-    private pb::UnknownFieldSet _unknownFields;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pb::MessageParser<Desync> Parser { get { return _parser; } }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pbr::MessageDescriptor Descriptor {
-      get { return global::Lockstep.Proto.LockstepReflection.Descriptor.MessageTypes[11]; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    pbr::MessageDescriptor pb::IMessage.Descriptor {
-      get { return Descriptor; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public Desync() {
-      OnConstruction();
-    }
-
-    partial void OnConstruction();
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public Desync(Desync other) : this() {
-      frame_ = other.frame_;
-      hashPlayer0_ = other.hashPlayer0_;
-      hashPlayer1_ = other.hashPlayer1_;
-      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public Desync Clone() {
-      return new Desync(this);
-    }
-
-    /// <summary>Field number for the "frame" field.</summary>
-    public const int FrameFieldNumber = 1;
-    private uint frame_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public uint Frame {
-      get { return frame_; }
-      set {
-        frame_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "hash_player0" field.</summary>
-    public const int HashPlayer0FieldNumber = 2;
-    private ulong hashPlayer0_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public ulong HashPlayer0 {
-      get { return hashPlayer0_; }
-      set {
-        hashPlayer0_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "hash_player1" field.</summary>
-    public const int HashPlayer1FieldNumber = 3;
-    private ulong hashPlayer1_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public ulong HashPlayer1 {
-      get { return hashPlayer1_; }
-      set {
-        hashPlayer1_ = value;
-      }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override bool Equals(object other) {
-      return Equals(other as Desync);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(Desync other) {
-      if (ReferenceEquals(other, null)) {
-        return false;
-      }
-      if (ReferenceEquals(other, this)) {
-        return true;
-      }
-      if (Frame != other.Frame) return false;
-      if (HashPlayer0 != other.HashPlayer0) return false;
-      if (HashPlayer1 != other.HashPlayer1) return false;
-      return Equals(_unknownFields, other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override int GetHashCode() {
-      int hash = 1;
-      if (Frame != 0) hash ^= Frame.GetHashCode();
-      if (HashPlayer0 != 0UL) hash ^= HashPlayer0.GetHashCode();
-      if (HashPlayer1 != 0UL) hash ^= HashPlayer1.GetHashCode();
-      if (_unknownFields != null) {
-        hash ^= _unknownFields.GetHashCode();
-      }
-      return hash;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override string ToString() {
-      return pb::JsonFormatter.ToDiagnosticString(this);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void WriteTo(pb::CodedOutputStream output) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      output.WriteRawMessage(this);
-    #else
-      if (Frame != 0) {
-        output.WriteRawTag(8);
-        output.WriteUInt32(Frame);
-      }
-      if (HashPlayer0 != 0UL) {
-        output.WriteRawTag(16);
-        output.WriteUInt64(HashPlayer0);
-      }
-      if (HashPlayer1 != 0UL) {
-        output.WriteRawTag(24);
-        output.WriteUInt64(HashPlayer1);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(output);
-      }
-    #endif
-    }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (Frame != 0) {
-        output.WriteRawTag(8);
-        output.WriteUInt32(Frame);
-      }
-      if (HashPlayer0 != 0UL) {
-        output.WriteRawTag(16);
-        output.WriteUInt64(HashPlayer0);
-      }
-      if (HashPlayer1 != 0UL) {
-        output.WriteRawTag(24);
-        output.WriteUInt64(HashPlayer1);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(ref output);
-      }
-    }
-    #endif
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public int CalculateSize() {
-      int size = 0;
-      if (Frame != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(Frame);
-      }
-      if (HashPlayer0 != 0UL) {
-        size += 1 + pb::CodedOutputStream.ComputeUInt64Size(HashPlayer0);
-      }
-      if (HashPlayer1 != 0UL) {
-        size += 1 + pb::CodedOutputStream.ComputeUInt64Size(HashPlayer1);
-      }
-      if (_unknownFields != null) {
-        size += _unknownFields.CalculateSize();
-      }
-      return size;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(Desync other) {
-      if (other == null) {
-        return;
-      }
-      if (other.Frame != 0) {
-        Frame = other.Frame;
-      }
-      if (other.HashPlayer0 != 0UL) {
-        HashPlayer0 = other.HashPlayer0;
-      }
-      if (other.HashPlayer1 != 0UL) {
-        HashPlayer1 = other.HashPlayer1;
-      }
-      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(pb::CodedInputStream input) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      input.ReadRawMessage(this);
-    #else
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-      if ((tag & 7) == 4) {
-        // Abort on any end group tag.
-        return;
-      }
-      switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
-            break;
-          case 8: {
-            Frame = input.ReadUInt32();
-            break;
-          }
-          case 16: {
-            HashPlayer0 = input.ReadUInt64();
-            break;
-          }
-          case 24: {
-            HashPlayer1 = input.ReadUInt64();
-            break;
-          }
-        }
-      }
-    #endif
-    }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-      if ((tag & 7) == 4) {
-        // Abort on any end group tag.
-        return;
-      }
-      switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
-            break;
-          case 8: {
-            Frame = input.ReadUInt32();
-            break;
-          }
-          case 16: {
-            HashPlayer0 = input.ReadUInt64();
-            break;
-          }
-          case 24: {
-            HashPlayer1 = input.ReadUInt64();
             break;
           }
         }

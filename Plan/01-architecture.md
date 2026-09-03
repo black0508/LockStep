@@ -13,7 +13,7 @@ Session     → Protocol, Transport, Sim
 Room        → Protocol, Transport          （服务端，无 Sim）
 Protocol    → 无 Transport 实现细节
 Transport   → 无 protobuf、无帧号、无玩家
-NetPump     → 只 Tick Transport            （Unity 薄适配）
+NetworkManager → Tick Transport + 组装 Session （Unity 薄适配）
 ```
 
 「网络组件」指 `ITransport` + `KcpTransport` + `MsgCodec` 这一组纯 C# 类，两端共用。不是挂在物体上的万能 `MonoBehaviour`。
@@ -22,7 +22,7 @@ NetPump     → 只 Tick Transport            （Unity 薄适配）
 
 ```text
 Unity 客户端进程
-  NetPump          每渲染帧 Tick 传输
+  NetworkManager   每渲染帧 Tick 传输，组装 Session
   KcpTransport     连 127.0.0.1:7777
   MsgCodec         msgId + protobuf
   LockstepSession  Join、按帧发输入、收 FrameInputs
@@ -31,6 +31,7 @@ Unity 客户端进程
   HudView          frame / delay / hash / rtt
 
 C# 控制台服务器进程（第 2 周可整进程换成 C++）
+  NetworkServer       组装 Transport、每轮 Tick
   KcpServerTransport  听 UDP
   MsgCodec            同一套
   Room                2 人、按帧凑齐输入、广播、对 checksum
@@ -63,18 +64,15 @@ IServerTransport
 - `LagTransport`：人工延迟，测 lockstep / rollback
 - `LoopbackTransport`：单进程测 Codec（实现阶段再用）
 
-KCP 实现选定 **Fan_LockStep / Fantasy 那套 KCP 内核**（skywind `ikcp` 的 C# 移植），不用 kcp2k。朋友说的「三种」是 Fantasy 的传输选项 **KCP / TCP / WebSocket**，不是三种 KCP 算法。我们只用 KCP。
+KCP 实现选定 **kcp2k**（Mirror 官方传输封装）。两端都用同一份 `KcpClient` / `KcpServer`，不要再手写 UDP + ikcp + Fantasy 握手。朋友说的「三种」是 Fantasy 的传输选项 **KCP / TCP / WebSocket**，不是三种 KCP 算法。我们只用 KCP。
 
-Fantasy 里还有 Outer/Inner 两套窗口参数：客户端对服务器走 **Outer**（MTU 470，`SetNoDelay(1, 5, 2, 1)`）。不要上 Inner（那是进程间）。
+不要整包引入 Mirror。不要把 `Scene.Connect`、Fantasy `Session`、Opcode、RPC、Entity 搬进来。
 
-**参考什么、不搬什么：**
+外面仍只暴露现有 Transport 外观：`Connect` / `Tick` / `Send` / `TryRecv` / `IsConnected`。第 2 周若换 C++ 服务器，必须说 **kcp2k 线协议**（channel + cookie + Hello），不能再按 Fantasy 5 字节头实现。
 
-- 要：`Kcp`/`ikcp` 核心、UDP 收发、`Tick`/`Update`、握手包头、Outer 参数
-- 不要：`Scene.Connect`、`Session`、Opcode、RPC、Entity、心跳组件。那些会把 Transport 和玩法焊死，第 2 周 C++ 也对不上
+KCP 参数：`DualMode=false`（纯 IPv4）、`NoDelay=true`、`Interval=10`、`FastResend=2`、`CongestionWindow=false`，MTU 与窗口用 kcp2k 默认值。业务消息走 `KcpChannel.Reliable`，两周不做多通道。
 
-C# 两端都把这份内核包进 `shared/Net`，外面仍只暴露 `ITransport`。第 2 周 C++ 用官方 [skywind3000/kcp](https://github.com/skywind3000/kcp)，**握手必须和 C# 这一份写成同一张表**（见 [02-protocol.md](02-protocol.md)），否则 ikcp 对得上、连都连不上。
-
-KCP 参数（与 Fan_LockStep Outer 对齐）：`nodelay=1, interval=5, resend=2, nc=1`，`minrto=30`，MTU 470。业务消息走可靠通道，两周不做多通道。
+**两端的 `KcpConfig` 必须逐字一致。** MTU 不一致会让大报文在收端直接抛 `SocketException`（收包缓冲区就是按 `config.Mtu` 开的），不是「慢一点」而是连不通。
 
 **禁止**：在 Transport 里解析 `InputCmd`、记录 `playerId`、按帧号排队。
 
@@ -126,14 +124,14 @@ packet = uint16_le msgId + protobuf_bytes
 
 只读 `SimPose`。前期 `CubePlayerView`：位移插值、Yaw、攻击闪色、减速变灰。后期换带动画的 View，订阅同一套姿态。
 
-Unity 里唯一允许碰 Transport 的脚本是 `NetPump`。
+Unity 里唯一允许碰 Transport 的脚本是 `NetworkManager`。
 
 ## 调用链（第 1 周 lockstep）
 
 ```text
 渲染帧
-  NetPump.Tick
-    Transport.Tick / TryRecv
+  NetworkManager.Tick
+    Transport.Tick → OnReceivedpacket
       Codec.Decode
         Session.OnMessage
           MatchStart → 重置 Sim
@@ -180,7 +178,7 @@ LockStep/
     Assets/Session/
     Assets/Sim/
     Assets/View/
-    Assets/NetPump/
+    Assets/NetworkManager/
 ```
 
 本规划阶段不创建上述工程文件。
