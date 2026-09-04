@@ -2,7 +2,7 @@ using System;
 
 namespace LockStep.Server.Net
 {
-    public interface INetworkServerTransport : IDisposable
+    public interface INetworkServerHost : IDisposable
     {
         event Action<int> Connected;
         event Action<int> Disconnected;
@@ -13,9 +13,8 @@ namespace LockStep.Server.Net
 
         void Start(int port);
         void Stop();
-        void TickIncoming();
-        void TickOutgoing();
-        void Send(int connectionId, byte[] payload);
-        void Disconnect(int connectionId);
+        void Tick();
+        void Send(int clientId, byte[] payload);
+        void Disconnect(int clientId);
     }
 }

@@ -1,45 +1,22 @@
 ﻿using System;
 using System.Threading;
+using LockStep.Server.Net;
+using LockStep.Server.Room;
+using LockStep.Server.Config;
 
-namespace LockStep.Server
+class Program
 {
-    class Program
+    static void Main()
     {
-        static void Main()
+        ServerConfig config = ServerConfig.Default;
+        using NetworkServer server = new NetworkServer(config);
+        server.Start(7777);
+        Console.WriteLine("Press Enter to exit (debugger: click Stop).");
+
+        while (true)
         {
-            NetworkServer server = new NetworkServer();
-            server.Start(7777);
-            Console.WriteLine("Press Enter to exit (debugger: click Stop).");
-
-            while (true)
-            {
-                if (IsEnterPressed())
-                {
-                    break;
-                }
-
-                server.Tick();
-                Thread.Sleep(1);
-            }
-
-            server.Dispose();
-        }
-
-        static bool IsEnterPressed()
-        {
-            try
-            {
-                if (Console.IsInputRedirected)
-                {
-                    return false;
-                }
-
-                return Console.KeyAvailable && Console.ReadKey(true).Key == ConsoleKey.Enter;
-            }
-            catch (InvalidOperationException)
-            {
-                return false;
-            }
+            server.Tick();
+            Thread.Sleep(10);
         }
     }
 }

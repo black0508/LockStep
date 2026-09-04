@@ -49,17 +49,17 @@ public class NetworkManager : MonoBehaviour
 
     void OnConnected()
     {
-        Debug.Log("[LockStep] connected");
+        Debug.Log("[LockStep] 连接成功");
     }
 
     void OnDisconnected()
     {
-        Debug.Log("[LockStep] disconnected");
+        Debug.Log("[LockStep] 断开连接");
     }
 
     void OnReceivedPacket(byte[] payload)
     {
-        Debug.Log("[LockStep] recv " + payload.Length + " bytes");
+        Debug.Log("[LockStep] 接收到 " + payload.Length + " bytes");
     }
 
     void OnTransportError(Exception error)

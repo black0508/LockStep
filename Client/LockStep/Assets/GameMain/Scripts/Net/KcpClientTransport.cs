@@ -86,7 +86,7 @@ namespace GameMain.Net
 
         void OnError(ErrorCode error, string message)
         {
-            Log.Error("[LockStep] kcp error " + error + " " + message);
+            Log.Error("[LockStep] kcp 错误 " + error + " " + message);
             TransportError?.Invoke(new Exception("kcp error " + error + " - " + message));
         }
     }
