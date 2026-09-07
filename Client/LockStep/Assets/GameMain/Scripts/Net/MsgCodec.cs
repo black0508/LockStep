@@ -1,45 +1,45 @@
-using System;
 using Google.Protobuf;
+using Lockstep.Proto;
 
 namespace GameMain.Net
 {
-    public static class Opcode
-    {
-        public const ushort C2S_Ping = 1;
-        public const ushort S2C_Pong = 2;
-        public const ushort C2S_Join = 3;
-        public const ushort S2C_JoinAck = 4;
-        public const ushort S2C_JoinReject = 5;
-        public const ushort S2C_MatchStart = 6;
-    }
-
     public static class MsgCodec
     {
-        public static byte[] Encode(ushort opcode, IMessage msg)
+        public static byte[] Encode(MsgId msgId, IMessage msg)
         {
-            byte[] body = msg.ToByteArray();
-            byte[] buf = new byte[2 + body.Length];
-            buf[0] = (byte)opcode;
-            buf[1] = (byte)(opcode >> 8);
-            Buffer.BlockCopy(body, 0, buf, 2, body.Length);
-            return buf;
+            Packet packet = new Packet();
+            packet.Id = msgId;
+            packet.Body = msg.ToByteString();
+            return packet.ToByteArray();
         }
 
-        public static bool TryRead(byte[] payload, out ushort opcode)
+        public static bool TryUnpack(byte[] payload, out MsgId msgId, out ByteString body)
         {
-            if (payload == null || payload.Length < 2)
+            msgId = MsgId.Unspecified;
+            body = ByteString.Empty;
+            if (payload == null || payload.Length == 0)
             {
-                opcode = 0;
                 return false;
             }
 
-            opcode = (ushort)(payload[0] | (payload[1] << 8));
+            Packet packet;
+            try
+            {
+                packet = Packet.Parser.ParseFrom(payload);
+            }
+            catch (InvalidProtocolBufferException)
+            {
+                return false;
+            }
+
+            msgId = packet.Id;
+            body = packet.Body;
             return true;
         }
 
-        public static T Parse<T>(byte[] payload, MessageParser<T> parser) where T : IMessage<T>
+        public static T Parse<T>(ByteString body, MessageParser<T> parser) where T : IMessage<T>
         {
-            return parser.ParseFrom(payload, 2, payload.Length - 2);
+            return parser.ParseFrom(body);
         }
     }
 }

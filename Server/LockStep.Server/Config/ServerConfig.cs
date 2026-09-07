@@ -1,10 +1,13 @@
 using System;
-using LockStep.Server.Net;
 
 namespace LockStep.Server.Config;
 
 public sealed class ServerConfig
 {
-    public uint TickRate {get; init;} = 30; // 每秒多少逻辑帧
+    public uint TickRate { get; init; } = 30;
+    public uint MaxPlayersPerRoom { get; init; } = 2;
+    public uint InputDelayFrames { get; init; } = 2;
+    public uint Seed { get; init; } = 1;
+
     public static ServerConfig Default => new ServerConfig();
 }

@@ -1,11 +1,12 @@
 using System;
+using Google.Protobuf;
 using kcp2k;
+using Lockstep.Proto;
 using LockStep.Server.Config;
 
 namespace LockStep.Server.Net;
 
-// 这个类主要是对服务器主机进行包装，并且路由各个客户端消息Handle
-public class NetworkServer : IDisposable
+public partial class NetworkServer : IDisposable
 {
     INetworkServerHost serverHost;
     private readonly ServerConfig config;
@@ -38,6 +39,11 @@ public class NetworkServer : IDisposable
         }
 
         serverHost.Tick();
+    }
+
+    public void Send(int clientId, MsgId msgId, IMessage msg)
+    {
+        Send(clientId, MsgCodec.Encode(msgId, msg));
     }
 
     public void Send(int clientId, byte[] payload)
@@ -75,7 +81,13 @@ public class NetworkServer : IDisposable
 
     void OnReceivedPacket(int clientId, byte[] payload)
     {
-        Console.WriteLine("[LockStep] 接收到 " + payload.Length + " bytes connection=" + clientId);
+        if (!MsgCodec.TryUnpack(payload, out MsgId msgId, out ByteString body))
+        {
+            Console.WriteLine("[LockStep] 解包失败 connection=" + clientId);
+            return;
+        }
+
+        Dispatch(clientId, msgId, body);
     }
 
     void OnHostError(int clientId, Exception error)
