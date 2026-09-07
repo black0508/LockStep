@@ -1,21 +1,17 @@
 using System;
-using GameMain.Net;
+using GameMain;
 using Google.Protobuf;
-using kcp2k;
 using Lockstep.Proto;
 using UnityEngine;
 
 namespace GameMain.Net
 {
-    public partial class NetworkManager : MonoBehaviour
+    public partial class NetworkManager : ManagerBase
     {
         [SerializeField] string host = "127.0.0.1";
         [SerializeField] int port = 7777;
-        [SerializeField] uint roomId = 1;
-        [SerializeField] KeyCode startKey = KeyCode.Return;
 
         INetworkTransport transport;
-        bool isHost;
 
         public bool IsConnected
         {
@@ -24,10 +20,6 @@ namespace GameMain.Net
 
         void Start()
         {
-            Log.Info = Debug.Log;
-            Log.Warning = Debug.LogWarning;
-            Log.Error = Debug.LogError;
-
             transport = new KcpClientTransport();
             transport.Connected += OnConnected;
             transport.Disconnected += OnDisconnected;
@@ -56,21 +48,16 @@ namespace GameMain.Net
             transport.Send(MsgCodec.Encode(msgId, msg));
         }
 
-        public void RequestStart()
-        {
-            Send(MsgId.C2SStart, new C2SStart());
-        }
-
         void OnConnected()
         {
             Debug.Log("[LockStep] 连接成功");
-            Send(MsgId.C2SJoin, new C2SJoin { RoomId = roomId });
+            GameEntry.RoomManager.OnConnected();
         }
 
         void OnDisconnected()
         {
-            isHost = false;
             Debug.Log("[LockStep] 断开连接");
+            GameEntry.RoomManager.OnDisconnected();
         }
 
         void OnReceivedPacket(byte[] payload)
@@ -99,9 +86,10 @@ namespace GameMain.Net
             StopClient();
         }
 
-        void OnDestroy()
+        protected override void OnDestroy()
         {
             StopClient();
+            base.OnDestroy();
         }
 
         void StopClient()

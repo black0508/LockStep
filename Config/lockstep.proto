@@ -2,23 +2,15 @@ syntax = "proto3";
 package lockstep;
 option csharp_namespace = "Lockstep.Proto";
 
+// ----- 封包 -----
 enum MsgId {
-  Unspecified = 0;
-  C2S_Hello = 1;
-  S2C_Hello = 2;
-  C2S_Join = 3;
-  S2C_JoinAck = 4;
-  S2C_JoinReject = 5;
-  S2C_RoomUpdate = 6;
-  C2S_Start = 7;
-  S2C_MatchStart = 8;
-}
-
-enum JoinRejectReason {
-  JoinRejectUnspecified = 0;
-  JoinRejectFull = 1;
-  JoinRejectPlaying = 2;
-  JoinRejectAlreadyInRoom = 3;
+  Unspecified = 0;     // 未指定
+  C2S_Join = 1;        // 进房
+  S2C_JoinAck = 2;     // 进房成功
+  S2C_JoinReject = 3;  // 进房拒绝
+  S2C_RoomUpdate = 4;  // 房间名单变化
+  C2S_Start = 5;       // 房主开战
+  S2C_MatchStart = 6;  // 开战通知
 }
 
 message Packet {
@@ -26,21 +18,23 @@ message Packet {
   bytes body = 2;
 }
 
-message C2SHello {
-  string text = 1;
-}
-
-message S2CHello {
-  string text = 1;
+// ----- 房间 -----
+enum JoinRejectReason {
+  JoinRejectUnspecified = 0;   // 未指定
+  JoinRejectFull = 1;          // 已满
+  JoinRejectPlaying = 2;       // 已开战
+  JoinRejectAlreadyInRoom = 3; // 已在房内
 }
 
 message RoomPlayer {
   uint32 player_id = 1;
   bool is_host = 2;
+  string nick_name = 3;
 }
 
 message C2SJoin {
   uint32 room_id = 1;
+  string nick_name = 2;
 }
 
 message S2CJoinAck {

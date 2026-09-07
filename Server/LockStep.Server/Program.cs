@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using LockStep.Server;
 using LockStep.Server.Net;
 using LockStep.Server.Room;
 using LockStep.Server.Config;
@@ -8,10 +9,14 @@ class Program
 {
     static void Main()
     {
-        ServerConfig config = ServerConfig.Default;
-        using NetworkServer server = new NetworkServer(config);
+        new RoomManager(ServerConfig.Default);
+        using NetworkServer server = new NetworkServer();
+        if (GameEntry.RoomManager == null || GameEntry.NetworkServer == null)
+        {
+            throw new InvalidOperationException("GameEntry 未就绪");
+        }
+
         server.Start(7777);
-        Console.WriteLine("Press Enter to exit (debugger: click Stop).");
 
         while (true)
         {

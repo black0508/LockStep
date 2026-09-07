@@ -2,27 +2,27 @@ using System;
 using Google.Protobuf;
 using kcp2k;
 using Lockstep.Proto;
-using LockStep.Server.Config;
+using LockStep.Server;
 
 namespace LockStep.Server.Net;
 
-public partial class NetworkServer : IDisposable
+public partial class NetworkServer : ManagerBase, IDisposable
 {
     INetworkServerHost serverHost;
-    private readonly ServerConfig config;
+
     public bool IsActive
     {
         get { return serverHost != null && serverHost.IsActive; }
     }
 
-    public NetworkServer(ServerConfig config)
+    public NetworkServer()
     {
-        this.config = config;
         serverHost = new KcpServerHost();
         serverHost.Connected += OnConnected;
         serverHost.Disconnected += OnDisconnected;
         serverHost.OnReceivedpacket += OnReceivedPacket;
         serverHost.TransportError += OnHostError;
+        Register();
     }
 
     public void Start(int port)
@@ -33,12 +33,10 @@ public partial class NetworkServer : IDisposable
 
     public void Tick()
     {
-        if (serverHost == null)
+        if (serverHost != null)
         {
-            return;
+            serverHost.Tick();
         }
-
-        serverHost.Tick();
     }
 
     public void Send(int clientId, MsgId msgId, IMessage msg)
@@ -67,6 +65,7 @@ public partial class NetworkServer : IDisposable
         serverHost.TransportError -= OnHostError;
         serverHost.Dispose();
         serverHost = null;
+        GameEntry.Unregister(this);
     }
 
     void OnConnected(int clientId)
@@ -77,6 +76,7 @@ public partial class NetworkServer : IDisposable
     void OnDisconnected(int clientId)
     {
         Console.WriteLine("[LockStep] 断开连接 =" + clientId);
+        GameEntry.RoomManager?.HandleDisconnect(clientId);
     }
 
     void OnReceivedPacket(int clientId, byte[] payload)

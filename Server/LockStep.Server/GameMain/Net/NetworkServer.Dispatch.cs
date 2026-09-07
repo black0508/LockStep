@@ -1,6 +1,7 @@
 using System;
 using Google.Protobuf;
 using Lockstep.Proto;
+using LockStep.Server;
 
 namespace LockStep.Server.Net;
 
@@ -10,18 +11,15 @@ public partial class NetworkServer
     {
         switch (msgId)
         {
-            case MsgId.C2SHello:
-                OnC2SHello(clientId, MsgCodec.Parse(body, C2SHello.Parser));
+            case MsgId.C2SJoin:
+                GameEntry.RoomManager?.HandleJoin(clientId, MsgCodec.Parse(body, C2SJoin.Parser));
+                break;
+            case MsgId.C2SStart:
+                GameEntry.RoomManager?.HandleStart(clientId);
                 break;
             default:
                 Console.WriteLine("[LockStep] 未知消息 " + msgId + " connection=" + clientId);
                 break;
         }
-    }
-
-    void OnC2SHello(int clientId, C2SHello msg)
-    {
-        Console.WriteLine("[LockStep] C2S_Hello connection=" + clientId + " " + msg.Text);
-        Send(clientId, MsgId.S2CHello, new S2CHello { Text = "echo " + msg.Text });
     }
 }
