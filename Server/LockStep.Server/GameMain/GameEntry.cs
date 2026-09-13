@@ -1,47 +1,44 @@
-using System;
-using System.Collections.Generic;
+using Lockstep.Proto;
+using LockStep.Server.Config;
 using LockStep.Server.Net;
-using LockStep.Server.Room;
+using LockStep.Server.Rooms;
 
 namespace LockStep.Server;
 
+// 组合根：各模块只在这里被创建并接线，下层一律不反查全局
 public static class GameEntry
 {
-    static readonly Dictionary<Type, ManagerBase> managers = new Dictionary<Type, ManagerBase>();
+    public static NetworkServer NetworkServer { get; private set; }
+    public static RoomService RoomService { get; private set; }
 
-    public static NetworkServer NetworkServer
+    public static void Initialize(ServerConfig config, int port)
     {
-        get { return GetManager<NetworkServer>(); }
+        NetworkServer = new NetworkServer();
+        RoomService = new RoomService(config, NetworkServer);
+
+        PacketRouter router = new PacketRouter();
+        router.On(MsgId.C2SJoin, C2SJoin.Parser, RoomService.OnJoin);
+        router.On(MsgId.C2SStart, C2SStart.Parser, (connectionId, _) => RoomService.OnStart(connectionId));
+
+        NetworkServer.UseRouter(router);
+        NetworkServer.ClientDisconnected += RoomService.OnClientDisconnected;
+        NetworkServer.Start(port);
     }
 
-    public static RoomManager RoomManager
+    public static void Tick(long nowMs)
     {
-        get { return GetManager<RoomManager>(); }
+        NetworkServer.Tick();
+        RoomService.Tick(nowMs);
     }
 
-    public static void Register(ManagerBase manager)
+    public static void Shutdown()
     {
-        managers[manager.GetType()] = manager;
-    }
-
-    public static void Unregister(ManagerBase manager)
-    {
-        Type type = manager.GetType();
-        ManagerBase current;
-        if (managers.TryGetValue(type, out current) && ReferenceEquals(current, manager))
+        if (NetworkServer != null)
         {
-            managers.Remove(type);
-        }
-    }
-
-    static T GetManager<T>() where T : ManagerBase
-    {
-        ManagerBase manager;
-        if (managers.TryGetValue(typeof(T), out manager))
-        {
-            return (T)manager;
+            NetworkServer.Dispose();
         }
 
-        return null;
+        NetworkServer = null;
+        RoomService = null;
     }
 }

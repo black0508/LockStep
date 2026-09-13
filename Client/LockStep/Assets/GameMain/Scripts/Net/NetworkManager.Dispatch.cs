@@ -23,6 +23,9 @@ namespace GameMain.Net
                 case MsgId.S2CMatchStart:
                     GameEntry.RoomManager.OnMatchStart(MsgCodec.Parse(body, S2CMatchStart.Parser));
                     break;
+                case MsgId.S2CStartReject:
+                    GameEntry.RoomManager.OnStartReject(MsgCodec.Parse(body, S2CStartReject.Parser));
+                    break;
                 default:
                     Debug.LogWarning("[LockStep] 未知消息 " + msgId);
                     break;

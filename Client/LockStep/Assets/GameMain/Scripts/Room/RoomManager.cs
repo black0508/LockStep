@@ -16,7 +16,8 @@ namespace GameMain.Room
 
         void Update()
         {
-            if (isHost && Input.GetKeyDown(KeyCode.Return))
+            // 开战资格由服务端裁定，被拒时会回 S2CStartReject
+            if (Input.GetKeyDown(KeyCode.Return))
             {
                 GameEntry.NetworkManager.Send(MsgId.C2SStart, new C2SStart());
             }
@@ -67,6 +68,11 @@ namespace GameMain.Room
         public void OnMatchStart(S2CMatchStart msg)
         {
             Debug.Log("开始游戏 房间=" + joinedRoomId + " 帧率=" + msg.TickHz + " 输入延迟=" + msg.InputDelayFrames + " seed=" + msg.Seed);
+        }
+
+        public void OnStartReject(S2CStartReject msg)
+        {
+            Debug.LogWarning("开战失败 " + msg.Reason);
         }
     }
 }

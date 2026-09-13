@@ -1,27 +1,34 @@
 ﻿using System;
 using System.Threading;
 using LockStep.Server;
-using LockStep.Server.Net;
-using LockStep.Server.Room;
 using LockStep.Server.Config;
+using LockStep.Server.Core;
 
 class Program
 {
+    const int Port = 7777;
+    const int SleepMs = 10;
+
+    static volatile bool running = true;
+
     static void Main()
     {
-        new RoomManager(ServerConfig.Default);
-        using NetworkServer server = new NetworkServer();
-        if (GameEntry.RoomManager == null || GameEntry.NetworkServer == null)
+        Console.CancelKeyPress += OnCancelKeyPress;
+        GameEntry.Initialize(ServerConfig.Default, Port);
+
+        while (running)
         {
-            throw new InvalidOperationException("GameEntry 未就绪");
+            GameEntry.Tick(Environment.TickCount64);
+            Thread.Sleep(SleepMs);
         }
 
-        server.Start(7777);
+        GameEntry.Shutdown();
+        Log.Info("服务器已退出");
+    }
 
-        while (true)
-        {
-            server.Tick();
-            Thread.Sleep(10);
-        }
+    static void OnCancelKeyPress(object sender, ConsoleCancelEventArgs args)
+    {
+        args.Cancel = true;
+        running = false;
     }
 }

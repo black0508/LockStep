@@ -11,6 +11,7 @@ enum MsgId {
   S2C_RoomUpdate = 4;  // 房间名单变化
   C2S_Start = 5;       // 房主开战
   S2C_MatchStart = 6;  // 开战通知
+  S2C_StartReject = 7; // 开战拒绝
 }
 
 message Packet {
@@ -24,6 +25,14 @@ enum JoinRejectReason {
   JoinRejectFull = 1;          // 已满
   JoinRejectPlaying = 2;       // 已开战
   JoinRejectAlreadyInRoom = 3; // 已在房内
+}
+
+enum StartRejectReason {
+  StartRejectUnspecified = 0;      // 未指定
+  StartRejectNotInRoom = 1;        // 不在房内
+  StartRejectNotHost = 2;          // 不是房主
+  StartRejectPlaying = 3;          // 已开战
+  StartRejectNotEnoughPlayers = 4; // 人数不足
 }
 
 message RoomPlayer {
@@ -54,6 +63,10 @@ message S2CRoomUpdate {
 }
 
 message C2SStart {
+}
+
+message S2CStartReject {
+  StartRejectReason reason = 1;
 }
 
 message S2CMatchStart {

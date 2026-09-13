@@ -1,14 +1,17 @@
 using System;
 using Google.Protobuf;
-using kcp2k;
 using Lockstep.Proto;
-using LockStep.Server;
+using LockStep.Server.Core;
 
 namespace LockStep.Server.Net;
 
-public partial class NetworkServer : ManagerBase, IDisposable
+public sealed class NetworkServer : IMessageSender, IDisposable
 {
     INetworkServerHost serverHost;
+    PacketRouter router;
+
+    public event Action<int> ClientConnected;
+    public event Action<int> ClientDisconnected;
 
     public bool IsActive
     {
@@ -22,13 +25,17 @@ public partial class NetworkServer : ManagerBase, IDisposable
         serverHost.Disconnected += OnDisconnected;
         serverHost.OnReceivedpacket += OnReceivedPacket;
         serverHost.TransportError += OnHostError;
-        Register();
+    }
+
+    public void UseRouter(PacketRouter value)
+    {
+        router = value;
     }
 
     public void Start(int port)
     {
         serverHost.Start(port);
-        Console.WriteLine("[LockStep] 监听 UDP " + port);
+        Log.Info($"监听 UDP {port}");
     }
 
     public void Tick()
@@ -39,16 +46,24 @@ public partial class NetworkServer : ManagerBase, IDisposable
         }
     }
 
-    public void Send(int clientId, MsgId msgId, IMessage msg)
+    public void Send(int connectionId, MsgId msgId, IMessage msg)
     {
-        Send(clientId, MsgCodec.Encode(msgId, msg));
+        Send(connectionId, MsgCodec.Encode(msgId, msg));
     }
 
-    public void Send(int clientId, byte[] payload)
+    public void Send(int connectionId, byte[] payload)
     {
         if (serverHost != null)
         {
-            serverHost.Send(clientId, payload);
+            serverHost.Send(connectionId, payload);
+        }
+    }
+
+    public void Disconnect(int connectionId)
+    {
+        if (serverHost != null)
+        {
+            serverHost.Disconnect(connectionId);
         }
     }
 
@@ -65,33 +80,39 @@ public partial class NetworkServer : ManagerBase, IDisposable
         serverHost.TransportError -= OnHostError;
         serverHost.Dispose();
         serverHost = null;
-        GameEntry.Unregister(this);
     }
 
-    void OnConnected(int clientId)
+    void OnConnected(int connectionId)
     {
-        Console.WriteLine("[LockStep] 连接 =" + clientId);
+        Log.Info($"连接 connection={connectionId}");
+        ClientConnected?.Invoke(connectionId);
     }
 
-    void OnDisconnected(int clientId)
+    void OnDisconnected(int connectionId)
     {
-        Console.WriteLine("[LockStep] 断开连接 =" + clientId);
-        GameEntry.RoomManager?.HandleDisconnect(clientId);
+        Log.Info($"断开 connection={connectionId}");
+        ClientDisconnected?.Invoke(connectionId);
     }
 
-    void OnReceivedPacket(int clientId, byte[] payload)
+    void OnReceivedPacket(int connectionId, byte[] payload)
     {
         if (!MsgCodec.TryUnpack(payload, out MsgId msgId, out ByteString body))
         {
-            Console.WriteLine("[LockStep] 解包失败 connection=" + clientId);
+            Log.Warn($"解包失败 connection={connectionId}");
             return;
         }
 
-        Dispatch(clientId, msgId, body);
+        if (router == null)
+        {
+            Log.Warn($"路由未就绪，丢弃 {msgId} connection={connectionId}");
+            return;
+        }
+
+        router.Route(connectionId, msgId, body);
     }
 
-    void OnHostError(int clientId, Exception error)
+    void OnHostError(int connectionId, Exception error)
     {
-        Console.WriteLine("[LockStep] 错误 connection=" + clientId + " " + error.Message);
+        Log.Error($"传输错误 connection={connectionId} {error.Message}");
     }
 }
