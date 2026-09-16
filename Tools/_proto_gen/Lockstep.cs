@@ -34,32 +34,25 @@ namespace Lockstep.Proto {
             "ZXJzGAQgAygLMhQubG9ja3N0ZXAuUm9vbVBsYXllciI7Cg1TMkNKb2luUmVq",
             "ZWN0EioKBnJlYXNvbhgBIAEoDjIaLmxvY2tzdGVwLkpvaW5SZWplY3RSZWFz",
             "b24iRwoNUzJDUm9vbVVwZGF0ZRIPCgdyb29tX2lkGAEgASgNEiUKB3BsYXll",
-            "cnMYAiADKAsyFC5sb2Nrc3RlcC5Sb29tUGxheWVyIgoKCEMyU1N0YXJ0Ij0K",
-            "DlMyQ1N0YXJ0UmVqZWN0EisKBnJlYXNvbhgBIAEoDjIbLmxvY2tzdGVwLlN0",
-            "YXJ0UmVqZWN0UmVhc29uIkoKDVMyQ01hdGNoU3RhcnQSDwoHdGlja19oehgB",
-            "IAEoDRIaChJpbnB1dF9kZWxheV9mcmFtZXMYAiABKA0SDAoEc2VlZBgDIAEo",
-            "DSqXAQoFTXNnSWQSDwoLVW5zcGVjaWZpZWQQABIMCghDMlNfSm9pbhABEg8K",
-            "C1MyQ19Kb2luQWNrEAISEgoOUzJDX0pvaW5SZWplY3QQAxISCg5TMkNfUm9v",
-            "bVVwZGF0ZRAEEg0KCUMyU19TdGFydBAFEhIKDlMyQ19NYXRjaFN0YXJ0EAYS",
-            "EwoPUzJDX1N0YXJ0UmVqZWN0EAcqdQoQSm9pblJlamVjdFJlYXNvbhIZChVK",
-            "b2luUmVqZWN0VW5zcGVjaWZpZWQQABISCg5Kb2luUmVqZWN0RnVsbBABEhUK",
-            "EUpvaW5SZWplY3RQbGF5aW5nEAISGwoXSm9pblJlamVjdEFscmVhZHlJblJv",
-            "b20QAyqaAQoRU3RhcnRSZWplY3RSZWFzb24SGgoWU3RhcnRSZWplY3RVbnNw",
-            "ZWNpZmllZBAAEhgKFFN0YXJ0UmVqZWN0Tm90SW5Sb29tEAESFgoSU3RhcnRS",
-            "ZWplY3ROb3RIb3N0EAISFgoSU3RhcnRSZWplY3RQbGF5aW5nEAMSHwobU3Rh",
-            "cnRSZWplY3ROb3RFbm91Z2hQbGF5ZXJzEARCEaoCDkxvY2tzdGVwLlByb3Rv",
-            "YgZwcm90bzM="));
+            "cnMYAiADKAsyFC5sb2Nrc3RlcC5Sb29tUGxheWVyIkoKDVMyQ01hdGNoU3Rh",
+            "cnQSDwoHdGlja19oehgBIAEoDRIaChJpbnB1dF9kZWxheV9mcmFtZXMYAiAB",
+            "KA0SDAoEc2VlZBgDIAEoDSqbAQoFTXNnSWQSDwoLVW5zcGVjaWZpZWQQABIM",
+            "CghDMlNfSm9pbhABEg8KC1MyQ19Kb2luQWNrEAISEgoOUzJDX0pvaW5SZWpl",
+            "Y3QQAxISCg5TMkNfUm9vbVVwZGF0ZRAEEhIKDlMyQ19NYXRjaFN0YXJ0EAYi",
+            "BAgFEAUiBAgHEAcqCUMyU19TdGFydCoPUzJDX1N0YXJ0UmVqZWN0KnUKEEpv",
+            "aW5SZWplY3RSZWFzb24SGQoVSm9pblJlamVjdFVuc3BlY2lmaWVkEAASEgoO",
+            "Sm9pblJlamVjdEZ1bGwQARIVChFKb2luUmVqZWN0UGxheWluZxACEhsKF0pv",
+            "aW5SZWplY3RBbHJlYWR5SW5Sb29tEANCEaoCDkxvY2tzdGVwLlByb3RvYgZw",
+            "cm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
-          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Lockstep.Proto.MsgId), typeof(global::Lockstep.Proto.JoinRejectReason), typeof(global::Lockstep.Proto.StartRejectReason), }, null, new pbr::GeneratedClrTypeInfo[] {
+          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Lockstep.Proto.MsgId), typeof(global::Lockstep.Proto.JoinRejectReason), }, null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::Lockstep.Proto.Packet), global::Lockstep.Proto.Packet.Parser, new[]{ "Id", "Body" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Lockstep.Proto.RoomPlayer), global::Lockstep.Proto.RoomPlayer.Parser, new[]{ "PlayerId", "IsHost", "NickName" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Lockstep.Proto.C2SJoin), global::Lockstep.Proto.C2SJoin.Parser, new[]{ "RoomId", "NickName" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Lockstep.Proto.S2CJoinAck), global::Lockstep.Proto.S2CJoinAck.Parser, new[]{ "RoomId", "PlayerId", "IsHost", "Players" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Lockstep.Proto.S2CJoinReject), global::Lockstep.Proto.S2CJoinReject.Parser, new[]{ "Reason" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Lockstep.Proto.S2CRoomUpdate), global::Lockstep.Proto.S2CRoomUpdate.Parser, new[]{ "RoomId", "Players" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Lockstep.Proto.C2SStart), global::Lockstep.Proto.C2SStart.Parser, null, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Lockstep.Proto.S2CStartReject), global::Lockstep.Proto.S2CStartReject.Parser, new[]{ "Reason" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Lockstep.Proto.S2CMatchStart), global::Lockstep.Proto.S2CMatchStart.Parser, new[]{ "TickHz", "InputDelayFrames", "Seed" }, null, null, null, null)
           }));
     }
@@ -92,17 +85,9 @@ namespace Lockstep.Proto {
     /// </summary>
     [pbr::OriginalName("S2C_RoomUpdate")] S2CRoomUpdate = 4,
     /// <summary>
-    /// 房主开战
-    /// </summary>
-    [pbr::OriginalName("C2S_Start")] C2SStart = 5,
-    /// <summary>
     /// 开战通知
     /// </summary>
     [pbr::OriginalName("S2C_MatchStart")] S2CMatchStart = 6,
-    /// <summary>
-    /// 开战拒绝
-    /// </summary>
-    [pbr::OriginalName("S2C_StartReject")] S2CStartReject = 7,
   }
 
   /// <summary>
@@ -125,29 +110,6 @@ namespace Lockstep.Proto {
     /// 已在房内
     /// </summary>
     [pbr::OriginalName("JoinRejectAlreadyInRoom")] JoinRejectAlreadyInRoom = 3,
-  }
-
-  public enum StartRejectReason {
-    /// <summary>
-    /// 未指定
-    /// </summary>
-    [pbr::OriginalName("StartRejectUnspecified")] StartRejectUnspecified = 0,
-    /// <summary>
-    /// 不在房内
-    /// </summary>
-    [pbr::OriginalName("StartRejectNotInRoom")] StartRejectNotInRoom = 1,
-    /// <summary>
-    /// 不是房主
-    /// </summary>
-    [pbr::OriginalName("StartRejectNotHost")] StartRejectNotHost = 2,
-    /// <summary>
-    /// 已开战
-    /// </summary>
-    [pbr::OriginalName("StartRejectPlaying")] StartRejectPlaying = 3,
-    /// <summary>
-    /// 人数不足
-    /// </summary>
-    [pbr::OriginalName("StartRejectNotEnoughPlayers")] StartRejectNotEnoughPlayers = 4,
   }
 
   #endregion
@@ -1616,365 +1578,6 @@ namespace Lockstep.Proto {
   }
 
   [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
-  public sealed partial class C2SStart : pb::IMessage<C2SStart>
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-  #endif
-  {
-    private static readonly pb::MessageParser<C2SStart> _parser = new pb::MessageParser<C2SStart>(() => new C2SStart());
-    private pb::UnknownFieldSet _unknownFields;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pb::MessageParser<C2SStart> Parser { get { return _parser; } }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pbr::MessageDescriptor Descriptor {
-      get { return global::Lockstep.Proto.LockstepReflection.Descriptor.MessageTypes[6]; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    pbr::MessageDescriptor pb::IMessage.Descriptor {
-      get { return Descriptor; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public C2SStart() {
-      OnConstruction();
-    }
-
-    partial void OnConstruction();
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public C2SStart(C2SStart other) : this() {
-      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public C2SStart Clone() {
-      return new C2SStart(this);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override bool Equals(object other) {
-      return Equals(other as C2SStart);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(C2SStart other) {
-      if (ReferenceEquals(other, null)) {
-        return false;
-      }
-      if (ReferenceEquals(other, this)) {
-        return true;
-      }
-      return Equals(_unknownFields, other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override int GetHashCode() {
-      int hash = 1;
-      if (_unknownFields != null) {
-        hash ^= _unknownFields.GetHashCode();
-      }
-      return hash;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override string ToString() {
-      return pb::JsonFormatter.ToDiagnosticString(this);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void WriteTo(pb::CodedOutputStream output) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      output.WriteRawMessage(this);
-    #else
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(output);
-      }
-    #endif
-    }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(ref output);
-      }
-    }
-    #endif
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public int CalculateSize() {
-      int size = 0;
-      if (_unknownFields != null) {
-        size += _unknownFields.CalculateSize();
-      }
-      return size;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(C2SStart other) {
-      if (other == null) {
-        return;
-      }
-      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(pb::CodedInputStream input) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      input.ReadRawMessage(this);
-    #else
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-      if ((tag & 7) == 4) {
-        // Abort on any end group tag.
-        return;
-      }
-      switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
-            break;
-        }
-      }
-    #endif
-    }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-      if ((tag & 7) == 4) {
-        // Abort on any end group tag.
-        return;
-      }
-      switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
-            break;
-        }
-      }
-    }
-    #endif
-
-  }
-
-  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
-  public sealed partial class S2CStartReject : pb::IMessage<S2CStartReject>
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-  #endif
-  {
-    private static readonly pb::MessageParser<S2CStartReject> _parser = new pb::MessageParser<S2CStartReject>(() => new S2CStartReject());
-    private pb::UnknownFieldSet _unknownFields;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pb::MessageParser<S2CStartReject> Parser { get { return _parser; } }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pbr::MessageDescriptor Descriptor {
-      get { return global::Lockstep.Proto.LockstepReflection.Descriptor.MessageTypes[7]; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    pbr::MessageDescriptor pb::IMessage.Descriptor {
-      get { return Descriptor; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public S2CStartReject() {
-      OnConstruction();
-    }
-
-    partial void OnConstruction();
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public S2CStartReject(S2CStartReject other) : this() {
-      reason_ = other.reason_;
-      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public S2CStartReject Clone() {
-      return new S2CStartReject(this);
-    }
-
-    /// <summary>Field number for the "reason" field.</summary>
-    public const int ReasonFieldNumber = 1;
-    private global::Lockstep.Proto.StartRejectReason reason_ = global::Lockstep.Proto.StartRejectReason.StartRejectUnspecified;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Lockstep.Proto.StartRejectReason Reason {
-      get { return reason_; }
-      set {
-        reason_ = value;
-      }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override bool Equals(object other) {
-      return Equals(other as S2CStartReject);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(S2CStartReject other) {
-      if (ReferenceEquals(other, null)) {
-        return false;
-      }
-      if (ReferenceEquals(other, this)) {
-        return true;
-      }
-      if (Reason != other.Reason) return false;
-      return Equals(_unknownFields, other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override int GetHashCode() {
-      int hash = 1;
-      if (Reason != global::Lockstep.Proto.StartRejectReason.StartRejectUnspecified) hash ^= Reason.GetHashCode();
-      if (_unknownFields != null) {
-        hash ^= _unknownFields.GetHashCode();
-      }
-      return hash;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override string ToString() {
-      return pb::JsonFormatter.ToDiagnosticString(this);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void WriteTo(pb::CodedOutputStream output) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      output.WriteRawMessage(this);
-    #else
-      if (Reason != global::Lockstep.Proto.StartRejectReason.StartRejectUnspecified) {
-        output.WriteRawTag(8);
-        output.WriteEnum((int) Reason);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(output);
-      }
-    #endif
-    }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (Reason != global::Lockstep.Proto.StartRejectReason.StartRejectUnspecified) {
-        output.WriteRawTag(8);
-        output.WriteEnum((int) Reason);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(ref output);
-      }
-    }
-    #endif
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public int CalculateSize() {
-      int size = 0;
-      if (Reason != global::Lockstep.Proto.StartRejectReason.StartRejectUnspecified) {
-        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Reason);
-      }
-      if (_unknownFields != null) {
-        size += _unknownFields.CalculateSize();
-      }
-      return size;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(S2CStartReject other) {
-      if (other == null) {
-        return;
-      }
-      if (other.Reason != global::Lockstep.Proto.StartRejectReason.StartRejectUnspecified) {
-        Reason = other.Reason;
-      }
-      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(pb::CodedInputStream input) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      input.ReadRawMessage(this);
-    #else
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-      if ((tag & 7) == 4) {
-        // Abort on any end group tag.
-        return;
-      }
-      switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
-            break;
-          case 8: {
-            Reason = (global::Lockstep.Proto.StartRejectReason) input.ReadEnum();
-            break;
-          }
-        }
-      }
-    #endif
-    }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-      if ((tag & 7) == 4) {
-        // Abort on any end group tag.
-        return;
-      }
-      switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
-            break;
-          case 8: {
-            Reason = (global::Lockstep.Proto.StartRejectReason) input.ReadEnum();
-            break;
-          }
-        }
-      }
-    }
-    #endif
-
-  }
-
-  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class S2CMatchStart : pb::IMessage<S2CMatchStart>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
@@ -1989,7 +1592,7 @@ namespace Lockstep.Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Lockstep.Proto.LockstepReflection.Descriptor.MessageTypes[8]; }
+      get { return global::Lockstep.Proto.LockstepReflection.Descriptor.MessageTypes[6]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]

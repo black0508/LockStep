@@ -18,7 +18,6 @@ public static class GameEntry
 
         PacketRouter router = new PacketRouter();
         router.On(MsgId.C2SJoin, C2SJoin.Parser, RoomService.OnJoin);
-        router.On(MsgId.C2SStart, C2SStart.Parser, (connectionId, _) => RoomService.OnStart(connectionId));
 
         NetworkServer.UseRouter(router);
         NetworkServer.ClientDisconnected += RoomService.OnClientDisconnected;

@@ -1,0 +1,7 @@
+{
+    "name": "LockStep.Framework",
+    "rootNamespace": "LockStep.Framework",
+    "references": [],
+    "autoReferenced": true,
+    "noEngineReferences": true
+}

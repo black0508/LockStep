@@ -4,14 +4,14 @@ option csharp_namespace = "Lockstep.Proto";
 
 // ----- 封包 -----
 enum MsgId {
+  reserved 5, 7;
+  reserved "C2S_Start", "S2C_StartReject";
   Unspecified = 0;     // 未指定
   C2S_Join = 1;        // 进房
   S2C_JoinAck = 2;     // 进房成功
   S2C_JoinReject = 3;  // 进房拒绝
   S2C_RoomUpdate = 4;  // 房间名单变化
-  C2S_Start = 5;       // 房主开战
   S2C_MatchStart = 6;  // 开战通知
-  S2C_StartReject = 7; // 开战拒绝
 }
 
 message Packet {
@@ -25,14 +25,6 @@ enum JoinRejectReason {
   JoinRejectFull = 1;          // 已满
   JoinRejectPlaying = 2;       // 已开战
   JoinRejectAlreadyInRoom = 3; // 已在房内
-}
-
-enum StartRejectReason {
-  StartRejectUnspecified = 0;      // 未指定
-  StartRejectNotInRoom = 1;        // 不在房内
-  StartRejectNotHost = 2;          // 不是房主
-  StartRejectPlaying = 3;          // 已开战
-  StartRejectNotEnoughPlayers = 4; // 人数不足
 }
 
 message RoomPlayer {
@@ -60,13 +52,6 @@ message S2CJoinReject {
 message S2CRoomUpdate {
   uint32 room_id = 1;
   repeated RoomPlayer players = 2;
-}
-
-message C2SStart {
-}
-
-message S2CStartReject {
-  StartRejectReason reason = 1;
 }
 
 message S2CMatchStart {
