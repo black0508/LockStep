@@ -37,9 +37,5 @@ namespace GameMain.Net
             return true;
         }
 
-        public static T Parse<T>(ByteString body, MessageParser<T> parser) where T : IMessage<T>
-        {
-            return parser.ParseFrom(body);
-        }
     }
 }

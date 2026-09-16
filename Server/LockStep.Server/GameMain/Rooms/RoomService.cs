@@ -19,6 +19,16 @@ public sealed class RoomService
 
     public RoomService(ServerConfig config, IMessageSender sender)
     {
+        if (config.MaxPlayersPerRoom == 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(config.MaxPlayersPerRoom), "Room capacity must be positive.");
+        }
+
+        if (config.MinPlayersToStart == 0 || config.MinPlayersToStart > config.MaxPlayersPerRoom)
+        {
+            throw new ArgumentOutOfRangeException(nameof(config.MinPlayersToStart), "Start threshold must be positive and no greater than room capacity.");
+        }
+
         this.config = config;
         this.sender = sender;
     }
@@ -48,26 +58,12 @@ public sealed class RoomService
         Log.Info($"进房 房间={room.RoomId} playerId={member.PlayerId} 昵称={member.NickName} connection={connectionId} 人数={room.Members.Count}");
         sender.Send(connectionId, MsgId.S2CJoinAck, RoomMessages.ToJoinAck(room, member));
         Broadcast(room, MsgId.S2CRoomUpdate, RoomMessages.ToRoomUpdate(room), connectionId);
-    }
-
-    public void OnStart(int connectionId)
-    {
-        if (!connectionToRoom.TryGetValue(connectionId, out Room room))
+        if (room.IsReadyToStart)
         {
-            RejectStart(connectionId, StartRejectReason.StartRejectNotInRoom);
-            return;
+            room.BeginMatch(new MatchSettings(config.TickRate, config.InputDelayFrames, NextSeed()));
+            Log.Info($"开战 房间={room.RoomId} 人数={room.Members.Count} seed={room.Match.Seed}");
+            Broadcast(room, MsgId.S2CMatchStart, RoomMessages.ToMatchStart(room));
         }
-
-        StartRejectReason reject = room.TryStart(connectionId);
-        if (reject != StartRejectReason.StartRejectUnspecified)
-        {
-            RejectStart(connectionId, reject);
-            return;
-        }
-
-        room.BeginMatch(new MatchSettings(config.TickRate, config.InputDelayFrames, NextSeed()));
-        Log.Info($"开战 房间={room.RoomId} 房主playerId={room.HostPlayerId} 人数={room.Members.Count} seed={room.Match.Seed}");
-        Broadcast(room, MsgId.S2CMatchStart, RoomMessages.ToMatchStart(room));
     }
 
     public void OnClientDisconnected(int connectionId)
@@ -121,12 +117,6 @@ public sealed class RoomService
     {
         Log.Info($"进房被拒 connection={connectionId} 原因={reason}");
         sender.Send(connectionId, MsgId.S2CJoinReject, new S2CJoinReject { Reason = reason });
-    }
-
-    void RejectStart(int connectionId, StartRejectReason reason)
-    {
-        Log.Info($"开战被拒 connection={connectionId} 原因={reason}");
-        sender.Send(connectionId, MsgId.S2CStartReject, new S2CStartReject { Reason = reason });
     }
 
     void Broadcast(Room room, MsgId msgId, IMessage msg, int exceptConnectionId = -1)

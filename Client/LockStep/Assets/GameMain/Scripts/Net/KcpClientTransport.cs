@@ -7,7 +7,7 @@ namespace GameMain.Net
     {
         public event Action Connected;
         public event Action Disconnected;
-        public event Action<byte[]> OnReceivedpacket;
+        public event Action<byte[]> ReceivedPacket;
         public event Action<Exception> TransportError;
 
         KcpClient client;
@@ -19,6 +19,11 @@ namespace GameMain.Net
 
         public void Connect(string host, int port)
         {
+            if (port < 1 || port > ushort.MaxValue)
+            {
+                TransportError?.Invoke(new ArgumentOutOfRangeException(nameof(port)));
+                return;
+            }
             Disconnect();
 
             var config = new KcpConfig(
@@ -81,12 +86,11 @@ namespace GameMain.Net
         {
             byte[] payload = new byte[data.Count];
             Buffer.BlockCopy(data.Array, data.Offset, payload, 0, data.Count);
-            OnReceivedpacket?.Invoke(payload);
+            ReceivedPacket?.Invoke(payload);
         }
 
         void OnError(ErrorCode error, string message)
         {
-            Log.Error("[LockStep] kcp 错误 " + error + " " + message);
             TransportError?.Invoke(new Exception("kcp 错误 " + error + " - " + message));
         }
     }

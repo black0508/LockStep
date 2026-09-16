@@ -6,7 +6,7 @@ namespace GameMain.Net
     {
         event Action Connected;
         event Action Disconnected;
-        event Action<byte[]> OnReceivedpacket;
+        event Action<byte[]> ReceivedPacket;
         event Action<Exception> TransportError;
 
         bool IsConnected { get; }

@@ -1,48 +1,40 @@
-using System;
-using System.Collections.Generic;
+using GameMain.Logging;
 using GameMain.Net;
-using GameMain.Room;
+using UnityEngine;
 
 namespace GameMain
 {
-    public static class GameEntry
+    // 场景唯一的业务 Mono：配置和 Unity 生命周期在这里进入普通 C# 运行时。
+    public sealed class GameEntry : MonoBehaviour
     {
-        static readonly Dictionary<Type, ManagerBase> managers = new Dictionary<Type, ManagerBase>();
+        [SerializeField] string host = "127.0.0.1";
+        [SerializeField] int port = 7777;
+        [SerializeField] uint roomId = 1;
+        [SerializeField] string nickName = "player";
 
-        public static NetworkManager NetworkManager
+        GameApplication application;
+
+        void OnEnable()
         {
-            get { return GetManager<NetworkManager>(); }
+            var config = new ClientConfig(host, port, roomId, nickName);
+            application = new GameApplication(config, new KcpClientTransport(), new UnityGameLog());
+            if (!application.Start()) enabled = false;
         }
 
-        public static RoomManager RoomManager
+        void Update()
         {
-            get { return GetManager<RoomManager>(); }
+            application?.Update(Time.unscaledDeltaTime);
         }
 
-        public static void Register(ManagerBase manager)
-        {
-            managers[manager.GetType()] = manager;
-        }
+        void OnDisable() { Shutdown(); }
+        void OnDestroy() { Shutdown(); }
+        void OnApplicationQuit() { Shutdown(); }
 
-        public static void Unregister(ManagerBase manager)
+        void Shutdown()
         {
-            Type type = manager.GetType();
-            ManagerBase current;
-            if (managers.TryGetValue(type, out current) && ReferenceEquals(current, manager))
-            {
-                managers.Remove(type);
-            }
-        }
-
-        static T GetManager<T>() where T : ManagerBase
-        {
-            ManagerBase manager;
-            if (managers.TryGetValue(typeof(T), out manager))
-            {
-                return (T)manager;
-            }
-
-            return null;
+            GameApplication current = application;
+            application = null;
+            current?.Dispose();
         }
     }
 }

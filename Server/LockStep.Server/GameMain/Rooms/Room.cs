@@ -25,6 +25,8 @@ public sealed class Room
     public uint HostPlayerId { get; private set; }
     public MatchSettings Match { get; private set; }
 
+    public bool IsReadyToStart => State == RoomState.Lobby && members.Count >= minPlayersToStart;
+
     public IReadOnlyList<RoomMember> Members
     {
         get { return members; }
@@ -96,33 +98,6 @@ public sealed class Room
         }
 
         return JoinRejectReason.JoinRejectUnspecified;
-    }
-
-    // 返回 StartRejectUnspecified 表示允许开战
-    public StartRejectReason TryStart(int connectionId)
-    {
-        if (State != RoomState.Lobby)
-        {
-            return StartRejectReason.StartRejectPlaying;
-        }
-
-        RoomMember member = Find(connectionId);
-        if (member == null)
-        {
-            return StartRejectReason.StartRejectNotInRoom;
-        }
-
-        if (!IsHost(member))
-        {
-            return StartRejectReason.StartRejectNotHost;
-        }
-
-        if (members.Count < minPlayersToStart)
-        {
-            return StartRejectReason.StartRejectNotEnoughPlayers;
-        }
-
-        return StartRejectReason.StartRejectUnspecified;
     }
 
     public void BeginMatch(MatchSettings settings)

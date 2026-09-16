@@ -1,0 +1,6 @@
+<linker>
+  <assembly fullname="Assembly-CSharp">
+    <!-- Handler 命名统一以 Handler 结尾；保留反射创建的类型、构造和泛型调用链。 -->
+    <type fullname="GameMain.*Handler*" preserve="all" />
+  </assembly>
+</linker>
