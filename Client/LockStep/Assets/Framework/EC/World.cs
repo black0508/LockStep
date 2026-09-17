@@ -7,21 +7,16 @@ namespace LockStep.Framework
     public sealed class World : IDisposable
     {
         readonly List<Entity> entities = new List<Entity>();
+        readonly List<Component> updateSnapshot = new List<Component>();
         bool updating;
 
-        public GameLog Log { get; }
         public bool IsDisposed { get; private set; }
-
-        public World(GameLog log = null)
-        {
-            Log = log ?? new GameLog();
-        }
 
         public Entity CreateEntity()
         {
             if (IsDisposed)
             {
-                Log.Error("Cannot create an entity in a disposed world.", nameof(World));
+                GameLog.Error("Cannot create an entity in a disposed world.", nameof(World));
                 return null;
             }
 
@@ -35,27 +30,27 @@ namespace LockStep.Framework
             if (IsDisposed) return;
             if (updating)
             {
-                Log.Error("World.Update cannot be called recursively.", nameof(World));
+                GameLog.Error("World.Update cannot be called recursively.", nameof(World));
                 return;
             }
 
             // 首个回调前固定整轮名单：新增下轮生效，删除由 IsDisposed 跳过。
-            var snapshot = new List<Component>();
             foreach (Entity entity in entities)
             {
-                entity.CollectUpdates(snapshot);
+                entity.CollectUpdates(updateSnapshot);
             }
 
             updating = true;
             try
             {
-                foreach (Component component in snapshot)
+                foreach (Component component in updateSnapshot)
                 {
                     component.Update(deltaTime);
                 }
             }
             finally
             {
+                updateSnapshot.Clear();
                 updating = false;
             }
         }
