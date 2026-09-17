@@ -20,28 +20,24 @@ namespace LockStep.Framework
         {
             if (IsDisposed)
             {
-                World.Log.Error("Cannot add a component to a disposed entity.", nameof(Entity));
-                return null;
+                throw new ObjectDisposedException(nameof(Entity));
             }
             if (GetComponent<T>() != null)
             {
-                World.Log.Error("Duplicate component: " + typeof(T).Name, nameof(Entity));
-                return null;
+                throw new InvalidOperationException("Duplicate component: " + typeof(T).Name);
             }
 
-            T component = null;
+            T component = new T();
+            components.Add(component);
             try
             {
-                component = new T();
-                components.Add(component);
                 component.Attach(this);
-                return component.IsDisposed ? null : component;
+                return component;
             }
-            catch (Exception error)
+            catch
             {
-                World.Log.Error("Component creation or Awake failed.", typeof(T).Name, error);
-                component?.Dispose();
-                return null;
+                component.Dispose();
+                throw;
             }
         }
 
@@ -52,11 +48,6 @@ namespace LockStep.Framework
                 if (component.GetType() == typeof(T)) return (T)component;
             }
             return null;
-        }
-
-        public Component[] GetComponents()
-        {
-            return components.ToArray();
         }
 
         public bool RemoveComponent<T>() where T : Component

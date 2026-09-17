@@ -10,44 +10,41 @@ namespace GameMain
     {
         readonly ClientConfig config;
         readonly World world;
-        readonly bool ready;
-        bool started;
 
         public Entity Root { get; }
+        public ReferencePoolComponent ReferencePool { get; }
+        public EventComponent Events { get; }
         public NetworkComponent Network { get; }
         public RoomComponent Room { get; }
 
-        public GameApplication(ClientConfig config, INetworkTransport transport, GameLog log)
+        public GameApplication(ClientConfig config, INetworkTransport transport)
         {
-            this.config = config;
-            world = new World(log);
-            Root = world.CreateEntity();
-            Network = Root.AddComponent<NetworkComponent>();
-            Room = Root.AddComponent<RoomComponent>();
-            ready = Network != null && Room != null && Network.Init(transport)
-                && config != null && Room.Init(config.RoomId, config.NickName);
+            this.config = config ?? throw new ArgumentNullException(nameof(config));
+            world = new World();
+            try
+            {
+                Root = world.CreateEntity();
+                ReferencePool = Root.AddComponent<ReferencePoolComponent>();
+                Events = Root.AddComponent<EventComponent>();
+                Network = Root.AddComponent<NetworkComponent>();
+                Room = Root.AddComponent<RoomComponent>();
+                Network.Init(transport);
+                Room.Init(config.RoomId, config.NickName);
+            }
+            catch
+            {
+                world.Dispose();
+                throw;
+            }
         }
 
         public bool Start()
         {
-            if (world.IsDisposed)
-            {
-                world.Log.Error("应用已经关闭，不能再次启动", nameof(GameApplication));
-                return false;
-            }
-            if (started) return true;
-            if (!ready)
-            {
-                world.Log.Error("启动失败：配置无效或必要组件初始化失败", nameof(GameApplication));
-                Dispose();
-                return false;
-            }
             if (!Network.Connect(config.Host, config.Port))
             {
                 Dispose();
                 return false;
             }
-            started = true;
             return true;
         }
 

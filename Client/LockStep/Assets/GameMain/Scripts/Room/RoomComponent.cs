@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using GameMain.Net;
+using GameMain.Net.Events;
 using Lockstep.Proto;
 using LockStep.Framework;
 
@@ -9,9 +10,10 @@ namespace GameMain.Room
     public enum RoomStatus { None, Joining, Joined, Playing }
 
     // 连接后自动进房，人数到齐后等待服务端开战；不负责输入或帧同步推进。
-    public sealed class RoomComponent : Component, INetworkListener
+    public sealed class RoomComponent : Component
     {
         NetworkComponent network;
+        EventComponent events;
         uint targetRoomId;
         string nickName;
 
@@ -21,27 +23,19 @@ namespace GameMain.Room
         public IReadOnlyList<RoomPlayer> Players { get; private set; } = Array.Empty<RoomPlayer>();
         public S2CMatchStart Match { get; private set; }
 
-        public bool Init(uint roomId, string nickName)
+        public void Init(uint roomId, string nickName)
         {
-            if (IsDisposed || Entity == null || network != null)
-            {
-                Log.Error("房间组件不可用或已经初始化", nameof(RoomComponent));
-                return false;
-            }
             network = Entity.GetComponent<NetworkComponent>();
-            if (network == null)
-            {
-                Log.Error("房间需要同实体上的 NetworkComponent", nameof(RoomComponent));
-                return false;
-            }
+            events = Entity.GetComponent<EventComponent>();
             targetRoomId = roomId;
             this.nickName = nickName ?? "";
-            return true;
+            events.Subscribe(NetworkConnectedEventArgs.EventId, OnConnected);
+            events.Subscribe(NetworkDisconnectedEventArgs.EventId, OnDisconnected);
         }
 
-        public void OnConnected()
+        void OnConnected(object sender, GameEventArgs args)
         {
-            if (network == null) return;
+            if (!ReferenceEquals(sender, network)) return;
             Reset();
             Status = RoomStatus.Joining;
             if (!network.TrySend(MsgId.C2SJoin, new C2SJoin { RoomId = targetRoomId, NickName = nickName }))
@@ -57,21 +51,21 @@ namespace GameMain.Room
             LocalPlayerId = message.PlayerId;
             Players = message.Players;
             Status = RoomStatus.Joined;
-            Log.Info("加入房间 房间=" + RoomId + " playerId=" + LocalPlayerId + " 人数=" + Players.Count + "，等待自动开战", nameof(RoomComponent));
+            GameLog.Info("加入房间 房间=" + RoomId + " playerId=" + LocalPlayerId + " 人数=" + Players.Count + "，等待自动开战", nameof(RoomComponent));
         }
 
         public void ApplyJoinReject(S2CJoinReject message)
         {
             if (Status != RoomStatus.Joining) return;
             Reset();
-            Log.Warning("加入房间失败 " + message.Reason, nameof(RoomComponent));
+            GameLog.Warning("加入房间失败 " + message.Reason, nameof(RoomComponent));
         }
 
         public void ApplyRoomUpdate(S2CRoomUpdate message)
         {
             if (Status != RoomStatus.Joined || message.RoomId != RoomId) return;
             Players = message.Players;
-            Log.Info("房间成员变化 房间=" + RoomId + " 人数=" + Players.Count, nameof(RoomComponent));
+            GameLog.Info("房间成员变化 房间=" + RoomId + " 人数=" + Players.Count, nameof(RoomComponent));
         }
 
         public void ApplyMatchStart(S2CMatchStart message)
@@ -79,7 +73,7 @@ namespace GameMain.Room
             if (Status != RoomStatus.Joined) return;
             Match = message;
             Status = RoomStatus.Playing;
-            Log.Info("自动开战 房间=" + RoomId + " 帧率=" + message.TickHz + " 输入延迟=" + message.InputDelayFrames + " seed=" + message.Seed, nameof(RoomComponent));
+            GameLog.Info("自动开战 房间=" + RoomId + " 帧率=" + message.TickHz + " 输入延迟=" + message.InputDelayFrames + " seed=" + message.Seed, nameof(RoomComponent));
         }
 
         void Reset()
@@ -91,7 +85,19 @@ namespace GameMain.Room
             Match = null;
         }
 
-        public void OnDisconnected() { Reset(); }
-        protected override void OnDestroy() { Reset(); }
+        void OnDisconnected(object sender, GameEventArgs args)
+        {
+            if (!ReferenceEquals(sender, network)) return;
+            Reset();
+        }
+
+        protected override void OnDestroy()
+        {
+            events?.Unsubscribe(NetworkConnectedEventArgs.EventId, OnConnected);
+            events?.Unsubscribe(NetworkDisconnectedEventArgs.EventId, OnDisconnected);
+            Reset();
+            events = null;
+            network = null;
+        }
     }
 }

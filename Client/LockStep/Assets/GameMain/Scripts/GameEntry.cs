@@ -1,5 +1,6 @@
 using GameMain.Logging;
 using GameMain.Net;
+using LockStep.Framework;
 using UnityEngine;
 
 namespace GameMain
@@ -16,8 +17,9 @@ namespace GameMain
 
         void OnEnable()
         {
+            GameLog.Writer = UnityGameLog.Write;
             var config = new ClientConfig(host, port, roomId, nickName);
-            application = new GameApplication(config, new KcpClientTransport(), new UnityGameLog());
+            application = new GameApplication(config, new KcpClientTransport());
             if (!application.Start()) enabled = false;
         }
 

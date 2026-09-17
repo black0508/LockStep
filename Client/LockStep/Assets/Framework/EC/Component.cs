@@ -7,12 +7,10 @@ namespace LockStep.Framework
     {
         public Entity Entity { get; private set; }
         public bool IsDisposed { get; private set; }
-        protected GameLog Log { get; private set; } = new GameLog();
 
         internal void Attach(Entity entity)
         {
             Entity = entity;
-            Log = entity.World.Log;
             OnAwake();
         }
 
@@ -26,7 +24,7 @@ namespace LockStep.Framework
             }
             catch (Exception error)
             {
-                Log.Error("Component update failed.", GetType().Name, error);
+                GameLog.Error("Component update failed.", GetType().Name, error);
             }
         }
 
@@ -42,7 +40,7 @@ namespace LockStep.Framework
             }
             catch (Exception error)
             {
-                Log.Error("Component destruction failed.", GetType().Name, error);
+                GameLog.Error("Component destruction failed.", GetType().Name, error);
             }
             finally
             {

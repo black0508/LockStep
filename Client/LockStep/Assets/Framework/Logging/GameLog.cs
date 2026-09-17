@@ -10,38 +10,34 @@ namespace LockStep.Framework
         Error
     }
 
-    public class GameLog
+    public static class GameLog
     {
-        readonly string applicationName;
+        public static LogLevel MinimumLevel { get; set; }
 
-        public GameLog(string applicationName = "LockStep.Client")
-        {
-            this.applicationName = applicationName;
-        }
+        // Unity 入口设置输出函数；纯 C# 环境默认写入控制台。
+        public static Action<LogLevel, string> Writer { get; set; } = (level, message) => Console.WriteLine(message);
 
-        public LogLevel MinimumLevel { get; set; }
-
-        public void Info(string message, string source = null)
+        public static void Info(string message, string source = null)
         {
             Emit(LogLevel.Info, message, source, null);
         }
 
-        public void Warning(string message, string source = null)
+        public static void Warning(string message, string source = null)
         {
             Emit(LogLevel.Warning, message, source, null);
         }
 
-        public void Error(string message, string source = null, Exception exception = null)
+        public static void Error(string message, string source = null, Exception exception = null)
         {
             Emit(LogLevel.Error, message, source, exception);
         }
 
-        void Emit(LogLevel level, string message, string source, Exception exception)
+        static void Emit(LogLevel level, string message, string source, Exception exception)
         {
             if (level < MinimumLevel) return;
 
             string timestamp = DateTimeOffset.Now.ToString("yyyy-MM-dd HH:mm:ss.fff zzz", CultureInfo.InvariantCulture);
-            string text = "[" + timestamp + "][" + applicationName + "][" + level.ToString().ToUpperInvariant() + "]";
+            string text = "[" + timestamp + "][LockStep.Client][" + level.ToString().ToUpperInvariant() + "]";
             if (!string.IsNullOrEmpty(source))
             {
                 text += "[" + source + "]";
@@ -51,12 +47,7 @@ namespace LockStep.Framework
             {
                 text += Environment.NewLine + exception.ToString();
             }
-            Write(level, text);
-        }
-
-        protected virtual void Write(LogLevel level, string message)
-        {
-            Console.WriteLine(message);
+            Writer(level, text);
         }
     }
 }

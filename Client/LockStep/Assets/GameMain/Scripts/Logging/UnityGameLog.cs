@@ -4,9 +4,9 @@ using UnityEngine;
 namespace GameMain.Logging
 {
     // 时间、级别与来源已经由框架格式化，适配器只负责输出。
-    public sealed class UnityGameLog : GameLog
+    public static class UnityGameLog
     {
-        protected override void Write(LogLevel level, string message)
+        public static void Write(LogLevel level, string message)
         {
             switch (level)
             {
