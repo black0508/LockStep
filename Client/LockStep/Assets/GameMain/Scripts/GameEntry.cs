@@ -1,4 +1,3 @@
-using GameMain.Logging;
 using GameMain.Net;
 using LockStep.Framework;
 using UnityEngine;
@@ -10,15 +9,16 @@ namespace GameMain
     {
         [SerializeField] string host = "127.0.0.1";
         [SerializeField] int port = 7777;
-        [SerializeField] uint roomId = 1;
         [SerializeField] string nickName = "player";
 
         GameApplication application;
 
         void OnEnable()
         {
-            GameLog.Writer = UnityGameLog.Write;
-            var config = new ClientConfig(host, port, roomId, nickName);
+            GameLog.InfoWriter = Debug.Log;
+            GameLog.WarningWriter = Debug.LogWarning;
+            GameLog.ErrorWriter = Debug.LogError;
+            var config = new ClientConfig(host, port, nickName);
             application = new GameApplication(config, new KcpClientTransport());
             if (!application.Start()) enabled = false;
         }

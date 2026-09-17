@@ -29,7 +29,7 @@ namespace GameMain.Net
             TComponent component = entity.GetComponent<TComponent>();
             if (component == null || component.IsDisposed)
             {
-                GameLog.Warning("消息目标组件不存在：" + typeof(TComponent).Name, GetType().Name);
+                GameLog.Warning($"消息目标组件不存在：{typeof(TComponent).Name}");
                 return;
             }
             Handle(component, parser.ParseFrom(body));

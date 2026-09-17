@@ -10,7 +10,6 @@ namespace LockStep.Framework
         Error
     }
 
-    // 默认写控制台。宿主可改成 Debug.Log / LogWarning / LogError，避免框架引用 Unity。
     public static class GameLog
     {
         public static LogLevel MinimumLevel { get; set; }

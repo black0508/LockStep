@@ -29,18 +29,18 @@ namespace GameMain.Net
         {
             if (string.IsNullOrWhiteSpace(host) || port < 1 || port > ushort.MaxValue)
             {
-                GameLog.Error("连接失败：地址/端口无效", nameof(NetworkComponent));
+                GameLog.Error("连接失败：地址/端口无效");
                 return false;
             }
             try
             {
-                GameLog.Info("正在连接 " + host + ":" + port, nameof(NetworkComponent));
+                GameLog.Info($"正在连接 {host}:{port}");
                 transport.Connect(host, port);
                 return true;
             }
             catch (Exception error)
             {
-                GameLog.Error("连接失败 " + host + ":" + port, nameof(NetworkComponent), error);
+                GameLog.Error($"连接失败 {host}:{port}", error);
                 return false;
             }
         }
@@ -48,7 +48,7 @@ namespace GameMain.Net
         public void Disconnect()
         {
             try { transport.Disconnect(); }
-            catch (Exception error) { GameLog.Error("断开连接失败", nameof(NetworkComponent), error); }
+            catch (Exception error) { GameLog.Error("断开连接失败", error); }
         }
 
         public bool TrySend(MsgId id, IMessage message)
@@ -56,7 +56,7 @@ namespace GameMain.Net
             if (!IsConnected) return false;
             if (message == null)
             {
-                GameLog.Error("不能发送空消息：" + id, nameof(NetworkComponent));
+                GameLog.Error($"不能发送空消息：{id}");
                 return false;
             }
             try
@@ -66,7 +66,7 @@ namespace GameMain.Net
             }
             catch (Exception error)
             {
-                GameLog.Error("发送消息失败：" + id, nameof(NetworkComponent), error);
+                GameLog.Error($"发送消息失败：{id}", error);
                 return false;
             }
         }
@@ -79,7 +79,7 @@ namespace GameMain.Net
         void OnConnected()
         {
             if (IsDisposed) return;
-            GameLog.Info("连接成功", nameof(NetworkComponent));
+            GameLog.Info("连接成功");
             var pool = Entity.GetComponent<ReferencePoolComponent>();
             Entity.GetComponent<EventComponent>().FireNow(this, NetworkConnectedEventArgs.Create(pool));
         }
@@ -87,7 +87,7 @@ namespace GameMain.Net
         void OnDisconnected()
         {
             if (IsDisposed) return;
-            GameLog.Info("断开连接", nameof(NetworkComponent));
+            GameLog.Info("断开连接");
             var pool = Entity.GetComponent<ReferencePoolComponent>();
             Entity.GetComponent<EventComponent>().FireNow(this, NetworkDisconnectedEventArgs.Create(pool));
         }
@@ -97,7 +97,7 @@ namespace GameMain.Net
             if (IsDisposed) return;
             if (!MsgCodec.TryUnpack(payload, out MsgId id, out ByteString body))
             {
-                GameLog.Warning("解包失败", nameof(NetworkComponent));
+                GameLog.Warning("解包失败");
                 return;
             }
             dispatcher.Dispatch(Entity, id, body);
@@ -105,7 +105,7 @@ namespace GameMain.Net
 
         void OnTransportError(Exception error)
         {
-            GameLog.Error("传输错误", nameof(NetworkComponent), error);
+            GameLog.Error("传输错误", error);
         }
 
         protected override void OnDestroy()
