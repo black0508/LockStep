@@ -6,7 +6,7 @@ namespace LockStep.Server.Net
     {
         event Action<int> Connected;
         event Action<int> Disconnected;
-        event Action<int, byte[]> OnReceivedpacket;
+        event Action<int, byte[]> ReceivedPacket;
         event Action<int, Exception> TransportError;
 
         bool IsActive { get; }

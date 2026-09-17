@@ -29,7 +29,7 @@ namespace GameMain
                 Network = Root.AddComponent<NetworkComponent>();
                 Room = Root.AddComponent<RoomComponent>();
                 Network.Init(transport);
-                Room.Init(config.RoomId, config.NickName);
+                Room.Init(config.NickName);
             }
             catch
             {

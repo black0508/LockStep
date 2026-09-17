@@ -8,4 +8,7 @@ public sealed class ServerConfig
     public uint InputDelayFrames { get; init; } = 2;
 
     public static ServerConfig Default => new ServerConfig();
+
+    public bool IsValid => TickRate > 0 && MaxPlayersPerRoom > 0
+        && MinPlayersToStart > 0 && MinPlayersToStart <= MaxPlayersPerRoom;
 }

@@ -65,10 +65,10 @@ ID 只用于当前运行期间的本地事件路由，不用于网络协议、�
 `GameLog` 是全局静态类，不依赖 World、Component 或 GameApplication 的实例，不再注入日志对象：
 
 ```csharp
-GameLog.Info("连接成功", nameof(NetworkComponent));
+GameLog.Info("连接成功");
 GameLog.Warning("房间已满");
-GameLog.Error("处理失败", nameof(RoomComponent), exception);
+GameLog.Error("处理失败", exception);
 GameLog.MinimumLevel = LogLevel.Warning;
 ```
 
-Framework 默认向控制台输出。Unity 入口在创建应用前设置 `GameLog.Writer = UnityGameLog.Write`，后者也只是静态函数，将格式化后的日志转发给 Debug.Log/LogWarning/LogError。日志级别和输出函数是全局配置，World 的创建或销毁不会改变它们。
+`GameLog` 默认写入控制台，不引用 Unity。Unity 入口把 `InfoWriter` / `WarningWriter` / `ErrorWriter` 赋成 `Debug.Log` / `LogWarning` / `LogError`。格式为 `[时间][级别] 消息`，不含时区和来源。日志级别是全局配置，World 的创建或销毁不会改变它。

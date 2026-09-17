@@ -39,7 +39,7 @@ namespace GameMain.Net
             if (entity == null || entity.IsDisposed) return;
             if (!handlers.TryGetValue(id, out IMessageHandler handler))
             {
-                GameLog.Warning("未处理的消息：" + id, nameof(MessageDispatcher));
+                GameLog.Warning($"未处理的消息：{id}");
                 return;
             }
             try
@@ -48,7 +48,7 @@ namespace GameMain.Net
             }
             catch (Exception error)
             {
-                GameLog.Error("消息处理失败：" + id + "，Handler=" + handler.GetType().Name, nameof(MessageDispatcher), error);
+                GameLog.Error($"消息处理失败：{id}，Handler={handler.GetType().Name}", error);
             }
         }
     }

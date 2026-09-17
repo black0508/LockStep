@@ -26,33 +26,32 @@ namespace Lockstep.Proto {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "Cg5sb2Nrc3RlcC5wcm90bxIIbG9ja3N0ZXAiMwoGUGFja2V0EhsKAmlkGAEg",
-            "ASgOMg8ubG9ja3N0ZXAuTXNnSWQSDAoEYm9keRgCIAEoDCJDCgpSb29tUGxh",
-            "eWVyEhEKCXBsYXllcl9pZBgBIAEoDRIPCgdpc19ob3N0GAIgASgIEhEKCW5p",
-            "Y2tfbmFtZRgDIAEoCSItCgdDMlNKb2luEg8KB3Jvb21faWQYASABKA0SEQoJ",
-            "bmlja19uYW1lGAIgASgJImgKClMyQ0pvaW5BY2sSDwoHcm9vbV9pZBgBIAEo",
-            "DRIRCglwbGF5ZXJfaWQYAiABKA0SDwoHaXNfaG9zdBgDIAEoCBIlCgdwbGF5",
-            "ZXJzGAQgAygLMhQubG9ja3N0ZXAuUm9vbVBsYXllciI7Cg1TMkNKb2luUmVq",
-            "ZWN0EioKBnJlYXNvbhgBIAEoDjIaLmxvY2tzdGVwLkpvaW5SZWplY3RSZWFz",
-            "b24iRwoNUzJDUm9vbVVwZGF0ZRIPCgdyb29tX2lkGAEgASgNEiUKB3BsYXll",
-            "cnMYAiADKAsyFC5sb2Nrc3RlcC5Sb29tUGxheWVyIkoKDVMyQ01hdGNoU3Rh",
-            "cnQSDwoHdGlja19oehgBIAEoDRIaChJpbnB1dF9kZWxheV9mcmFtZXMYAiAB",
-            "KA0SDAoEc2VlZBgDIAEoDSqbAQoFTXNnSWQSDwoLVW5zcGVjaWZpZWQQABIM",
-            "CghDMlNfSm9pbhABEg8KC1MyQ19Kb2luQWNrEAISEgoOUzJDX0pvaW5SZWpl",
-            "Y3QQAxISCg5TMkNfUm9vbVVwZGF0ZRAEEhIKDlMyQ19NYXRjaFN0YXJ0EAYi",
-            "BAgFEAUiBAgHEAcqCUMyU19TdGFydCoPUzJDX1N0YXJ0UmVqZWN0KnUKEEpv",
-            "aW5SZWplY3RSZWFzb24SGQoVSm9pblJlamVjdFVuc3BlY2lmaWVkEAASEgoO",
-            "Sm9pblJlamVjdEZ1bGwQARIVChFKb2luUmVqZWN0UGxheWluZxACEhsKF0pv",
-            "aW5SZWplY3RBbHJlYWR5SW5Sb29tEANCEaoCDkxvY2tzdGVwLlByb3RvYgZw",
-            "cm90bzM="));
+            "ASgOMg8ubG9ja3N0ZXAuTXNnSWQSDAoEYm9keRgCIAEoDCJBCgpSb29tUGxh",
+            "eWVyEhEKCXBsYXllcl9pZBgBIAEoDRIRCgluaWNrX25hbWUYAyABKAlKBAgC",
+            "EANSB2lzX2hvc3QiKwoHQzJTSm9pbhIRCgluaWNrX25hbWUYAiABKAlKBAgB",
+            "EAJSB3Jvb21faWQiZAoKUzJDSm9pbkFjaxIRCglwbGF5ZXJfaWQYAiABKA0S",
+            "JQoHcGxheWVycxgEIAMoCzIULmxvY2tzdGVwLlJvb21QbGF5ZXJKBAgBEAJK",
+            "BAgDEARSB3Jvb21faWRSB2lzX2hvc3QiOwoNUzJDSm9pblJlamVjdBIqCgZy",
+            "ZWFzb24YASABKA4yGi5sb2Nrc3RlcC5Kb2luUmVqZWN0UmVhc29uIkUKDVMy",
+            "Q1Jvb21VcGRhdGUSJQoHcGxheWVycxgCIAMoCzIULmxvY2tzdGVwLlJvb21Q",
+            "bGF5ZXJKBAgBEAJSB3Jvb21faWQiSgoNUzJDTWF0Y2hTdGFydBIPCgd0aWNr",
+            "X2h6GAEgASgNEhoKEmlucHV0X2RlbGF5X2ZyYW1lcxgCIAEoDRIMCgRzZWVk",
+            "GAMgASgNKpsBCgVNc2dJZBIPCgtVbnNwZWNpZmllZBAAEgwKCEMyU19Kb2lu",
+            "EAESDwoLUzJDX0pvaW5BY2sQAhISCg5TMkNfSm9pblJlamVjdBADEhIKDlMy",
+            "Q19Sb29tVXBkYXRlEAQSEgoOUzJDX01hdGNoU3RhcnQQBiIECAUQBSIECAcQ",
+            "ByoJQzJTX1N0YXJ0Kg9TMkNfU3RhcnRSZWplY3QqdwoQSm9pblJlamVjdFJl",
+            "YXNvbhIZChVKb2luUmVqZWN0VW5zcGVjaWZpZWQQABISCg5Kb2luUmVqZWN0",
+            "RnVsbBABEhUKEUpvaW5SZWplY3RQbGF5aW5nEAIiBAgDEAMqF0pvaW5SZWpl",
+            "Y3RBbHJlYWR5SW5Sb29tQhGqAg5Mb2Nrc3RlcC5Qcm90b2IGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Lockstep.Proto.MsgId), typeof(global::Lockstep.Proto.JoinRejectReason), }, null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::Lockstep.Proto.Packet), global::Lockstep.Proto.Packet.Parser, new[]{ "Id", "Body" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Lockstep.Proto.RoomPlayer), global::Lockstep.Proto.RoomPlayer.Parser, new[]{ "PlayerId", "IsHost", "NickName" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Lockstep.Proto.C2SJoin), global::Lockstep.Proto.C2SJoin.Parser, new[]{ "RoomId", "NickName" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Lockstep.Proto.S2CJoinAck), global::Lockstep.Proto.S2CJoinAck.Parser, new[]{ "RoomId", "PlayerId", "IsHost", "Players" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Lockstep.Proto.RoomPlayer), global::Lockstep.Proto.RoomPlayer.Parser, new[]{ "PlayerId", "NickName" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Lockstep.Proto.C2SJoin), global::Lockstep.Proto.C2SJoin.Parser, new[]{ "NickName" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Lockstep.Proto.S2CJoinAck), global::Lockstep.Proto.S2CJoinAck.Parser, new[]{ "PlayerId", "Players" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Lockstep.Proto.S2CJoinReject), global::Lockstep.Proto.S2CJoinReject.Parser, new[]{ "Reason" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Lockstep.Proto.S2CRoomUpdate), global::Lockstep.Proto.S2CRoomUpdate.Parser, new[]{ "RoomId", "Players" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Lockstep.Proto.S2CRoomUpdate), global::Lockstep.Proto.S2CRoomUpdate.Parser, new[]{ "Players" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Lockstep.Proto.S2CMatchStart), global::Lockstep.Proto.S2CMatchStart.Parser, new[]{ "TickHz", "InputDelayFrames", "Seed" }, null, null, null, null)
           }));
     }
@@ -91,7 +90,7 @@ namespace Lockstep.Proto {
   }
 
   /// <summary>
-  /// ----- 房间 -----
+  /// ----- 房间（进程内一场，无 room_id / 房主）-----
   /// </summary>
   public enum JoinRejectReason {
     /// <summary>
@@ -106,10 +105,6 @@ namespace Lockstep.Proto {
     /// 已开战
     /// </summary>
     [pbr::OriginalName("JoinRejectPlaying")] JoinRejectPlaying = 2,
-    /// <summary>
-    /// 已在房内
-    /// </summary>
-    [pbr::OriginalName("JoinRejectAlreadyInRoom")] JoinRejectAlreadyInRoom = 3,
   }
 
   #endregion
@@ -386,7 +381,6 @@ namespace Lockstep.Proto {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public RoomPlayer(RoomPlayer other) : this() {
       playerId_ = other.playerId_;
-      isHost_ = other.isHost_;
       nickName_ = other.nickName_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
@@ -406,18 +400,6 @@ namespace Lockstep.Proto {
       get { return playerId_; }
       set {
         playerId_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "is_host" field.</summary>
-    public const int IsHostFieldNumber = 2;
-    private bool isHost_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool IsHost {
-      get { return isHost_; }
-      set {
-        isHost_ = value;
       }
     }
 
@@ -449,7 +431,6 @@ namespace Lockstep.Proto {
         return true;
       }
       if (PlayerId != other.PlayerId) return false;
-      if (IsHost != other.IsHost) return false;
       if (NickName != other.NickName) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
@@ -459,7 +440,6 @@ namespace Lockstep.Proto {
     public override int GetHashCode() {
       int hash = 1;
       if (PlayerId != 0) hash ^= PlayerId.GetHashCode();
-      if (IsHost != false) hash ^= IsHost.GetHashCode();
       if (NickName.Length != 0) hash ^= NickName.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
@@ -483,10 +463,6 @@ namespace Lockstep.Proto {
         output.WriteRawTag(8);
         output.WriteUInt32(PlayerId);
       }
-      if (IsHost != false) {
-        output.WriteRawTag(16);
-        output.WriteBool(IsHost);
-      }
       if (NickName.Length != 0) {
         output.WriteRawTag(26);
         output.WriteString(NickName);
@@ -505,10 +481,6 @@ namespace Lockstep.Proto {
         output.WriteRawTag(8);
         output.WriteUInt32(PlayerId);
       }
-      if (IsHost != false) {
-        output.WriteRawTag(16);
-        output.WriteBool(IsHost);
-      }
       if (NickName.Length != 0) {
         output.WriteRawTag(26);
         output.WriteString(NickName);
@@ -525,9 +497,6 @@ namespace Lockstep.Proto {
       int size = 0;
       if (PlayerId != 0) {
         size += 1 + pb::CodedOutputStream.ComputeUInt32Size(PlayerId);
-      }
-      if (IsHost != false) {
-        size += 1 + 1;
       }
       if (NickName.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(NickName);
@@ -546,9 +515,6 @@ namespace Lockstep.Proto {
       }
       if (other.PlayerId != 0) {
         PlayerId = other.PlayerId;
-      }
-      if (other.IsHost != false) {
-        IsHost = other.IsHost;
       }
       if (other.NickName.Length != 0) {
         NickName = other.NickName;
@@ -576,10 +542,6 @@ namespace Lockstep.Proto {
             PlayerId = input.ReadUInt32();
             break;
           }
-          case 16: {
-            IsHost = input.ReadBool();
-            break;
-          }
           case 26: {
             NickName = input.ReadString();
             break;
@@ -605,10 +567,6 @@ namespace Lockstep.Proto {
             break;
           case 8: {
             PlayerId = input.ReadUInt32();
-            break;
-          }
-          case 16: {
-            IsHost = input.ReadBool();
             break;
           }
           case 26: {
@@ -657,7 +615,6 @@ namespace Lockstep.Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public C2SJoin(C2SJoin other) : this() {
-      roomId_ = other.roomId_;
       nickName_ = other.nickName_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
@@ -666,18 +623,6 @@ namespace Lockstep.Proto {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public C2SJoin Clone() {
       return new C2SJoin(this);
-    }
-
-    /// <summary>Field number for the "room_id" field.</summary>
-    public const int RoomIdFieldNumber = 1;
-    private uint roomId_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public uint RoomId {
-      get { return roomId_; }
-      set {
-        roomId_ = value;
-      }
     }
 
     /// <summary>Field number for the "nick_name" field.</summary>
@@ -707,7 +652,6 @@ namespace Lockstep.Proto {
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (RoomId != other.RoomId) return false;
       if (NickName != other.NickName) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
@@ -716,7 +660,6 @@ namespace Lockstep.Proto {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
-      if (RoomId != 0) hash ^= RoomId.GetHashCode();
       if (NickName.Length != 0) hash ^= NickName.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
@@ -736,10 +679,6 @@ namespace Lockstep.Proto {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
-      if (RoomId != 0) {
-        output.WriteRawTag(8);
-        output.WriteUInt32(RoomId);
-      }
       if (NickName.Length != 0) {
         output.WriteRawTag(18);
         output.WriteString(NickName);
@@ -754,10 +693,6 @@ namespace Lockstep.Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (RoomId != 0) {
-        output.WriteRawTag(8);
-        output.WriteUInt32(RoomId);
-      }
       if (NickName.Length != 0) {
         output.WriteRawTag(18);
         output.WriteString(NickName);
@@ -772,9 +707,6 @@ namespace Lockstep.Proto {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
-      if (RoomId != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(RoomId);
-      }
       if (NickName.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(NickName);
       }
@@ -789,9 +721,6 @@ namespace Lockstep.Proto {
     public void MergeFrom(C2SJoin other) {
       if (other == null) {
         return;
-      }
-      if (other.RoomId != 0) {
-        RoomId = other.RoomId;
       }
       if (other.NickName.Length != 0) {
         NickName = other.NickName;
@@ -815,10 +744,6 @@ namespace Lockstep.Proto {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
-          case 8: {
-            RoomId = input.ReadUInt32();
-            break;
-          }
           case 18: {
             NickName = input.ReadString();
             break;
@@ -842,10 +767,6 @@ namespace Lockstep.Proto {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
-          case 8: {
-            RoomId = input.ReadUInt32();
-            break;
-          }
           case 18: {
             NickName = input.ReadString();
             break;
@@ -892,9 +813,7 @@ namespace Lockstep.Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public S2CJoinAck(S2CJoinAck other) : this() {
-      roomId_ = other.roomId_;
       playerId_ = other.playerId_;
-      isHost_ = other.isHost_;
       players_ = other.players_.Clone();
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
@@ -903,18 +822,6 @@ namespace Lockstep.Proto {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public S2CJoinAck Clone() {
       return new S2CJoinAck(this);
-    }
-
-    /// <summary>Field number for the "room_id" field.</summary>
-    public const int RoomIdFieldNumber = 1;
-    private uint roomId_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public uint RoomId {
-      get { return roomId_; }
-      set {
-        roomId_ = value;
-      }
     }
 
     /// <summary>Field number for the "player_id" field.</summary>
@@ -926,18 +833,6 @@ namespace Lockstep.Proto {
       get { return playerId_; }
       set {
         playerId_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "is_host" field.</summary>
-    public const int IsHostFieldNumber = 3;
-    private bool isHost_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool IsHost {
-      get { return isHost_; }
-      set {
-        isHost_ = value;
       }
     }
 
@@ -967,9 +862,7 @@ namespace Lockstep.Proto {
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (RoomId != other.RoomId) return false;
       if (PlayerId != other.PlayerId) return false;
-      if (IsHost != other.IsHost) return false;
       if(!players_.Equals(other.players_)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
@@ -978,9 +871,7 @@ namespace Lockstep.Proto {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
-      if (RoomId != 0) hash ^= RoomId.GetHashCode();
       if (PlayerId != 0) hash ^= PlayerId.GetHashCode();
-      if (IsHost != false) hash ^= IsHost.GetHashCode();
       hash ^= players_.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
@@ -1000,17 +891,9 @@ namespace Lockstep.Proto {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
-      if (RoomId != 0) {
-        output.WriteRawTag(8);
-        output.WriteUInt32(RoomId);
-      }
       if (PlayerId != 0) {
         output.WriteRawTag(16);
         output.WriteUInt32(PlayerId);
-      }
-      if (IsHost != false) {
-        output.WriteRawTag(24);
-        output.WriteBool(IsHost);
       }
       players_.WriteTo(output, _repeated_players_codec);
       if (_unknownFields != null) {
@@ -1023,17 +906,9 @@ namespace Lockstep.Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (RoomId != 0) {
-        output.WriteRawTag(8);
-        output.WriteUInt32(RoomId);
-      }
       if (PlayerId != 0) {
         output.WriteRawTag(16);
         output.WriteUInt32(PlayerId);
-      }
-      if (IsHost != false) {
-        output.WriteRawTag(24);
-        output.WriteBool(IsHost);
       }
       players_.WriteTo(ref output, _repeated_players_codec);
       if (_unknownFields != null) {
@@ -1046,14 +921,8 @@ namespace Lockstep.Proto {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
-      if (RoomId != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(RoomId);
-      }
       if (PlayerId != 0) {
         size += 1 + pb::CodedOutputStream.ComputeUInt32Size(PlayerId);
-      }
-      if (IsHost != false) {
-        size += 1 + 1;
       }
       size += players_.CalculateSize(_repeated_players_codec);
       if (_unknownFields != null) {
@@ -1068,14 +937,8 @@ namespace Lockstep.Proto {
       if (other == null) {
         return;
       }
-      if (other.RoomId != 0) {
-        RoomId = other.RoomId;
-      }
       if (other.PlayerId != 0) {
         PlayerId = other.PlayerId;
-      }
-      if (other.IsHost != false) {
-        IsHost = other.IsHost;
       }
       players_.Add(other.players_);
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
@@ -1097,16 +960,8 @@ namespace Lockstep.Proto {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
-          case 8: {
-            RoomId = input.ReadUInt32();
-            break;
-          }
           case 16: {
             PlayerId = input.ReadUInt32();
-            break;
-          }
-          case 24: {
-            IsHost = input.ReadBool();
             break;
           }
           case 34: {
@@ -1132,16 +987,8 @@ namespace Lockstep.Proto {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
-          case 8: {
-            RoomId = input.ReadUInt32();
-            break;
-          }
           case 16: {
             PlayerId = input.ReadUInt32();
-            break;
-          }
-          case 24: {
-            IsHost = input.ReadBool();
             break;
           }
           case 34: {
@@ -1388,7 +1235,6 @@ namespace Lockstep.Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public S2CRoomUpdate(S2CRoomUpdate other) : this() {
-      roomId_ = other.roomId_;
       players_ = other.players_.Clone();
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
@@ -1397,18 +1243,6 @@ namespace Lockstep.Proto {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public S2CRoomUpdate Clone() {
       return new S2CRoomUpdate(this);
-    }
-
-    /// <summary>Field number for the "room_id" field.</summary>
-    public const int RoomIdFieldNumber = 1;
-    private uint roomId_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public uint RoomId {
-      get { return roomId_; }
-      set {
-        roomId_ = value;
-      }
     }
 
     /// <summary>Field number for the "players" field.</summary>
@@ -1437,7 +1271,6 @@ namespace Lockstep.Proto {
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (RoomId != other.RoomId) return false;
       if(!players_.Equals(other.players_)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
@@ -1446,7 +1279,6 @@ namespace Lockstep.Proto {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
-      if (RoomId != 0) hash ^= RoomId.GetHashCode();
       hash ^= players_.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
@@ -1466,10 +1298,6 @@ namespace Lockstep.Proto {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
-      if (RoomId != 0) {
-        output.WriteRawTag(8);
-        output.WriteUInt32(RoomId);
-      }
       players_.WriteTo(output, _repeated_players_codec);
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -1481,10 +1309,6 @@ namespace Lockstep.Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (RoomId != 0) {
-        output.WriteRawTag(8);
-        output.WriteUInt32(RoomId);
-      }
       players_.WriteTo(ref output, _repeated_players_codec);
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
@@ -1496,9 +1320,6 @@ namespace Lockstep.Proto {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
-      if (RoomId != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(RoomId);
-      }
       size += players_.CalculateSize(_repeated_players_codec);
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -1511,9 +1332,6 @@ namespace Lockstep.Proto {
     public void MergeFrom(S2CRoomUpdate other) {
       if (other == null) {
         return;
-      }
-      if (other.RoomId != 0) {
-        RoomId = other.RoomId;
       }
       players_.Add(other.players_);
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
@@ -1535,10 +1353,6 @@ namespace Lockstep.Proto {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
-          case 8: {
-            RoomId = input.ReadUInt32();
-            break;
-          }
           case 18: {
             players_.AddEntriesFrom(input, _repeated_players_codec);
             break;
@@ -1562,10 +1376,6 @@ namespace Lockstep.Proto {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
-          case 8: {
-            RoomId = input.ReadUInt32();
-            break;
-          }
           case 18: {
             players_.AddEntriesFrom(ref input, _repeated_players_codec);
             break;

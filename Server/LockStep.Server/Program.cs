@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Threading;
+using System.Diagnostics;
 using LockStep.Server;
 using LockStep.Server.Config;
-using LockStep.Server.Core;
+using LockStep.Server.Net;
+using LockStep.Framework;
 
 class Program
 {
@@ -11,19 +13,34 @@ class Program
 
     static volatile bool running = true;
 
-    static void Main()
+    static int Main()
     {
         Console.CancelKeyPress += OnCancelKeyPress;
-        GameEntry.Initialize(ServerConfig.Default, Port);
-
-        while (running)
+        try
         {
-            GameEntry.Tick(Environment.TickCount64);
-            Thread.Sleep(SleepMs);
+            using var application = new GameApplication(ServerConfig.Default, new KcpServerHost());
+            if (!application.Start(Port)) return 1;
+            var clock = Stopwatch.StartNew();
+            double previousTime = clock.Elapsed.TotalSeconds;
+            while (running)
+            {
+                double now = clock.Elapsed.TotalSeconds;
+                application.Update((float)(now - previousTime));
+                previousTime = now;
+                Thread.Sleep(SleepMs);
+            }
+            return 0;
         }
-
-        GameEntry.Shutdown();
-        Log.Info("服务器已退出");
+        catch (Exception error)
+        {
+            GameLog.Error("服务器运行失败", error);
+            return 1;
+        }
+        finally
+        {
+            Console.CancelKeyPress -= OnCancelKeyPress;
+            GameLog.Info("服务器已退出");
+        }
     }
 
     static void OnCancelKeyPress(object sender, ConsoleCancelEventArgs args)
