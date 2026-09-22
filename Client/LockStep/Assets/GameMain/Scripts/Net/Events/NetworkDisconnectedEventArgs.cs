@@ -6,7 +6,7 @@ namespace GameMain.Net.Events
     {
         public static readonly int EventId = typeof(NetworkDisconnectedEventArgs).GetHashCode();
         public override int Id => EventId;
-        public static NetworkDisconnectedEventArgs Create(ReferencePoolComponent pool) => pool.Acquire<NetworkDisconnectedEventArgs>();
+        public static NetworkDisconnectedEventArgs Create() => ReferencePool.Acquire<NetworkDisconnectedEventArgs>();
         public override void Clear() { }
     }
 }

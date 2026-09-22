@@ -12,6 +12,8 @@ enum MsgId {
   S2C_JoinReject = 3;  // 进房拒绝
   S2C_RoomUpdate = 4;  // 房间名单变化
   S2C_MatchStart = 6;  // 开战通知
+  C2S_Input = 8;       // 当前移动方向
+  S2C_Frame = 9;       // 服务端权威帧
 }
 
 message Packet {
@@ -60,6 +62,23 @@ message S2CRoomUpdate {
 
 message S2CMatchStart {
   uint32 tick_hz = 1;
-  uint32 input_delay_frames = 2;
   uint32 seed = 3;
+  repeated RoomPlayer players = 4;  // 本局参战名单，按 player_id 升序
+}
+
+// ----- 帧同步 -----
+message C2SInput {
+  sint32 move_x = 1;
+  sint32 move_z = 2;
+}
+
+message PlayerFrameInput {
+  uint32 player_id = 1;
+  sint32 move_x = 2;
+  sint32 move_z = 3;
+}
+
+message S2CFrame {
+  uint32 frame_id = 1;
+  repeated PlayerFrameInput inputs = 2;
 }

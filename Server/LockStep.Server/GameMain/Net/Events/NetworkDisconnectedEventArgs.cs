@@ -8,9 +8,9 @@ public sealed class NetworkDisconnectedEventArgs : GameEventArgs
     public override int Id => EventId;
     public int ConnectionId { get; private set; }
 
-    public static NetworkDisconnectedEventArgs Create(ReferencePoolComponent pool, int connectionId)
+    public static NetworkDisconnectedEventArgs Create(int connectionId)
     {
-        var args = pool.Acquire<NetworkDisconnectedEventArgs>();
+        var args = ReferencePool.Acquire<NetworkDisconnectedEventArgs>();
         args.ConnectionId = connectionId;
         return args;
     }
