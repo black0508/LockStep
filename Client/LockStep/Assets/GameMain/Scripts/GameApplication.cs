@@ -1,35 +1,30 @@
 using System;
+using GameMain.FrameSync;
 using GameMain.Net;
 using GameMain.Room;
 using LockStep.Framework;
 
 namespace GameMain
 {
-    // 先创建/初始化组件和自动路由，再开始连接。
+    // 组件按依赖顺序创建（后创建的在 OnAwake 中取用前面的），全部就绪后才开始连接。
     public sealed class GameApplication : IDisposable
     {
         readonly ClientConfig config;
-        readonly World world;
+        readonly World world = new World();
+        readonly Entity root;
+        readonly NetworkComponent network;
 
-        public Entity Root { get; }
-        public ReferencePoolComponent ReferencePool { get; }
-        public EventComponent Events { get; }
-        public NetworkComponent Network { get; }
-        public RoomComponent Room { get; }
-
-        public GameApplication(ClientConfig config, INetworkTransport transport)
+        public GameApplication(ClientConfig config, INetworkTransport transport, IMoveInput moveInput)
         {
-            this.config = config ?? throw new ArgumentNullException(nameof(config));
-            world = new World();
+            this.config = config;
             try
             {
-                Root = world.CreateEntity();
-                ReferencePool = Root.AddComponent<ReferencePoolComponent>();
-                Events = Root.AddComponent<EventComponent>();
-                Network = Root.AddComponent<NetworkComponent>();
-                Room = Root.AddComponent<RoomComponent>();
-                Network.Init(transport);
-                Room.Init(config.NickName);
+                root = world.CreateEntity();
+                root.AddComponent<EventComponent>();
+                network = root.AddComponent<NetworkComponent>();
+                network.Init(transport);
+                root.AddComponent<FrameSyncComponent>().Init(moveInput);
+                root.AddComponent<RoomComponent>().Init(config.NickName);
             }
             catch
             {
@@ -38,16 +33,8 @@ namespace GameMain
             }
         }
 
-        public bool Start()
-        {
-            if (!Network.Connect(config.Host, config.Port))
-            {
-                Dispose();
-                return false;
-            }
-            return true;
-        }
-
+        public T Get<T>() where T : Component { return root.GetComponent<T>(); }
+        public bool Start() { return network.Connect(config.Host, config.Port); }
         public void Update(float deltaTime) { world.Update(deltaTime); }
         public void Dispose() { world.Dispose(); }
     }

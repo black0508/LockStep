@@ -80,16 +80,14 @@ namespace GameMain.Net
         {
             if (IsDisposed) return;
             GameLog.Info("连接成功");
-            var pool = Entity.GetComponent<ReferencePoolComponent>();
-            Entity.GetComponent<EventComponent>().FireNow(this, NetworkConnectedEventArgs.Create(pool));
+            Entity.GetComponent<EventComponent>().FireNow(this, NetworkConnectedEventArgs.Create());
         }
 
         void OnDisconnected()
         {
             if (IsDisposed) return;
             GameLog.Info("断开连接");
-            var pool = Entity.GetComponent<ReferencePoolComponent>();
-            Entity.GetComponent<EventComponent>().FireNow(this, NetworkDisconnectedEventArgs.Create(pool));
+            Entity.GetComponent<EventComponent>().FireNow(this, NetworkDisconnectedEventArgs.Create());
         }
 
         void OnReceivedPacket(byte[] payload)

@@ -21,15 +21,8 @@ namespace LockStep.Framework
         }
 
         readonly Dictionary<int, List<Subscription>> handlers = new Dictionary<int, List<Subscription>>();
-        ReferencePoolComponent referencePool;
         // Root 上先创建、最后销毁；所属实体或 World 一开始关闭就停止通知。
         bool CanDispatch => !IsDisposed && Entity != null && !Entity.IsDisposed && !Entity.World.IsDisposed;
-
-        protected override void OnAwake()
-        {
-            referencePool = Entity.GetComponent<ReferencePoolComponent>()
-                ?? throw new InvalidOperationException("EventComponent requires ReferencePoolComponent on the same entity.");
-        }
 
         public void Subscribe(int id, EventHandler<GameEventArgs> handler)
         {
@@ -73,7 +66,7 @@ namespace LockStep.Framework
             }
             finally
             {
-                if (--args.DispatchDepth == 0) referencePool.Release(args);
+                if (--args.DispatchDepth == 0) ReferencePool.Release(args);
             }
         }
 
@@ -83,7 +76,7 @@ namespace LockStep.Framework
             if (!handlers.TryGetValue(args.Id, out List<Subscription> subscriptions)) return;
 
             // 独立快照支持嵌套发布；Active 保证注销后再订阅也不会复活旧快照项。
-            DispatchSnapshot snapshot = referencePool.Acquire<DispatchSnapshot>();
+            DispatchSnapshot snapshot = ReferencePool.Acquire<DispatchSnapshot>();
             try
             {
                 snapshot.Items.AddRange(subscriptions);
@@ -96,7 +89,7 @@ namespace LockStep.Framework
             }
             finally
             {
-                referencePool.Release(snapshot);
+                ReferencePool.Release(snapshot);
             }
         }
 
