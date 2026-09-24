@@ -10,6 +10,7 @@ namespace GameMain.Net
         event Action<Exception> TransportError;
 
         bool IsConnected { get; }
+        uint RttMilliseconds { get; }
 
         void Connect(string host, int port);
         void Disconnect();

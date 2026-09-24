@@ -12,6 +12,8 @@ namespace GameMain.Net
 
         KcpClient client;
 
+        public uint RttMilliseconds => IsConnected ? client.rttInMilliseconds : 0;
+
         public bool IsConnected
         {
             get { return client != null && client.connected; }

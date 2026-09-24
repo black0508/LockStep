@@ -12,7 +12,7 @@ enum MsgId {
   S2C_JoinReject = 3;  // 进房拒绝
   S2C_RoomUpdate = 4;  // 房间名单变化
   S2C_MatchStart = 6;  // 开战通知
-  C2S_Input = 8;       // 当前移动方向
+  C2S_Input = 8;       // 指定逻辑帧的移动方向
   S2C_Frame = 9;       // 服务端权威帧
 }
 
@@ -70,6 +70,7 @@ message S2CMatchStart {
 message C2SInput {
   sint32 move_x = 1;
   sint32 move_z = 2;
+  uint32 frame_id = 3;
 }
 
 message PlayerFrameInput {

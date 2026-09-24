@@ -36,19 +36,19 @@ namespace Lockstep.Proto {
             "Q1Jvb21VcGRhdGUSJQoHcGxheWVycxgCIAMoCzIULmxvY2tzdGVwLlJvb21Q",
             "bGF5ZXJKBAgBEAJSB3Jvb21faWQiVQoNUzJDTWF0Y2hTdGFydBIPCgd0aWNr",
             "X2h6GAEgASgNEgwKBHNlZWQYAyABKA0SJQoHcGxheWVycxgEIAMoCzIULmxv",
-            "Y2tzdGVwLlJvb21QbGF5ZXIiKgoIQzJTSW5wdXQSDgoGbW92ZV94GAEgASgR",
-            "Eg4KBm1vdmVfehgCIAEoESJFChBQbGF5ZXJGcmFtZUlucHV0EhEKCXBsYXll",
-            "cl9pZBgBIAEoDRIOCgZtb3ZlX3gYAiABKBESDgoGbW92ZV96GAMgASgRIkgK",
-            "CFMyQ0ZyYW1lEhAKCGZyYW1lX2lkGAEgASgNEioKBmlucHV0cxgCIAMoCzIa",
-            "LmxvY2tzdGVwLlBsYXllckZyYW1lSW5wdXQquQEKBU1zZ0lkEg8KC1Vuc3Bl",
-            "Y2lmaWVkEAASDAoIQzJTX0pvaW4QARIPCgtTMkNfSm9pbkFjaxACEhIKDlMy",
-            "Q19Kb2luUmVqZWN0EAMSEgoOUzJDX1Jvb21VcGRhdGUQBBISCg5TMkNfTWF0",
-            "Y2hTdGFydBAGEg0KCUMyU19JbnB1dBAIEg0KCVMyQ19GcmFtZRAJIgQIBRAF",
-            "IgQIBxAHKglDMlNfU3RhcnQqD1MyQ19TdGFydFJlamVjdCp3ChBKb2luUmVq",
-            "ZWN0UmVhc29uEhkKFUpvaW5SZWplY3RVbnNwZWNpZmllZBAAEhIKDkpvaW5S",
-            "ZWplY3RGdWxsEAESFQoRSm9pblJlamVjdFBsYXlpbmcQAiIECAMQAyoXSm9p",
-            "blJlamVjdEFscmVhZHlJblJvb21CEaoCDkxvY2tzdGVwLlByb3RvYgZwcm90",
-            "bzM="));
+            "Y2tzdGVwLlJvb21QbGF5ZXIiPAoIQzJTSW5wdXQSDgoGbW92ZV94GAEgASgR",
+            "Eg4KBm1vdmVfehgCIAEoERIQCghmcmFtZV9pZBgDIAEoDSJFChBQbGF5ZXJG",
+            "cmFtZUlucHV0EhEKCXBsYXllcl9pZBgBIAEoDRIOCgZtb3ZlX3gYAiABKBES",
+            "DgoGbW92ZV96GAMgASgRIkgKCFMyQ0ZyYW1lEhAKCGZyYW1lX2lkGAEgASgN",
+            "EioKBmlucHV0cxgCIAMoCzIaLmxvY2tzdGVwLlBsYXllckZyYW1lSW5wdXQq",
+            "uQEKBU1zZ0lkEg8KC1Vuc3BlY2lmaWVkEAASDAoIQzJTX0pvaW4QARIPCgtT",
+            "MkNfSm9pbkFjaxACEhIKDlMyQ19Kb2luUmVqZWN0EAMSEgoOUzJDX1Jvb21V",
+            "cGRhdGUQBBISCg5TMkNfTWF0Y2hTdGFydBAGEg0KCUMyU19JbnB1dBAIEg0K",
+            "CVMyQ19GcmFtZRAJIgQIBRAFIgQIBxAHKglDMlNfU3RhcnQqD1MyQ19TdGFy",
+            "dFJlamVjdCp3ChBKb2luUmVqZWN0UmVhc29uEhkKFUpvaW5SZWplY3RVbnNw",
+            "ZWNpZmllZBAAEhIKDkpvaW5SZWplY3RGdWxsEAESFQoRSm9pblJlamVjdFBs",
+            "YXlpbmcQAiIECAMQAyoXSm9pblJlamVjdEFscmVhZHlJblJvb21CEaoCDkxv",
+            "Y2tzdGVwLlByb3RvYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Lockstep.Proto.MsgId), typeof(global::Lockstep.Proto.JoinRejectReason), }, null, new pbr::GeneratedClrTypeInfo[] {
@@ -59,7 +59,7 @@ namespace Lockstep.Proto {
             new pbr::GeneratedClrTypeInfo(typeof(global::Lockstep.Proto.S2CJoinReject), global::Lockstep.Proto.S2CJoinReject.Parser, new[]{ "Reason" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Lockstep.Proto.S2CRoomUpdate), global::Lockstep.Proto.S2CRoomUpdate.Parser, new[]{ "Players" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Lockstep.Proto.S2CMatchStart), global::Lockstep.Proto.S2CMatchStart.Parser, new[]{ "TickHz", "Seed", "Players" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Lockstep.Proto.C2SInput), global::Lockstep.Proto.C2SInput.Parser, new[]{ "MoveX", "MoveZ" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Lockstep.Proto.C2SInput), global::Lockstep.Proto.C2SInput.Parser, new[]{ "MoveX", "MoveZ", "FrameId" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Lockstep.Proto.PlayerFrameInput), global::Lockstep.Proto.PlayerFrameInput.Parser, new[]{ "PlayerId", "MoveX", "MoveZ" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Lockstep.Proto.S2CFrame), global::Lockstep.Proto.S2CFrame.Parser, new[]{ "FrameId", "Inputs" }, null, null, null, null)
           }));
@@ -97,7 +97,7 @@ namespace Lockstep.Proto {
     /// </summary>
     [pbr::OriginalName("S2C_MatchStart")] S2CMatchStart = 6,
     /// <summary>
-    /// 当前移动方向
+    /// 指定逻辑帧的移动方向
     /// </summary>
     [pbr::OriginalName("C2S_Input")] C2SInput = 8,
     /// <summary>
@@ -1708,6 +1708,7 @@ namespace Lockstep.Proto {
     public C2SInput(C2SInput other) : this() {
       moveX_ = other.moveX_;
       moveZ_ = other.moveZ_;
+      frameId_ = other.frameId_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -1741,6 +1742,18 @@ namespace Lockstep.Proto {
       }
     }
 
+    /// <summary>Field number for the "frame_id" field.</summary>
+    public const int FrameIdFieldNumber = 3;
+    private uint frameId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public uint FrameId {
+      get { return frameId_; }
+      set {
+        frameId_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
@@ -1758,6 +1771,7 @@ namespace Lockstep.Proto {
       }
       if (MoveX != other.MoveX) return false;
       if (MoveZ != other.MoveZ) return false;
+      if (FrameId != other.FrameId) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -1767,6 +1781,7 @@ namespace Lockstep.Proto {
       int hash = 1;
       if (MoveX != 0) hash ^= MoveX.GetHashCode();
       if (MoveZ != 0) hash ^= MoveZ.GetHashCode();
+      if (FrameId != 0) hash ^= FrameId.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -1793,6 +1808,10 @@ namespace Lockstep.Proto {
         output.WriteRawTag(16);
         output.WriteSInt32(MoveZ);
       }
+      if (FrameId != 0) {
+        output.WriteRawTag(24);
+        output.WriteUInt32(FrameId);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -1811,6 +1830,10 @@ namespace Lockstep.Proto {
         output.WriteRawTag(16);
         output.WriteSInt32(MoveZ);
       }
+      if (FrameId != 0) {
+        output.WriteRawTag(24);
+        output.WriteUInt32(FrameId);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -1826,6 +1849,9 @@ namespace Lockstep.Proto {
       }
       if (MoveZ != 0) {
         size += 1 + pb::CodedOutputStream.ComputeSInt32Size(MoveZ);
+      }
+      if (FrameId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(FrameId);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -1844,6 +1870,9 @@ namespace Lockstep.Proto {
       }
       if (other.MoveZ != 0) {
         MoveZ = other.MoveZ;
+      }
+      if (other.FrameId != 0) {
+        FrameId = other.FrameId;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -1872,6 +1901,10 @@ namespace Lockstep.Proto {
             MoveZ = input.ReadSInt32();
             break;
           }
+          case 24: {
+            FrameId = input.ReadUInt32();
+            break;
+          }
         }
       }
     #endif
@@ -1897,6 +1930,10 @@ namespace Lockstep.Proto {
           }
           case 16: {
             MoveZ = input.ReadSInt32();
+            break;
+          }
+          case 24: {
+            FrameId = input.ReadUInt32();
             break;
           }
         }

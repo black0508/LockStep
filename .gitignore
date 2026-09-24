@@ -16,3 +16,6 @@ obj/
 *.userosscache
 project.lock.json
 artifacts/
+
+# Docs
+docs/

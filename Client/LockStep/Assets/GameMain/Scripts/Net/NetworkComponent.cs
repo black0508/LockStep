@@ -12,6 +12,7 @@ namespace GameMain.Net
         MessageDispatcher dispatcher;
 
         public bool IsConnected => !IsDisposed && transport != null && transport.IsConnected;
+        public uint RttMilliseconds => transport.RttMilliseconds;
 
         // 从此处接管 transport，销毁组件时统一释放。
         public void Init(INetworkTransport value)
