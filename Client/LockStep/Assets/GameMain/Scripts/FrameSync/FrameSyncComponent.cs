@@ -4,6 +4,7 @@ using System.Diagnostics;
 using GameMain.Character;
 using GameMain.FrameSync.Events;
 using GameMain.Net;
+using GameMain.Replay;
 using Lockstep.Proto;
 using LockStep.Framework;
 
@@ -12,6 +13,8 @@ namespace GameMain.FrameSync
     // 本地固定步长时钟领先服务端提交带帧号的输入；角色只在收到权威帧时执行。不引用 Unity，也不知道表现层。
     public sealed class FrameSyncComponent : Component
     {
+        public enum SimulationMode { None, Online, Replay }
+
         const int BufferFrames = 1;
         // 须明显小于 TickHz，保证变速后的频率为正。
         const int MaxAheadFrames = 10;
@@ -23,9 +26,10 @@ namespace GameMain.FrameSync
         NetworkComponent network;
         EventComponent events;
         IMoveInput moveInput;
-        bool running;
+        ReplayComponent replay;
         double elapsed;
 
+        public SimulationMode Mode { get; private set; }
         public uint TickHz { get; private set; }
         public uint InputFrame { get; private set; }
         public uint AppliedFrame { get; private set; }
@@ -37,17 +41,19 @@ namespace GameMain.FrameSync
             events = Entity.GetComponent<EventComponent>();
         }
 
-        public void Init(IMoveInput value)
+        public void Init(IMoveInput value, ReplayComponent replayComponent)
         {
             moveInput = value;
+            replay = replayComponent;
         }
 
         // players 为服务端下发的参战名单，已按 PlayerId 升序。
-        public void Start(IReadOnlyList<RoomPlayer> players, uint localPlayerId, uint tickHz)
+        public void Start(IReadOnlyList<RoomPlayer> players, uint localPlayerId, uint tickHz, SimulationMode mode)
         {
+            Stop();
             TickHz = tickHz;
-            running = true;
-            sinceReceived.Restart();
+            Mode = mode;
+            if (mode == SimulationMode.Online) sinceReceived.Restart();
             for (int i = 0; i < players.Count; i++)
             {
                 var character = Entity.World.CreateEntity().AddComponent<CharacterComponent>();
@@ -60,15 +66,23 @@ namespace GameMain.FrameSync
 
         public void ReceiveFrame(S2CFrame frame)
         {
+            if (Mode != SimulationMode.Online) return;
+            ApplyFrame(frame);
+            sinceReceived.Restart();
+            replay.RecordFrame(frame);
+        }
+
+        // 权威帧与回放共用同一个模拟入口；回放文件在读取边界完成校验。
+        public void ApplyFrame(S2CFrame frame)
+        {
             for (int i = 0; i < characters.Count; i++)
                 characters[i].Step(frame.Inputs[i].MoveX, frame.Inputs[i].MoveZ, TickHz);
             AppliedFrame = frame.FrameId;
-            sinceReceived.Restart();
         }
 
         protected override void OnUpdate(float deltaTime)
         {
-            if (!running) return;
+            if (Mode != SimulationMode.Online) return;
 
             int halfRttFrames = (int)Math.Ceiling(network.RttMilliseconds * TickHz / 2000.0);
             // 可能收到是99帧，RTT是1帧，所以估算服务器100帧，但这个结果只在接收一瞬间是对的，可能Update中也会慢，估算的就不准确
@@ -105,7 +119,7 @@ namespace GameMain.FrameSync
         // 销毁角色实体时，挂在上面的表现组件随之销毁。
         public void Stop()
         {
-            running = false;
+            Mode = SimulationMode.None;
             foreach (CharacterComponent character in characters) character.Entity.Dispose();
             characters.Clear();
             sinceReceived.Reset();

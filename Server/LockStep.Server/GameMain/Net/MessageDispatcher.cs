@@ -11,23 +11,15 @@ public sealed class MessageDispatcher
 {
     readonly Dictionary<MsgId, IMessageHandler> handlers = new Dictionary<MsgId, IMessageHandler>();
 
-    // 每个分发器只在启动时注册一次；失败由组合根清理整个运行时。
+    // 启动时注册当前程序集内标记过的 Handler。
     public void RegisterAssembly(Assembly assembly)
     {
         foreach (Type type in assembly.GetTypes())
         {
             var attribute = type.GetCustomAttribute<MessageHandlerAttribute>();
-            bool isHandler = typeof(IMessageHandler).IsAssignableFrom(type);
-            if (attribute == null && (!isHandler || type.IsAbstract || type.ContainsGenericParameters)) continue;
-            if (!isHandler || !type.IsClass || type.IsAbstract || type.ContainsGenericParameters
-                || attribute == null || type.GetConstructor(Type.EmptyTypes) == null)
-            {
-                throw new InvalidOperationException("非法 Handler：" + type.FullName);
-            }
+            if (attribute == null) continue;
             handlers.Add(attribute.Id, (IMessageHandler)Activator.CreateInstance(type));
         }
-        if (handlers.Count == 0)
-            throw new InvalidOperationException("程序集没有发现任何 Handler：" + assembly.GetName().Name);
     }
 
     public void Dispatch(Entity entity, int connectionId, MsgId id, ByteString body)

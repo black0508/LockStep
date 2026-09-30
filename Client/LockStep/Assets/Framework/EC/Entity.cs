@@ -20,25 +20,19 @@ namespace LockStep.Framework
         {
             if (IsDisposed)
             {
-                throw new ObjectDisposedException(nameof(Entity));
+                GameLog.Error("Cannot add a component to a disposed entity.");
+                return null;
             }
             if (GetComponent<T>() != null)
             {
-                throw new InvalidOperationException("Duplicate component: " + typeof(T).Name);
+                GameLog.Error("Duplicate component: " + typeof(T).Name);
+                return null;
             }
 
             T component = new T();
             components.Add(component);
-            try
-            {
-                component.Attach(this);
-                return component;
-            }
-            catch
-            {
-                component.Dispose();
-                throw;
-            }
+            component.Attach(this);
+            return component;
         }
 
         public T GetComponent<T>() where T : Component

@@ -18,14 +18,7 @@ namespace LockStep.Framework
         {
             if (IsDisposed) return;
 
-            try
-            {
-                OnUpdate(deltaTime);
-            }
-            catch (Exception error)
-            {
-                GameLog.Error("Component update failed.", error);
-            }
+            OnUpdate(deltaTime);
         }
 
         public void Dispose()
@@ -37,10 +30,6 @@ namespace LockStep.Framework
             try
             {
                 OnDestroy();
-            }
-            catch (Exception error)
-            {
-                GameLog.Error("Component destruction failed.", error);
             }
             finally
             {

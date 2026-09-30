@@ -31,11 +31,6 @@ class Program
             }
             return 0;
         }
-        catch (Exception error)
-        {
-            GameLog.Error("服务器运行失败", error);
-            return 1;
-        }
         finally
         {
             Console.CancelKeyPress -= OnCancelKeyPress;

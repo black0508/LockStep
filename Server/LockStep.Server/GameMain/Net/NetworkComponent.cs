@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Net.Sockets;
 using Google.Protobuf;
 using Lockstep.Proto;
 using LockStep.Framework;
@@ -44,14 +45,14 @@ public sealed class NetworkComponent : Component
             GameLog.Info($"监听 UDP {port}");
             return true;
         }
-        catch (Exception error)
+        catch (SocketException error)
         {
             GameLog.Error($"监听失败 UDP {port}", error);
             return false;
         }
     }
 
-    // false 只表示连接已移除；编码或调用异常交给消息/生命周期边界，true 不代表对端已收到。
+    // false 只表示连接已移除，true 不代表对端已收到。
     public bool TrySend(int connectionId, MsgId id, IMessage message)
     {
         if (!connections.Contains(connectionId)) return false;
@@ -96,10 +97,9 @@ public sealed class NetworkComponent : Component
             id = packet.Id;
             dispatcher.Dispatch(Entity, connectionId, id, packet.Body);
         }
-        catch (Exception error)
+        catch (InvalidProtocolBufferException error)
         {
-            // 隔离当前消息，避免业务异常进入 KCP 的断线处理。
-            GameLog.Error($"消息处理失败：{id} connection={connectionId}", error);
+            GameLog.Error($"消息解析失败：{id} connection={connectionId}", error);
         }
     }
 

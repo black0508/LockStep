@@ -1,4 +1,5 @@
 using System;
+using System.Net.Sockets;
 using GameMain.Net.Events;
 using Google.Protobuf;
 using Lockstep.Proto;
@@ -39,7 +40,7 @@ namespace GameMain.Net
                 transport.Connect(host, port);
                 return true;
             }
-            catch (Exception error)
+            catch (SocketException error)
             {
                 GameLog.Error($"连接失败 {host}:{port}", error);
                 return false;
@@ -51,7 +52,7 @@ namespace GameMain.Net
             transport.Disconnect();
         }
 
-        // false 只表示当前未连接；编码或调用异常交给消息/生命周期边界，true 不代表对端已收到。
+        // false 只表示当前未连接，true 不代表对端已收到。
         public bool TrySend(MsgId id, IMessage message)
         {
             if (!IsConnected) return false;
@@ -62,7 +63,7 @@ namespace GameMain.Net
 
         protected override void OnUpdate(float deltaTime)
         {
-            transport.Tick(); // 异常由组件生命周期边界记录。
+            transport.Tick();
         }
 
         void OnConnected()
@@ -86,10 +87,9 @@ namespace GameMain.Net
                 id = packet.Id;
                 dispatcher.Dispatch(Entity, id, packet.Body);
             }
-            catch (Exception error)
+            catch (InvalidProtocolBufferException error)
             {
-                // 隔离当前消息，避免业务异常进入 KCP 的断线处理。
-                GameLog.Error($"消息处理失败：{id}", error);
+                GameLog.Error($"消息解析失败：{id}", error);
             }
         }
 

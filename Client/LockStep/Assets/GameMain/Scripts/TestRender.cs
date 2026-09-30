@@ -1,6 +1,7 @@
 using GameMain.FrameSync;
 using GameMain.Net;
 using GameMain.Room;
+using GameMain.Replay;
 using UnityEngine;
 
 namespace GameMain
@@ -11,6 +12,7 @@ namespace GameMain
         RoomComponent room;
         FrameSyncComponent frameSync;
         NetworkComponent network;
+        ReplayComponent replay;
         GUIStyle readoutStyle;
 
         void OnEnable()
@@ -18,22 +20,28 @@ namespace GameMain
             room = GameEntry.Get<RoomComponent>();
             frameSync = GameEntry.Get<FrameSyncComponent>();
             network = GameEntry.Get<NetworkComponent>();
+            replay = GameEntry.Get<ReplayComponent>();
         }
 
         void OnGUI()
         {
+            if (frameSync.Mode == FrameSyncComponent.SimulationMode.None) return;
             if (readoutStyle == null)
             {
                 readoutStyle = new GUIStyle(GUI.skin.label) { fontSize = 16 };
                 readoutStyle.normal.textColor = Color.white;
             }
 
-            string text = $"{room.Phase}  player={room.LocalPlayerId}  input={frameSync.InputFrame}"
-                + $"  applied={frameSync.AppliedFrame}  {frameSync.TickHz}Hz  RTT={network.RttMilliseconds}ms";
+            uint localPlayerId = frameSync.Mode == FrameSyncComponent.SimulationMode.Replay
+                ? replay.PlaybackInfo.LocalPlayerId : room.LocalPlayerId;
+            string text = frameSync.Mode == FrameSyncComponent.SimulationMode.Replay
+                ? $"Replay  player={localPlayerId}  applied={frameSync.AppliedFrame}  {frameSync.TickHz}Hz"
+                : $"{room.Phase}  player={localPlayerId}  input={frameSync.InputFrame}"
+                    + $"  applied={frameSync.AppliedFrame}  {frameSync.TickHz}Hz  RTT={network.RttMilliseconds}ms";
             for (int i = 0; i < frameSync.Characters.Count; i++)
             {
                 var character = frameSync.Characters[i];
-                string mark = character.PlayerId == room.LocalPlayerId ? "*" : "";
+                string mark = character.PlayerId == localPlayerId ? "*" : "";
                 text += $"\nP{character.PlayerId}{mark}  x={character.X}  z={character.Z}";
             }
 

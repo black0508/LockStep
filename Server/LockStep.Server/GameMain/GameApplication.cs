@@ -15,20 +15,12 @@ public sealed class GameApplication : IDisposable
 
     public GameApplication(ServerConfig config, INetworkServerHost host)
     {
-        try
-        {
-            Entity root = world.CreateEntity();
-            root.AddComponent<EventComponent>();
-            network = root.AddComponent<NetworkComponent>();
-            network.Init(host);
-            root.AddComponent<FrameSyncComponent>();
-            root.AddComponent<RoomComponent>().Init(config);
-        }
-        catch
-        {
-            world.Dispose();
-            throw;
-        }
+        Entity root = world.CreateEntity();
+        root.AddComponent<EventComponent>();
+        network = root.AddComponent<NetworkComponent>();
+        network.Init(host);
+        root.AddComponent<FrameSyncComponent>();
+        root.AddComponent<RoomComponent>().Init(config);
     }
 
     public bool Start(int port) { return network.Start(port); }

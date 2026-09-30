@@ -1,11 +1,10 @@
-using GameMain.Net;
 using LockStep.Framework;
 using UnityEngine;
 using Component = LockStep.Framework.Component;
 
 namespace GameMain
 {
-    // 场景唯一入口：组装运行时并驱动更新。表现层通过 Get 取运行时组件，逻辑层不使用这里。
+    // 场景唯一入口：传入配置并驱动应用生命周期。表现层通过 Get 取运行时组件，逻辑层不使用这里。
     // 执行顺序提前，保证同场景其他脚本的 Awake/OnEnable 能取到已创建的运行时。
     [DefaultExecutionOrder(-100)]
     public sealed class GameEntry : MonoBehaviour
@@ -18,6 +17,8 @@ namespace GameMain
 
         GameApplication application;
 
+        public static GameApplication Application => instance.application;
+
         public static T Get<T>() where T : Component
         {
             return instance.application.Get<T>();
@@ -29,9 +30,7 @@ namespace GameMain
             GameLog.InfoWriter = Debug.Log;
             GameLog.WarningWriter = Debug.LogWarning;
             GameLog.ErrorWriter = Debug.LogError;
-            application = new GameApplication(
-                new ClientConfig(host, port, nickName), new KcpClientTransport(), new KeyboardMoveInput());
-            if (!application.Start()) enabled = false;
+            application = new GameApplication(host, port, nickName);
         }
 
         void Update()

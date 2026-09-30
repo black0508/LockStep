@@ -28,7 +28,6 @@ namespace LockStep.Framework
         public void Subscribe(int id, EventHandler<GameEventArgs> handler)
         {
             if (!CanDispatch) return;
-            if (handler == null) throw new ArgumentNullException(nameof(handler));
             if (!handlers.TryGetValue(id, out List<Subscription> subscriptions))
             {
                 subscriptions = new List<Subscription>();
@@ -59,7 +58,6 @@ namespace LockStep.Framework
 
         public void FireNow(object sender, GameEventArgs args)
         {
-            if (args == null) throw new ArgumentNullException(nameof(args));
             args.DispatchDepth++;
             try
             {
