@@ -1,7 +1,6 @@
 using System;
 using System.Runtime.InteropServices;
 using kcp2k;
-using LockStep.Framework;
 
 namespace LockStep.Server.Net;
 // Windows 下 UDP 收到 ICMP Port Unreachable（客户端退出、端口没人听）时，
@@ -50,11 +49,6 @@ public class KcpServerHost : INetworkServerHost
 
     public void Start(int port)
     {
-        if (port < 1 || port > ushort.MaxValue)
-        {
-            GameLog.Error($"监听端口无效：{port}");
-            return;
-        }
         Stop();
 
         var config = new KcpConfig(
@@ -87,18 +81,12 @@ public class KcpServerHost : INetworkServerHost
 
     public void Send(int clientId, byte[] payload)
     {
-        if (server != null)
-        {
-            server.Send(clientId, new ArraySegment<byte>(payload), KcpChannel.Reliable);
-        }
+        server.Send(clientId, new ArraySegment<byte>(payload), KcpChannel.Reliable);
     }
 
     public void Disconnect(int clientId)
     {
-        if (server != null)
-        {
-            server.Disconnect(clientId);
-        }
+        server.Disconnect(clientId);
     }
 
     public void Dispose()

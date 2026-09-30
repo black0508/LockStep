@@ -11,7 +11,7 @@ namespace GameMain.Net
         INetworkTransport transport;
         MessageDispatcher dispatcher;
 
-        public bool IsConnected => !IsDisposed && transport != null && transport.IsConnected;
+        public bool IsConnected => transport.IsConnected;
         public uint RttMilliseconds => transport.RttMilliseconds;
 
         // 从此处接管 transport，销毁组件时统一释放。
@@ -48,28 +48,16 @@ namespace GameMain.Net
 
         public void Disconnect()
         {
-            try { transport.Disconnect(); }
-            catch (Exception error) { GameLog.Error("断开连接失败", error); }
+            transport.Disconnect();
         }
 
+        // false 只表示当前未连接；编码或调用异常交给消息/生命周期边界，true 不代表对端已收到。
         public bool TrySend(MsgId id, IMessage message)
         {
             if (!IsConnected) return false;
-            if (message == null)
-            {
-                GameLog.Error($"不能发送空消息：{id}");
-                return false;
-            }
-            try
-            {
-                transport.Send(MsgCodec.Encode(id, message));
-                return true;
-            }
-            catch (Exception error)
-            {
-                GameLog.Error($"发送消息失败：{id}", error);
-                return false;
-            }
+            var packet = new Packet { Id = id, Body = message.ToByteString() };
+            transport.Send(packet.ToByteArray());
+            return true;
         }
 
         protected override void OnUpdate(float deltaTime)
@@ -79,27 +67,30 @@ namespace GameMain.Net
 
         void OnConnected()
         {
-            if (IsDisposed) return;
             GameLog.Info("连接成功");
             Entity.GetComponent<EventComponent>().FireNow(this, NetworkConnectedEventArgs.Create());
         }
 
         void OnDisconnected()
         {
-            if (IsDisposed) return;
             GameLog.Info("断开连接");
             Entity.GetComponent<EventComponent>().FireNow(this, NetworkDisconnectedEventArgs.Create());
         }
 
         void OnReceivedPacket(byte[] payload)
         {
-            if (IsDisposed) return;
-            if (!MsgCodec.TryUnpack(payload, out MsgId id, out ByteString body))
+            MsgId id = MsgId.Unspecified;
+            try
             {
-                GameLog.Warning("解包失败");
-                return;
+                Packet packet = Packet.Parser.ParseFrom(payload);
+                id = packet.Id;
+                dispatcher.Dispatch(Entity, id, packet.Body);
             }
-            dispatcher.Dispatch(Entity, id, body);
+            catch (Exception error)
+            {
+                // 隔离当前消息，避免业务异常进入 KCP 的断线处理。
+                GameLog.Error($"消息处理失败：{id}", error);
+            }
         }
 
         void OnTransportError(Exception error)

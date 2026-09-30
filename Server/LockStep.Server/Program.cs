@@ -18,7 +18,7 @@ class Program
         Console.CancelKeyPress += OnCancelKeyPress;
         try
         {
-            using var application = new GameApplication(ServerConfig.Default, new KcpServerHost());
+            using var application = new GameApplication(new ServerConfig(), new KcpServerHost());
             if (!application.Start(Port)) return 1;
             var clock = Stopwatch.StartNew();
             double previousTime = clock.Elapsed.TotalSeconds;

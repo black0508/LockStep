@@ -21,11 +21,6 @@ namespace GameMain.Net
 
         public void Connect(string host, int port)
         {
-            if (port < 1 || port > ushort.MaxValue)
-            {
-                TransportError?.Invoke(new ArgumentOutOfRangeException(nameof(port)));
-                return;
-            }
             Disconnect();
 
             var config = new KcpConfig(
@@ -50,11 +45,6 @@ namespace GameMain.Net
 
         public void Send(byte[] payload)
         {
-            if (!IsConnected)
-            {
-                return;
-            }
-
             client.Send(new ArraySegment<byte>(payload), KcpChannel.Reliable);
         }
 

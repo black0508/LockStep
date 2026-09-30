@@ -9,12 +9,11 @@ namespace LockStep.Server.Net;
 
 public sealed class MessageDispatcher
 {
-    Dictionary<MsgId, IMessageHandler> handlers = new Dictionary<MsgId, IMessageHandler>();
+    readonly Dictionary<MsgId, IMessageHandler> handlers = new Dictionary<MsgId, IMessageHandler>();
 
-    // 初始化错误交给组合根收口；注册整批成功才替换路由。
+    // 每个分发器只在启动时注册一次；失败由组合根清理整个运行时。
     public void RegisterAssembly(Assembly assembly)
     {
-        var discovered = new Dictionary<MsgId, IMessageHandler>();
         foreach (Type type in assembly.GetTypes())
         {
             var attribute = type.GetCustomAttribute<MessageHandlerAttribute>();
@@ -25,27 +24,19 @@ public sealed class MessageDispatcher
             {
                 throw new InvalidOperationException("非法 Handler：" + type.FullName);
             }
-            if (discovered.ContainsKey(attribute.Id))
-                throw new InvalidOperationException("重复消息编号 " + attribute.Id + "：" + type.FullName);
-            discovered.Add(attribute.Id, (IMessageHandler)Activator.CreateInstance(type));
+            handlers.Add(attribute.Id, (IMessageHandler)Activator.CreateInstance(type));
         }
-        if (discovered.Count == 0)
+        if (handlers.Count == 0)
             throw new InvalidOperationException("程序集没有发现任何 Handler：" + assembly.GetName().Name);
-        handlers = discovered;
     }
 
     public void Dispatch(Entity entity, int connectionId, MsgId id, ByteString body)
     {
-        if (entity == null || entity.IsDisposed) return;
         if (!handlers.TryGetValue(id, out IMessageHandler handler))
         {
             GameLog.Warning($"未处理的消息：{id} connection={connectionId}");
             return;
         }
-        try { handler.Dispatch(entity, connectionId, body); }
-        catch (Exception error)
-        {
-            GameLog.Error($"消息处理失败：{id} connection={connectionId} Handler={handler.GetType().Name}", error);
-        }
+        handler.Dispatch(entity, connectionId, body);
     }
 }

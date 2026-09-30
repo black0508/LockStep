@@ -15,8 +15,6 @@ public sealed class GameApplication : IDisposable
 
     public GameApplication(ServerConfig config, INetworkServerHost host)
     {
-        if (!config.IsValid)
-            throw new ArgumentException("配置无效：帧率/容量必须为正，开战人数必须在容量范围内", nameof(config));
         try
         {
             Entity root = world.CreateEntity();

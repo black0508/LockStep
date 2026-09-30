@@ -61,11 +61,8 @@ public sealed class RoomComponent : Component
         FillPlayers(ack.Players);
         network.TrySend(connectionId, MsgId.S2CJoinAck, ack);
         BroadcastRoomUpdate();
-        if (members.Count >= config.MinPlayersToStart) StartMatch();
-    }
+        if (members.Count < config.MinPlayersToStart) return;
 
-    void StartMatch()
-    {
         playing = true;
         var start = new S2CMatchStart { TickHz = config.TickRate, Seed = (uint)Random.Shared.Next(1, int.MaxValue) };
         FillPlayers(start.Players);
@@ -84,22 +81,17 @@ public sealed class RoomComponent : Component
         GameLog.Info($"退房 playerId={member.PlayerId} 昵称={member.NickName} connection={connectionId} 剩余={members.Count - 1}");
         if (playing)
         {
-            AbortMatch();
+            // 先重置房间再断开其余连接，断开会同步回调 OnDisconnected，此时名单已空。
+            List<RoomMember> dropped = new List<RoomMember>(members);
+            Reset();
+            GameLog.Info("对局中断，房间已重置");
+            foreach (RoomMember droppedMember in dropped) network.Disconnect(droppedMember.ConnectionId);
             return;
         }
 
         members.RemoveAt(index);
         if (members.Count == 0) Reset();
         else BroadcastRoomUpdate();
-    }
-
-    // 对局中有人掉线则本局作废：先重置房间再断开其余连接，断开会同步回调 OnDisconnected，此时名单已空。
-    void AbortMatch()
-    {
-        List<RoomMember> dropped = new List<RoomMember>(members);
-        Reset();
-        GameLog.Info("对局中断，房间已重置");
-        foreach (RoomMember member in dropped) network.Disconnect(member.ConnectionId);
     }
 
     void Reset()

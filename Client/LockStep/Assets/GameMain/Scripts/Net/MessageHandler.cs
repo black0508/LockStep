@@ -27,7 +27,7 @@ namespace GameMain.Net
         public void Dispatch(Entity entity, ByteString body)
         {
             TComponent component = entity.GetComponent<TComponent>();
-            if (component == null || component.IsDisposed)
+            if (component == null)
             {
                 GameLog.Warning($"消息目标组件不存在：{typeof(TComponent).Name}");
                 return;

@@ -33,48 +33,38 @@ public sealed class NetworkComponent : Component
 
     public bool Start(int port)
     {
+        if (port < 1 || port > ushort.MaxValue)
+        {
+            GameLog.Error($"监听端口无效：{port}");
+            return false;
+        }
         try
         {
             host.Start(port);
+            GameLog.Info($"监听 UDP {port}");
+            return true;
         }
         catch (Exception error)
         {
             GameLog.Error($"监听失败 UDP {port}", error);
             return false;
         }
-        if (!host.IsActive)
-        {
-            GameLog.Error($"监听失败 UDP {port}");
-            return false;
-        }
-        GameLog.Info($"监听 UDP {port}");
-        return true;
     }
 
+    // false 只表示连接已移除；编码或调用异常交给消息/生命周期边界，true 不代表对端已收到。
     public bool TrySend(int connectionId, MsgId id, IMessage message)
     {
         if (!connections.Contains(connectionId)) return false;
-        try
-        {
-            host.Send(connectionId, MsgCodec.Encode(id, message));
-            return true;
-        }
-        catch (Exception error)
-        {
-            GameLog.Error($"发送失败：{id} connection={connectionId}", error);
-            return false;
-        }
+        var packet = new Packet { Id = id, Body = message.ToByteString() };
+        host.Send(connectionId, packet.ToByteArray());
+        return true;
     }
 
     // 会同步触发 Disconnected 事件。
     public void Disconnect(int connectionId)
     {
         if (!connections.Contains(connectionId)) return;
-        try { host.Disconnect(connectionId); }
-        catch (Exception error)
-        {
-            GameLog.Error($"断开失败 connection={connectionId}", error);
-        }
+        host.Disconnect(connectionId);
     }
 
     protected override void OnUpdate(float deltaTime)
@@ -84,15 +74,12 @@ public sealed class NetworkComponent : Component
 
     void OnConnected(int connectionId)
     {
-        if (IsDisposed) return;
         connections.Add(connectionId);
         GameLog.Info($"连接 connection={connectionId}");
-        events.FireNow(this, NetworkConnectedEventArgs.Create(connectionId));
     }
 
     void OnDisconnected(int connectionId)
     {
-        if (IsDisposed) return;
         connections.Remove(connectionId);
         GameLog.Info($"断开 connection={connectionId}");
         events.FireNow(this, NetworkDisconnectedEventArgs.Create(connectionId));
@@ -100,13 +87,20 @@ public sealed class NetworkComponent : Component
 
     void OnReceivedPacket(int connectionId, byte[] payload)
     {
+        // KCP 延迟移除连接，先丢弃本轮断线后仍排队的消息。
         if (!connections.Contains(connectionId)) return;
-        if (!MsgCodec.TryUnpack(payload, out MsgId id, out ByteString body))
+        MsgId id = MsgId.Unspecified;
+        try
         {
-            GameLog.Warning($"解包失败 connection={connectionId}");
-            return;
+            Packet packet = Packet.Parser.ParseFrom(payload);
+            id = packet.Id;
+            dispatcher.Dispatch(Entity, connectionId, id, packet.Body);
         }
-        dispatcher.Dispatch(Entity, connectionId, id, body);
+        catch (Exception error)
+        {
+            // 隔离当前消息，避免业务异常进入 KCP 的断线处理。
+            GameLog.Error($"消息处理失败：{id} connection={connectionId}", error);
+        }
     }
 
     void OnTransportError(int connectionId, Exception error)
