@@ -11,19 +11,20 @@ namespace LockStep.Server;
 public sealed class GameApplication : IDisposable
 {
     readonly World world = new World();
-    readonly NetworkComponent network;
+    readonly Entity root;
 
     public GameApplication(ServerConfig config, INetworkServerHost host)
     {
-        Entity root = world.CreateEntity();
+        root = world.CreateEntity();
         root.AddComponent<EventComponent>();
-        network = root.AddComponent<NetworkComponent>();
+        var network = root.AddComponent<NetworkComponent>();
         network.Init(host);
         root.AddComponent<FrameSyncComponent>();
         root.AddComponent<RoomComponent>().Init(config);
     }
 
-    public bool Start(int port) { return network.Start(port); }
+    public T Get<T>() where T : Component { return root.GetComponent<T>(); }
+    public bool Start(int port) { return Get<NetworkComponent>().Start(port); }
     public void Update(float deltaTime) { world.Update(deltaTime); }
     public void Dispose() { world.Dispose(); }
 }

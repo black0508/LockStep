@@ -1,3 +1,4 @@
+using GameMain.Character;
 using GameMain.FrameSync;
 using GameMain.Net;
 using GameMain.Room;
@@ -6,43 +7,35 @@ using UnityEngine;
 
 namespace GameMain
 {
-    // 自行挂到场景上：左上角只读显示房间与权威帧状态。
     public sealed class TestRender : MonoBehaviour
     {
-        RoomComponent room;
-        FrameSyncComponent frameSync;
-        NetworkComponent network;
-        ReplayComponent replay;
         GUIStyle readoutStyle;
-
-        void OnEnable()
-        {
-            room = GameEntry.Get<RoomComponent>();
-            frameSync = GameEntry.Get<FrameSyncComponent>();
-            network = GameEntry.Get<NetworkComponent>();
-            replay = GameEntry.Get<ReplayComponent>();
-        }
 
         void OnGUI()
         {
-            if (frameSync.Mode == FrameSyncComponent.SimulationMode.None) return;
+            GameApplication application = GameEntry.Application;
+            if (application == null) return;
+            FrameSyncComponent frameSync = application.FrameSync;
+            RoomComponent room = application.Room;
+            NetworkComponent network = application.Network;
+            ReplayComponent replay = application.Replay;
             if (readoutStyle == null)
             {
                 readoutStyle = new GUIStyle(GUI.skin.label) { fontSize = 16 };
                 readoutStyle.normal.textColor = Color.white;
             }
 
-            uint localPlayerId = frameSync.Mode == FrameSyncComponent.SimulationMode.Replay
-                ? replay.PlaybackInfo.LocalPlayerId : room.LocalPlayerId;
-            string text = frameSync.Mode == FrameSyncComponent.SimulationMode.Replay
-                ? $"Replay  player={localPlayerId}  applied={frameSync.AppliedFrame}  {frameSync.TickHz}Hz"
+            ReplayFile.Header info = replay.Playback?.Info;
+            uint localPlayerId = info?.LocalPlayerId ?? room.LocalPlayerId;
+            string text = info != null
+                ? $"Replay  player={localPlayerId}  applied={frameSync.AppliedFrame}  {FrameSyncComponent.TickHz}Hz"
                 : $"{room.Phase}  player={localPlayerId}  input={frameSync.InputFrame}"
-                    + $"  applied={frameSync.AppliedFrame}  {frameSync.TickHz}Hz  RTT={network.RttMilliseconds}ms";
-            for (int i = 0; i < frameSync.Characters.Count; i++)
+                    + $"  applied={frameSync.AppliedFrame}  {FrameSyncComponent.TickHz}Hz  RTT={network.RttMilliseconds}ms";
+            foreach (var pair in frameSync.Characters)
             {
-                var character = frameSync.Characters[i];
-                string mark = character.PlayerId == localPlayerId ? "*" : "";
-                text += $"\nP{character.PlayerId}{mark}  x={character.X}  z={character.Z}";
+                CharacterComponent character = pair.Value.GetComponent<CharacterComponent>();
+                string mark = pair.Key == localPlayerId ? "*" : "";
+                text += $"\nP{pair.Key}{mark}  x={character.X}  z={character.Z}";
             }
 
             var area = new Rect(8, 8, 720, 24 * (frameSync.Characters.Count + 1));

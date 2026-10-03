@@ -16,7 +16,7 @@ namespace GameMain.UI
         public void Bind(ReplayFile.Entry entry, Action<string> play, Action<ReplayFile.Entry> delete)
         {
             if (entry.Info == null)
-                details.text = Path.GetFileName(entry.Path) + "\n无法读取：" + entry.Error;
+                details.text = Path.GetFileName(entry.Path) + "\n无法读取（详见日志）";
             else
             {
                 var names = new StringBuilder();

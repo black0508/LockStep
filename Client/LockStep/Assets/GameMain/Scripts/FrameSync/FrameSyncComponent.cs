@@ -4,87 +4,78 @@ using System.Diagnostics;
 using GameMain.Character;
 using GameMain.FrameSync.Events;
 using GameMain.Net;
-using GameMain.Replay;
 using Lockstep.Proto;
 using LockStep.Framework;
 
 namespace GameMain.FrameSync
 {
-    // 本地固定步长时钟领先服务端提交带帧号的输入；角色只在收到权威帧时执行。不引用 Unity，也不知道表现层。
+    // 本地固定步长时钟领先服务端提交带帧号的输入；角色只在收到权威帧时执行。全局组件从 GameEntry.Application 读取。
     public sealed class FrameSyncComponent : Component
     {
-        public enum SimulationMode { None, Online, Replay }
-
+        // 须与服务端 FrameSyncComponent.TickHz 一致。
+        public const uint TickHz = 30;
         const int BufferFrames = 1;
         // 须明显小于 TickHz，保证变速后的频率为正。
         const int MaxAheadFrames = 10;
 
-        // 按 PlayerId 升序，与帧内输入顺序一致。
-        readonly List<CharacterComponent> characters = new List<CharacterComponent>();
+        // PlayerId 到本局角色实体的唯一映射；操作对象由帧输入中的 PlayerId 决定。
+        readonly Dictionary<uint, Entity> characters = new Dictionary<uint, Entity>();
         // 单调时间，不受 Unity timeScale 影响。
         readonly Stopwatch sinceReceived = new Stopwatch();
-        NetworkComponent network;
-        EventComponent events;
-        IMoveInput moveInput;
-        ReplayComponent replay;
+        // 区分是单机回放还是联网对局
+        bool online;
+        uint localPlayerId;
         double elapsed;
 
-        public SimulationMode Mode { get; private set; }
-        public uint TickHz { get; private set; }
         public uint InputFrame { get; private set; }
         public uint AppliedFrame { get; private set; }
-        public IReadOnlyList<CharacterComponent> Characters => characters;
-
-        protected override void OnAwake()
-        {
-            network = Entity.GetComponent<NetworkComponent>();
-            events = Entity.GetComponent<EventComponent>();
-        }
-
-        public void Init(IMoveInput value, ReplayComponent replayComponent)
-        {
-            moveInput = value;
-            replay = replayComponent;
-        }
+        public IReadOnlyDictionary<uint, Entity> Characters => characters;
 
         // players 为服务端下发的参战名单，已按 PlayerId 升序。
-        public void Start(IReadOnlyList<RoomPlayer> players, uint localPlayerId, uint tickHz, SimulationMode mode)
+        public void Start(IReadOnlyList<RoomPlayer> players, uint localId, bool isOnline)
         {
             Stop();
-            TickHz = tickHz;
-            Mode = mode;
-            if (mode == SimulationMode.Online) sinceReceived.Restart();
+            online = isOnline;
+            localPlayerId = localId;
+            if (online) sinceReceived.Restart();
             for (int i = 0; i < players.Count; i++)
             {
-                var character = Entity.World.CreateEntity().AddComponent<CharacterComponent>();
+                uint playerId = players[i].PlayerId;
+                Entity character = Entity.World.CreateEntity();
                 // 沿 X 轴间隔 2 个单位、以原点为中心摆放。
-                character.Init(players[i].PlayerId, (2L * i - (players.Count - 1)) * CharacterComponent.CoordinateScale);
-                characters.Add(character);
-                events.FireNow(this, CharacterSpawnedEventArgs.Create(character, character.PlayerId == localPlayerId));
+                character.AddComponent<CharacterComponent>().Init((2L * i - (players.Count - 1)) * CharacterComponent.CoordinateScale);
+                if (online && playerId == localPlayerId)
+                    character.AddComponent<PlayerControllerComponent>().Init(GameEntry.Application.Input);
+                characters.Add(playerId, character);
+                GameEntry.Application.Events.FireNow(this,
+                    CharacterSpawnedEventArgs.Create(character, playerId, playerId == localPlayerId));
             }
         }
 
         public void ReceiveFrame(S2CFrame frame)
         {
-            if (Mode != SimulationMode.Online) return;
+            if (!online) return;
             ApplyFrame(frame);
             sinceReceived.Restart();
-            replay.RecordFrame(frame);
+            GameEntry.Application.Events.FireNow(this, FrameReceivedEventArgs.Create(frame));
         }
 
-        // 权威帧与回放共用同一个模拟入口；回放文件在读取边界完成校验。
+        // 联网权威帧与外部喂入的帧共用：由帧输入决定操作对象，按 PlayerId 定位角色。
         public void ApplyFrame(S2CFrame frame)
         {
-            for (int i = 0; i < characters.Count; i++)
-                characters[i].Step(frame.Inputs[i].MoveX, frame.Inputs[i].MoveZ, TickHz);
+            foreach (PlayerFrameInput input in frame.Inputs)
+            {
+                Entity character = characters[input.PlayerId];
+                character.GetComponent<CharacterComponent>().Step(input.MoveX, input.MoveZ);
+            }
             AppliedFrame = frame.FrameId;
         }
 
         protected override void OnUpdate(float deltaTime)
         {
-            if (Mode != SimulationMode.Online) return;
+            if (!online) return;
 
-            int halfRttFrames = (int)Math.Ceiling(network.RttMilliseconds * TickHz / 2000.0);
+            int halfRttFrames = (int)Math.Ceiling(GameEntry.Application.Network.RttMilliseconds * TickHz / 2000.0);
             // 可能收到是99帧，RTT是1帧，所以估算服务器100帧，但这个结果只在接收一瞬间是对的，可能Update中也会慢，估算的就不准确
             // 所以这里也计算出从接收到帧到Update有多久时间从而估算服务器帧
             uint serverFrame = AppliedFrame + (uint)halfRttFrames + (uint)(sinceReceived.Elapsed.TotalSeconds * TickHz);
@@ -112,18 +103,19 @@ namespace GameMain.FrameSync
         void Tick()
         {
             InputFrame++;
-            moveInput.Read(out int moveX, out int moveZ);
-            network.TrySend(MsgId.C2SInput, new C2SInput { FrameId = InputFrame, MoveX = moveX, MoveZ = moveZ });
+            PlayerControllerComponent controller = characters[localPlayerId].GetComponent<PlayerControllerComponent>();
+            GameEntry.Application.Network.TrySend(MsgId.C2SInput,
+                new C2SInput { FrameId = InputFrame, MoveX = controller.MoveX, MoveZ = controller.MoveZ });
         }
 
         // 销毁角色实体时，挂在上面的表现组件随之销毁。
         public void Stop()
         {
-            Mode = SimulationMode.None;
-            foreach (CharacterComponent character in characters) character.Entity.Dispose();
+            online = false;
+            localPlayerId = 0;
+            foreach (Entity character in characters.Values) character.Dispose();
             characters.Clear();
             sinceReceived.Reset();
-            TickHz = 0;
             InputFrame = 0;
             AppliedFrame = 0;
             elapsed = 0;

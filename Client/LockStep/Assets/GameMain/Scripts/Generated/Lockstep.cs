@@ -34,21 +34,21 @@ namespace Lockstep.Proto {
             "BAgDEARSB3Jvb21faWRSB2lzX2hvc3QiOwoNUzJDSm9pblJlamVjdBIqCgZy",
             "ZWFzb24YASABKA4yGi5sb2Nrc3RlcC5Kb2luUmVqZWN0UmVhc29uIkUKDVMy",
             "Q1Jvb21VcGRhdGUSJQoHcGxheWVycxgCIAMoCzIULmxvY2tzdGVwLlJvb21Q",
-            "bGF5ZXJKBAgBEAJSB3Jvb21faWQiVQoNUzJDTWF0Y2hTdGFydBIPCgd0aWNr",
-            "X2h6GAEgASgNEgwKBHNlZWQYAyABKA0SJQoHcGxheWVycxgEIAMoCzIULmxv",
-            "Y2tzdGVwLlJvb21QbGF5ZXIiPAoIQzJTSW5wdXQSDgoGbW92ZV94GAEgASgR",
-            "Eg4KBm1vdmVfehgCIAEoERIQCghmcmFtZV9pZBgDIAEoDSJFChBQbGF5ZXJG",
-            "cmFtZUlucHV0EhEKCXBsYXllcl9pZBgBIAEoDRIOCgZtb3ZlX3gYAiABKBES",
-            "DgoGbW92ZV96GAMgASgRIkgKCFMyQ0ZyYW1lEhAKCGZyYW1lX2lkGAEgASgN",
-            "EioKBmlucHV0cxgCIAMoCzIaLmxvY2tzdGVwLlBsYXllckZyYW1lSW5wdXQq",
-            "uQEKBU1zZ0lkEg8KC1Vuc3BlY2lmaWVkEAASDAoIQzJTX0pvaW4QARIPCgtT",
-            "MkNfSm9pbkFjaxACEhIKDlMyQ19Kb2luUmVqZWN0EAMSEgoOUzJDX1Jvb21V",
-            "cGRhdGUQBBISCg5TMkNfTWF0Y2hTdGFydBAGEg0KCUMyU19JbnB1dBAIEg0K",
-            "CVMyQ19GcmFtZRAJIgQIBRAFIgQIBxAHKglDMlNfU3RhcnQqD1MyQ19TdGFy",
-            "dFJlamVjdCp3ChBKb2luUmVqZWN0UmVhc29uEhkKFUpvaW5SZWplY3RVbnNw",
-            "ZWNpZmllZBAAEhIKDkpvaW5SZWplY3RGdWxsEAESFQoRSm9pblJlamVjdFBs",
-            "YXlpbmcQAiIECAMQAyoXSm9pblJlamVjdEFscmVhZHlJblJvb21CEaoCDkxv",
-            "Y2tzdGVwLlByb3RvYgZwcm90bzM="));
+            "bGF5ZXJKBAgBEAJSB3Jvb21faWQiUwoNUzJDTWF0Y2hTdGFydBIMCgRzZWVk",
+            "GAMgASgNEiUKB3BsYXllcnMYBCADKAsyFC5sb2Nrc3RlcC5Sb29tUGxheWVy",
+            "SgQIARACUgd0aWNrX2h6IjwKCEMyU0lucHV0Eg4KBm1vdmVfeBgBIAEoERIO",
+            "CgZtb3ZlX3oYAiABKBESEAoIZnJhbWVfaWQYAyABKA0iRQoQUGxheWVyRnJh",
+            "bWVJbnB1dBIRCglwbGF5ZXJfaWQYASABKA0SDgoGbW92ZV94GAIgASgREg4K",
+            "Bm1vdmVfehgDIAEoESJICghTMkNGcmFtZRIQCghmcmFtZV9pZBgBIAEoDRIq",
+            "CgZpbnB1dHMYAiADKAsyGi5sb2Nrc3RlcC5QbGF5ZXJGcmFtZUlucHV0KrkB",
+            "CgVNc2dJZBIPCgtVbnNwZWNpZmllZBAAEgwKCEMyU19Kb2luEAESDwoLUzJD",
+            "X0pvaW5BY2sQAhISCg5TMkNfSm9pblJlamVjdBADEhIKDlMyQ19Sb29tVXBk",
+            "YXRlEAQSEgoOUzJDX01hdGNoU3RhcnQQBhINCglDMlNfSW5wdXQQCBINCglT",
+            "MkNfRnJhbWUQCSIECAUQBSIECAcQByoJQzJTX1N0YXJ0Kg9TMkNfU3RhcnRS",
+            "ZWplY3QqdwoQSm9pblJlamVjdFJlYXNvbhIZChVKb2luUmVqZWN0VW5zcGVj",
+            "aWZpZWQQABISCg5Kb2luUmVqZWN0RnVsbBABEhUKEUpvaW5SZWplY3RQbGF5",
+            "aW5nEAIiBAgDEAMqF0pvaW5SZWplY3RBbHJlYWR5SW5Sb29tQhGqAg5Mb2Nr",
+            "c3RlcC5Qcm90b2IGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Lockstep.Proto.MsgId), typeof(global::Lockstep.Proto.JoinRejectReason), }, null, new pbr::GeneratedClrTypeInfo[] {
@@ -58,7 +58,7 @@ namespace Lockstep.Proto {
             new pbr::GeneratedClrTypeInfo(typeof(global::Lockstep.Proto.S2CJoinAck), global::Lockstep.Proto.S2CJoinAck.Parser, new[]{ "PlayerId", "Players" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Lockstep.Proto.S2CJoinReject), global::Lockstep.Proto.S2CJoinReject.Parser, new[]{ "Reason" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Lockstep.Proto.S2CRoomUpdate), global::Lockstep.Proto.S2CRoomUpdate.Parser, new[]{ "Players" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Lockstep.Proto.S2CMatchStart), global::Lockstep.Proto.S2CMatchStart.Parser, new[]{ "TickHz", "Seed", "Players" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Lockstep.Proto.S2CMatchStart), global::Lockstep.Proto.S2CMatchStart.Parser, new[]{ "Seed", "Players" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Lockstep.Proto.C2SInput), global::Lockstep.Proto.C2SInput.Parser, new[]{ "MoveX", "MoveZ", "FrameId" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Lockstep.Proto.PlayerFrameInput), global::Lockstep.Proto.PlayerFrameInput.Parser, new[]{ "PlayerId", "MoveX", "MoveZ" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Lockstep.Proto.S2CFrame), global::Lockstep.Proto.S2CFrame.Parser, new[]{ "FrameId", "Inputs" }, null, null, null, null)
@@ -1439,7 +1439,6 @@ namespace Lockstep.Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public S2CMatchStart(S2CMatchStart other) : this() {
-      tickHz_ = other.tickHz_;
       seed_ = other.seed_;
       players_ = other.players_.Clone();
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
@@ -1449,18 +1448,6 @@ namespace Lockstep.Proto {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public S2CMatchStart Clone() {
       return new S2CMatchStart(this);
-    }
-
-    /// <summary>Field number for the "tick_hz" field.</summary>
-    public const int TickHzFieldNumber = 1;
-    private uint tickHz_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public uint TickHz {
-      get { return tickHz_; }
-      set {
-        tickHz_ = value;
-      }
     }
 
     /// <summary>Field number for the "seed" field.</summary>
@@ -1504,7 +1491,6 @@ namespace Lockstep.Proto {
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (TickHz != other.TickHz) return false;
       if (Seed != other.Seed) return false;
       if(!players_.Equals(other.players_)) return false;
       return Equals(_unknownFields, other._unknownFields);
@@ -1514,7 +1500,6 @@ namespace Lockstep.Proto {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
-      if (TickHz != 0) hash ^= TickHz.GetHashCode();
       if (Seed != 0) hash ^= Seed.GetHashCode();
       hash ^= players_.GetHashCode();
       if (_unknownFields != null) {
@@ -1535,10 +1520,6 @@ namespace Lockstep.Proto {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
-      if (TickHz != 0) {
-        output.WriteRawTag(8);
-        output.WriteUInt32(TickHz);
-      }
       if (Seed != 0) {
         output.WriteRawTag(24);
         output.WriteUInt32(Seed);
@@ -1554,10 +1535,6 @@ namespace Lockstep.Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (TickHz != 0) {
-        output.WriteRawTag(8);
-        output.WriteUInt32(TickHz);
-      }
       if (Seed != 0) {
         output.WriteRawTag(24);
         output.WriteUInt32(Seed);
@@ -1573,9 +1550,6 @@ namespace Lockstep.Proto {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
-      if (TickHz != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(TickHz);
-      }
       if (Seed != 0) {
         size += 1 + pb::CodedOutputStream.ComputeUInt32Size(Seed);
       }
@@ -1591,9 +1565,6 @@ namespace Lockstep.Proto {
     public void MergeFrom(S2CMatchStart other) {
       if (other == null) {
         return;
-      }
-      if (other.TickHz != 0) {
-        TickHz = other.TickHz;
       }
       if (other.Seed != 0) {
         Seed = other.Seed;
@@ -1618,10 +1589,6 @@ namespace Lockstep.Proto {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
-          case 8: {
-            TickHz = input.ReadUInt32();
-            break;
-          }
           case 24: {
             Seed = input.ReadUInt32();
             break;
@@ -1649,10 +1616,6 @@ namespace Lockstep.Proto {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
-          case 8: {
-            TickHz = input.ReadUInt32();
-            break;
-          }
           case 24: {
             Seed = input.ReadUInt32();
             break;

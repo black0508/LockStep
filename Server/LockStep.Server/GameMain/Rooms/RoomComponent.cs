@@ -17,18 +17,12 @@ public sealed class RoomComponent : Component
 {
     readonly List<RoomMember> members = new List<RoomMember>();
     ServerConfig config;
-    NetworkComponent network;
-    EventComponent events;
-    FrameSyncComponent frameSync;
     uint nextPlayerId = 1;
     bool playing;
 
     protected override void OnAwake()
     {
-        network = Entity.GetComponent<NetworkComponent>();
-        events = Entity.GetComponent<EventComponent>();
-        frameSync = Entity.GetComponent<FrameSyncComponent>();
-        events.Subscribe(NetworkDisconnectedEventArgs.EventId, OnDisconnected);
+        Entity.GetComponent<EventComponent>().Subscribe(NetworkDisconnectedEventArgs.EventId, OnDisconnected);
     }
 
     public void Init(ServerConfig value)
@@ -59,16 +53,16 @@ public sealed class RoomComponent : Component
         GameLog.Info($"进房 playerId={member.PlayerId} 昵称={member.NickName} connection={connectionId} 人数={members.Count}");
         var ack = new S2CJoinAck { PlayerId = member.PlayerId };
         FillPlayers(ack.Players);
-        network.TrySend(connectionId, MsgId.S2CJoinAck, ack);
+        Entity.GetComponent<NetworkComponent>().TrySend(connectionId, MsgId.S2CJoinAck, ack);
         BroadcastRoomUpdate();
         if (members.Count < config.MinPlayersToStart) return;
 
         playing = true;
-        var start = new S2CMatchStart { TickHz = config.TickRate, Seed = (uint)Random.Shared.Next(1, int.MaxValue) };
+        var start = new S2CMatchStart { Seed = (uint)Random.Shared.Next(1, int.MaxValue) };
         FillPlayers(start.Players);
         GameLog.Info($"开战 人数={members.Count} seed={start.Seed}");
         Broadcast(MsgId.S2CMatchStart, start);
-        frameSync.Start(members, config.TickRate);
+        Entity.GetComponent<FrameSyncComponent>().Start(members);
     }
 
     void OnDisconnected(object sender, GameEventArgs args)
@@ -85,6 +79,7 @@ public sealed class RoomComponent : Component
             List<RoomMember> dropped = new List<RoomMember>(members);
             Reset();
             GameLog.Info("对局中断，房间已重置");
+            NetworkComponent network = Entity.GetComponent<NetworkComponent>();
             foreach (RoomMember droppedMember in dropped) network.Disconnect(droppedMember.ConnectionId);
             return;
         }
@@ -96,7 +91,7 @@ public sealed class RoomComponent : Component
 
     void Reset()
     {
-        frameSync.Stop();
+        Entity.GetComponent<FrameSyncComponent>().Stop();
         members.Clear();
         nextPlayerId = 1;
         playing = false;
@@ -105,7 +100,7 @@ public sealed class RoomComponent : Component
     void Reject(int connectionId, JoinRejectReason reason)
     {
         GameLog.Info($"进房被拒 connection={connectionId} 原因={reason}");
-        network.TrySend(connectionId, MsgId.S2CJoinReject, new S2CJoinReject { Reason = reason });
+        Entity.GetComponent<NetworkComponent>().TrySend(connectionId, MsgId.S2CJoinReject, new S2CJoinReject { Reason = reason });
     }
 
     void BroadcastRoomUpdate()
@@ -117,6 +112,7 @@ public sealed class RoomComponent : Component
 
     void Broadcast(MsgId id, IMessage message)
     {
+        NetworkComponent network = Entity.GetComponent<NetworkComponent>();
         foreach (RoomMember member in members) network.TrySend(member.ConnectionId, id, message);
     }
 
@@ -128,6 +124,6 @@ public sealed class RoomComponent : Component
 
     protected override void OnDestroy()
     {
-        events.Unsubscribe(NetworkDisconnectedEventArgs.EventId, OnDisconnected);
+        Entity.GetComponent<EventComponent>().Unsubscribe(NetworkDisconnectedEventArgs.EventId, OnDisconnected);
     }
 }

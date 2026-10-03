@@ -1,10 +1,9 @@
 using LockStep.Framework;
 using UnityEngine;
-using Component = LockStep.Framework.Component;
 
 namespace GameMain
 {
-    // 场景唯一入口：传入配置并驱动应用生命周期。表现层通过 Get 取运行时组件，逻辑层不使用这里。
+    // 场景唯一入口：传入配置并驱动应用生命周期。全局组件通过 Application 的属性读取。
     // 执行顺序提前，保证同场景其他脚本的 Awake/OnEnable 能取到已创建的运行时。
     [DefaultExecutionOrder(-100)]
     public sealed class GameEntry : MonoBehaviour
@@ -17,12 +16,7 @@ namespace GameMain
 
         GameApplication application;
 
-        public static GameApplication Application => instance.application;
-
-        public static T Get<T>() where T : Component
-        {
-            return instance.application.Get<T>();
-        }
+        public static GameApplication Application => instance == null ? null : instance.application;
 
         void Awake()
         {
@@ -31,6 +25,7 @@ namespace GameMain
             GameLog.WarningWriter = Debug.LogWarning;
             GameLog.ErrorWriter = Debug.LogError;
             application = new GameApplication(host, port, nickName);
+            application.Init();
         }
 
         void Update()

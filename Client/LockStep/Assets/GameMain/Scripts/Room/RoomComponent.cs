@@ -1,7 +1,7 @@
 using GameMain.FrameSync;
 using GameMain.Net;
 using GameMain.Net.Events;
-using GameMain.Replay;
+using GameMain.Room.Events;
 using Lockstep.Proto;
 using LockStep.Framework;
 
@@ -12,22 +12,14 @@ namespace GameMain.Room
     {
         public enum Status { None, Connecting, Joining, Joined, Playing }
 
-        NetworkComponent network;
-        EventComponent events;
-        FrameSyncComponent frameSync;
-        ReplayComponent replay;
         string nickName;
 
         public Status Phase { get; private set; }
         public uint LocalPlayerId { get; private set; }
-        public string Message { get; private set; } = "";
 
         protected override void OnAwake()
         {
-            network = Entity.GetComponent<NetworkComponent>();
-            events = Entity.GetComponent<EventComponent>();
-            frameSync = Entity.GetComponent<FrameSyncComponent>();
-            replay = Entity.GetComponent<ReplayComponent>();
+            EventComponent events = GameEntry.Application.Events;
             events.Subscribe(NetworkConnectedEventArgs.EventId, OnConnected);
             events.Subscribe(NetworkDisconnectedEventArgs.EventId, OnDisconnected);
         }
@@ -39,7 +31,6 @@ namespace GameMain.Room
 
         public void BeginJoin()
         {
-            Message = "";
             Phase = Status.Connecting;
         }
 
@@ -54,9 +45,8 @@ namespace GameMain.Room
         public void ApplyJoinReject(S2CJoinReject message)
         {
             if (Phase != Status.Joining) return;
-            Message = $"加入房间失败：{message.Reason}";
-            Leave();
             GameLog.Warning($"加入房间失败 {message.Reason}");
+            Leave(RoomLeaveReason.JoinRejected, message.Reason);
         }
 
         public void ApplyRoomUpdate(S2CRoomUpdate message)
@@ -69,46 +59,50 @@ namespace GameMain.Room
         {
             if (Phase != Status.Joined) return;
             Phase = Status.Playing;
-            GameLog.Info($"自动开战 人数={message.Players.Count} 帧率={message.TickHz} seed={message.Seed}");
-            frameSync.Start(message.Players, LocalPlayerId, message.TickHz, FrameSyncComponent.SimulationMode.Online);
-            replay.BeginRecording(message, LocalPlayerId);
+            GameLog.Info($"自动开战 人数={message.Players.Count} seed={message.Seed}");
+            GameEntry.Application.FrameSync.Start(message.Players, LocalPlayerId, true);
+            GameEntry.Application.Events.FireNow(this, MatchStartedEventArgs.Create(message, LocalPlayerId));
         }
 
         void OnConnected(object sender, GameEventArgs args)
         {
             if (Phase != Status.Connecting) return;
-            if (network.TrySend(MsgId.C2SJoin, new C2SJoin { NickName = nickName })) Phase = Status.Joining;
-            else
-            {
-                Message = "进房失败：连接已断开";
-                Leave();
-            }
+            if (GameEntry.Application.Network.TrySend(MsgId.C2SJoin, new C2SJoin { NickName = nickName })) Phase = Status.Joining;
+            else Leave(RoomLeaveReason.JoinSendFailed, JoinRejectReason.JoinRejectUnspecified);
         }
 
         void OnDisconnected(object sender, GameEventArgs args)
         {
-            if (Phase == Status.None) return;
-            Message = Phase == Status.Playing ? "连接已断开，对局结束" : "连接失败或已断开";
-            Reset();
+            Reset(Phase == Status.Playing ? RoomLeaveReason.MatchDisconnected : RoomLeaveReason.ConnectionLost,
+                JoinRejectReason.JoinRejectUnspecified);
         }
 
         public void Leave()
         {
-            // 先置为空闲，主动断线的同步回调就不会再次清理会话。
-            Reset();
-            network.Disconnect();
+            Leave(Phase == Status.Playing ? RoomLeaveReason.MatchQuit : RoomLeaveReason.Cancelled,
+                JoinRejectReason.JoinRejectUnspecified);
         }
 
-        void Reset()
+        void Leave(RoomLeaveReason reason, JoinRejectReason rejectReason)
         {
-            replay.FinishRecording();
-            if (frameSync.Mode == FrameSyncComponent.SimulationMode.Online) frameSync.Stop();
+            // 先置为空闲，主动断线的同步回调就不会再次清理会话。
+            Reset(reason, rejectReason);
+            GameEntry.Application.Network.Disconnect();
+        }
+
+        // 只停止本组件启动的联网模拟。
+        void Reset(RoomLeaveReason reason, JoinRejectReason rejectReason)
+        {
+            if (Phase == Status.None) return;
+            if (Phase == Status.Playing) GameEntry.Application.FrameSync.Stop();
             Phase = Status.None;
             LocalPlayerId = 0;
+            GameEntry.Application.Events.FireNow(this, RoomLeftEventArgs.Create(reason, rejectReason));
         }
 
         protected override void OnDestroy()
         {
+            EventComponent events = GameEntry.Application.Events;
             events.Unsubscribe(NetworkConnectedEventArgs.EventId, OnConnected);
             events.Unsubscribe(NetworkDisconnectedEventArgs.EventId, OnDisconnected);
         }

@@ -61,7 +61,8 @@ message S2CRoomUpdate {
 }
 
 message S2CMatchStart {
-  uint32 tick_hz = 1;
+  reserved 1;
+  reserved "tick_hz";  // 帧率为两端常量
   uint32 seed = 3;
   repeated RoomPlayer players = 4;  // 本局参战名单，按 player_id 升序
 }

@@ -69,13 +69,13 @@ namespace GameMain.Net
         void OnConnected()
         {
             GameLog.Info("连接成功");
-            Entity.GetComponent<EventComponent>().FireNow(this, NetworkConnectedEventArgs.Create());
+            GameEntry.Application.Events.FireNow(this, NetworkConnectedEventArgs.Create());
         }
 
         void OnDisconnected()
         {
             GameLog.Info("断开连接");
-            Entity.GetComponent<EventComponent>().FireNow(this, NetworkDisconnectedEventArgs.Create());
+            GameEntry.Application.Events.FireNow(this, NetworkDisconnectedEventArgs.Create());
         }
 
         void OnReceivedPacket(byte[] payload)

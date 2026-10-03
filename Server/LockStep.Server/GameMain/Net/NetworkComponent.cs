@@ -13,12 +13,6 @@ public sealed class NetworkComponent : Component
     readonly HashSet<int> connections = new HashSet<int>();
     INetworkServerHost host;
     MessageDispatcher dispatcher;
-    EventComponent events;
-
-    protected override void OnAwake()
-    {
-        events = Entity.GetComponent<EventComponent>();
-    }
 
     // 从此处接管 host，销毁组件时统一释放。
     public void Init(INetworkServerHost value)
@@ -83,7 +77,7 @@ public sealed class NetworkComponent : Component
     {
         connections.Remove(connectionId);
         GameLog.Info($"断开 connection={connectionId}");
-        events.FireNow(this, NetworkDisconnectedEventArgs.Create(connectionId));
+        Entity.GetComponent<EventComponent>().FireNow(this, NetworkDisconnectedEventArgs.Create(connectionId));
     }
 
     void OnReceivedPacket(int connectionId, byte[] payload)

@@ -9,6 +9,10 @@ namespace LockStep.Server.FrameSync;
 // 服务端按客户端标注的目标帧缓存输入、固定频率封帧，不模拟角色位置。缺失输入时沿用上一帧实际采用的方向。
 public sealed class FrameSyncComponent : Component
 {
+    // 须与客户端 FrameSyncComponent.TickHz 一致。
+    public const uint TickHz = 30;
+    const double FrameInterval = 1.0 / TickHz;
+
     sealed class PlayerInputBuffer
     {
         public PlayerFrameInput Current;
@@ -16,18 +20,10 @@ public sealed class FrameSyncComponent : Component
     }
 
     readonly Dictionary<int, PlayerInputBuffer> inputs = new Dictionary<int, PlayerInputBuffer>();
-    NetworkComponent network;
     S2CFrame frame;
-    double frameInterval;
     double elapsed;
-
-    protected override void OnAwake()
-    {
-        network = Entity.GetComponent<NetworkComponent>();
-    }
-
-    // players 须已按 PlayerId 升序，客户端按同一顺序执行帧输入。
-    public void Start(IReadOnlyList<RoomMember> players, uint tickHz)
+    
+    public void Start(IReadOnlyList<RoomMember> players)
     {
         frame = new S2CFrame { FrameId = 1 };
         foreach (RoomMember player in players)
@@ -36,7 +32,6 @@ public sealed class FrameSyncComponent : Component
             frame.Inputs.Add(input);
             inputs.Add(player.ConnectionId, new PlayerInputBuffer { Current = input });
         }
-        frameInterval = 1.0 / tickHz;
     }
 
     public void OnInput(int connectionId, C2SInput message)
@@ -49,10 +44,11 @@ public sealed class FrameSyncComponent : Component
     protected override void OnUpdate(float deltaTime)
     {
         if (frame == null) return;
+        NetworkComponent network = Entity.GetComponent<NetworkComponent>();
         elapsed += deltaTime;
-        while (elapsed >= frameInterval)
+        while (elapsed >= FrameInterval)
         {
-            elapsed -= frameInterval;
+            elapsed -= FrameInterval;
             foreach (PlayerInputBuffer input in inputs.Values)
             {
                 if (!input.Pending.Remove(frame.FrameId, out C2SInput pending)) continue;

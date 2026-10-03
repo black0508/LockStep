@@ -1,151 +1,91 @@
-using System;
-using System.IO;
+using System.Collections.Generic;
 using GameMain.FrameSync;
+using GameMain.FrameSync.Events;
+using GameMain.Replay.Events;
+using GameMain.Room.Events;
 using Lockstep.Proto;
 using LockStep.Framework;
 
 namespace GameMain.Replay
 {
+    // 订阅联网对局事件录制回放；播放时按帧率把文件中的帧喂给帧同步。
     public sealed class ReplayComponent : Component
     {
-        public enum PlaybackStatus { None, Playing, Finished, Failed }
-
-        FrameSyncComponent frameSync;
+        // 非空表示正在录制本局。
         ReplayFile recording;
-        ReplayFile playback;
         double elapsed;
 
-        public string DirectoryPath { get; private set; }
-        public string Message { get; private set; } = "";
-        public bool IsRecording => recording != null;
-        public PlaybackStatus Playback { get; private set; }
-        public ReplayFile.Header PlaybackInfo { get; private set; }
+        // 非空表示已载入回放，播完后仍保留到 StopPlayback。
+        public ReplayFile Playback { get; private set; }
 
-        protected override void OnAwake() { frameSync = Entity.GetComponent<FrameSyncComponent>(); }
-        public void Init(string directory) { DirectoryPath = directory; }
-
-        public void BeginRecording(S2CMatchStart start, uint localPlayerId)
+        protected override void OnAwake()
         {
-            Message = "";
-            try { recording = ReplayFile.Create(DirectoryPath, start, localPlayerId); }
-            catch (Exception error) when (error is IOException || error is UnauthorizedAccessException)
-            {
-                ReportError("无法开始录制回放", error);
-            }
+            EventComponent events = GameEntry.Application.Events;
+            events.Subscribe(MatchStartedEventArgs.EventId, OnMatchStarted);
+            events.Subscribe(FrameReceivedEventArgs.EventId, OnFrameReceived);
+            events.Subscribe(RoomLeftEventArgs.EventId, OnRoomLeft);
         }
 
-        public void RecordFrame(S2CFrame frame)
+        void OnMatchStarted(object sender, GameEventArgs args)
         {
-            if (recording == null) return;
-            try { recording.Append(frame); }
-            catch (Exception error) when (error is IOException || error is UnauthorizedAccessException)
-            {
-                ReplayFile failed = recording;
-                recording = null;
-                try { failed.Dispose(); }
-                // 写入失败后关闭缓冲流也可能再次遇到同一个磁盘错误。
-                catch (IOException closeError) { GameLog.Error("关闭回放文件失败", closeError); }
-                ReportError("回放录制失败，本局将不保存", error);
-            }
+            var started = (MatchStartedEventArgs)args;
+            recording = new ReplayFile(started.Start, started.LocalPlayerId);
         }
 
-        public void FinishRecording()
+        void OnFrameReceived(object sender, GameEventArgs args)
+        {
+            recording?.Append(((FrameReceivedEventArgs)args).Frame);
+        }
+
+        void OnRoomLeft(object sender, GameEventArgs args)
         {
             if (recording == null) return;
-            ReplayFile finished = recording;
+            ReplayRecordResult result = recording.Info.FrameCount == 0 ? ReplayRecordResult.Empty
+                : recording.Save() ? ReplayRecordResult.Saved : ReplayRecordResult.SaveFailed;
             recording = null;
-            string savedPath;
-            try
-            {
-                savedPath = finished.Complete();
-            }
-            catch (Exception error) when (error is IOException || error is UnauthorizedAccessException)
-            {
-                ReportError("回放保存失败", error);
-                return;
-            }
-            Message = savedPath == null ? "本局尚无可保存的回放帧" : "回放已保存";
-            if (savedPath != null) GameLog.Info($"回放已保存：{savedPath}，共 {finished.Info.FrameCount} 帧");
+            GameEntry.Application.Events.FireNow(this, RecordingEndedEventArgs.Create(result));
         }
 
         public bool BeginPlayback(string path)
         {
             StopPlayback();
-            Message = "";
-            string fileError;
-            try
-            {
-                playback = ReplayFile.Open(path, out fileError);
-            }
-            catch (Exception error) when (error is IOException || error is UnauthorizedAccessException)
-            {
-                fileError = error.Message;
-            }
-            if (playback == null)
-            {
-                Playback = PlaybackStatus.Failed;
-                ReportError("无法播放回放：" + fileError);
-                return false;
-            }
-            PlaybackInfo = playback.Info;
-            frameSync.Start(PlaybackInfo.MatchStart.Players, PlaybackInfo.LocalPlayerId,
-                PlaybackInfo.MatchStart.TickHz, FrameSyncComponent.SimulationMode.Replay);
-            Playback = PlaybackStatus.Playing;
+            Playback = ReplayFile.Load(path);
+            if (Playback == null) return false;
+            GameEntry.Application.FrameSync.Start(Playback.Info.MatchStart.Players, Playback.Info.LocalPlayerId, false);
             return true;
         }
 
         protected override void OnUpdate(float deltaTime)
         {
-            if (Playback != PlaybackStatus.Playing) return;
+            if (Playback == null) return;
+            FrameSyncComponent frameSync = GameEntry.Application.FrameSync;
+            IReadOnlyList<S2CFrame> frames = Playback.Frames;
+            // 帧号从 1 连续递增，已执行帧号即下一帧的下标。
+            if (frameSync.AppliedFrame == frames.Count) return;
             elapsed += deltaTime;
-            double interval = 1.0 / PlaybackInfo.MatchStart.TickHz;
-            while (elapsed >= interval && frameSync.AppliedFrame < PlaybackInfo.FrameCount)
+            const double interval = 1.0 / FrameSyncComponent.TickHz;
+            while (elapsed >= interval && frameSync.AppliedFrame < frames.Count)
             {
-                S2CFrame frame;
-                string fileError;
-                try { frame = playback.ReadNextFrame(out fileError); }
-                catch (IOException error)
-                {
-                    frame = null;
-                    fileError = error.Message;
-                }
-                if (frame == null)
-                {
-                    StopPlayback();
-                    Playback = PlaybackStatus.Failed;
-                    ReportError("回放文件读取失败：" + fileError);
-                    return;
-                }
-                frameSync.ApplyFrame(frame);
+                frameSync.ApplyFrame(frames[(int)frameSync.AppliedFrame]);
                 elapsed -= interval;
             }
-            if (frameSync.AppliedFrame != PlaybackInfo.FrameCount) return;
-            playback.Dispose();
-            playback = null;
-            Playback = PlaybackStatus.Finished;
         }
 
+        // 只停止本组件启动的回放模拟。
         public void StopPlayback()
         {
-            ReplayFile previous = playback;
-            playback = null;
-            previous?.Dispose();
-            if (frameSync.Mode == FrameSyncComponent.SimulationMode.Replay) frameSync.Stop();
-            Playback = PlaybackStatus.None;
-            PlaybackInfo = null;
+            if (Playback != null) GameEntry.Application.FrameSync.Stop();
+            Playback = null;
             elapsed = 0;
-        }
-
-        void ReportError(string message, Exception error = null)
-        {
-            Message = error == null ? message : message + "：" + error.Message;
-            GameLog.Error(message, error);
         }
 
         protected override void OnDestroy()
         {
-            FinishRecording();
             StopPlayback();
+            EventComponent events = GameEntry.Application.Events;
+            events.Unsubscribe(MatchStartedEventArgs.EventId, OnMatchStarted);
+            events.Unsubscribe(FrameReceivedEventArgs.EventId, OnFrameReceived);
+            events.Unsubscribe(RoomLeftEventArgs.EventId, OnRoomLeft);
         }
     }
 }

@@ -1,18 +1,21 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using GameMain.FrameSync;
 using Google.Protobuf;
 using Lockstep.Proto;
 using LockStep.Framework;
 
 namespace GameMain.Replay
 {
-    // 单一修订的本地文件容器；消息主体直接采用现有 Protobuf，不参与网络协议。
-    public sealed class ReplayFile : IDisposable
+    // 一局回放：录制时逐帧追加后整体保存，播放时整体读入。只负责读写成败，原因写日志；内容由本程序写入，读取时不校验对局规则。
+    public sealed class ReplayFile
     {
         const uint Magic = 0x5052534C; // LSRP，小端。
-        const uint Revision = 1; // 不兼容的模拟规则变更也须提升此值。
-        const long FrameCountOffset = 20;
+        const uint Revision = 2; // 不兼容的模拟规则变更也须提升此值。
+        const int HeaderSize = 24;
+
+        static string DirectoryPath => System.IO.Path.Combine(UnityEngine.Application.persistentDataPath, "Replays");
 
         public sealed class Header
         {
@@ -20,218 +23,198 @@ namespace GameMain.Replay
             public uint LocalPlayerId;
             public uint FrameCount;
             public S2CMatchStart MatchStart;
-            public double Duration => (double)FrameCount / MatchStart.TickHz;
+            public double Duration => (double)FrameCount / FrameSyncComponent.TickHz;
         }
 
+        // Info 为 null 表示该文件无法读取。
         public sealed class Entry
         {
             public string Path;
             public Header Info;
-            public string Error;
         }
 
-        readonly string path;
-        readonly FileStream stream;
-        readonly BinaryReader reader;
-        readonly BinaryWriter writer;
-        uint framesRead;
-        public Header Info { get; private set; }
+        readonly List<S2CFrame> frames;
+        public Header Info { get; }
+        public IReadOnlyList<S2CFrame> Frames => frames;
 
-        ReplayFile(string path, bool writing)
+        ReplayFile(Header info, List<S2CFrame> frames)
         {
-            this.path = path;
-            stream = new FileStream(path, writing ? FileMode.CreateNew : FileMode.Open,
-                writing ? FileAccess.Write : FileAccess.Read, FileShare.Read, 16384);
-            if (writing) writer = new BinaryWriter(stream);
-            else reader = new BinaryReader(stream);
+            Info = info;
+            this.frames = frames;
         }
 
-        public static ReplayFile Create(string directory, S2CMatchStart start, uint localPlayerId)
+        // 开始录制一局。
+        public ReplayFile(S2CMatchStart start, uint localPlayerId)
+            : this(new Header { RecordedAtUtc = DateTime.UtcNow, LocalPlayerId = localPlayerId, MatchStart = start }, new List<S2CFrame>())
         {
-            Directory.CreateDirectory(directory);
-            DateTime now = DateTime.UtcNow;
-            string path = System.IO.Path.Combine(directory, $"{now:yyyyMMdd_HHmmss_fff}_{Guid.NewGuid():N}.tmp");
-            var file = new ReplayFile(path, true);
-            try
-            {
-                file.writer.Write(Magic);
-                file.writer.Write(Revision);
-                file.writer.Write(now.Ticks);
-                file.writer.Write(localPlayerId);
-                file.writer.Write(0u);
-                file.WriteMessage(start);
-                file.Info = new Header { RecordedAtUtc = now, LocalPlayerId = localPlayerId, MatchStart = start.Clone() };
-                return file;
-            }
-            finally
-            {
-                if (file.Info == null) file.Dispose();
-            }
-        }
-
-        public static ReplayFile Open(string path, out string error)
-        {
-            error = null;
-            var file = new ReplayFile(path, false);
-            try
-            {
-                if (file.reader.ReadUInt32() != Magic || file.reader.ReadUInt32() != Revision)
-                {
-                    error = "不支持的回放文件或修订号";
-                    return null;
-                }
-                long recordedAtTicks = file.reader.ReadInt64();
-                if (recordedAtTicks < DateTime.MinValue.Ticks || recordedAtTicks > DateTime.MaxValue.Ticks)
-                {
-                    error = "回放录制时间无效";
-                    return null;
-                }
-                var header = new Header
-                {
-                    RecordedAtUtc = new DateTime(recordedAtTicks, DateTimeKind.Utc),
-                    LocalPlayerId = file.reader.ReadUInt32(),
-                    FrameCount = file.reader.ReadUInt32()
-                };
-                byte[] bytes = file.ReadMessage(out error);
-                if (bytes == null) return null;
-                header.MatchStart = S2CMatchStart.Parser.ParseFrom(bytes);
-                if (header.MatchStart.TickHz == 0 || header.FrameCount == 0 || header.MatchStart.Players.Count == 0)
-                {
-                    error = "回放开局信息或帧数无效";
-                    return null;
-                }
-                uint previousId = 0;
-                bool foundLocal = false;
-                foreach (RoomPlayer player in header.MatchStart.Players)
-                {
-                    if (player.PlayerId <= previousId)
-                    {
-                        error = "回放玩家顺序无效";
-                        return null;
-                    }
-                    previousId = player.PlayerId;
-                    foundLocal |= player.PlayerId == header.LocalPlayerId;
-                }
-                if (!foundLocal)
-                {
-                    error = "回放中缺少录制玩家";
-                    return null;
-                }
-                file.Info = header;
-                return file;
-            }
-            finally
-            {
-                if (file.Info == null) file.Dispose();
-            }
         }
 
         public void Append(S2CFrame frame)
         {
-            WriteMessage(frame);
+            frames.Add(frame);
             Info.FrameCount++;
         }
 
-        public S2CFrame ReadNextFrame(out string error)
+        public bool Save()
         {
-            byte[] bytes = ReadMessage(out error);
-            if (bytes == null) return null;
-            S2CFrame frame = S2CFrame.Parser.ParseFrom(bytes);
-            if (frame.FrameId != framesRead + 1 || frame.Inputs.Count != Info.MatchStart.Players.Count)
+            var buffer = new MemoryStream();
+            using (var writer = new BinaryWriter(buffer))
             {
-                error = "回放帧号或输入数量无效";
-                return null;
+                writer.Write(Magic);
+                writer.Write(Revision);
+                writer.Write(Info.RecordedAtUtc.Ticks);
+                writer.Write(Info.LocalPlayerId);
+                writer.Write(Info.FrameCount);
+                WriteMessage(writer, Info.MatchStart);
+                foreach (S2CFrame frame in frames) WriteMessage(writer, frame);
             }
-            for (int i = 0; i < frame.Inputs.Count; i++)
-                if (frame.Inputs[i].PlayerId != Info.MatchStart.Players[i].PlayerId)
-                {
-                    error = "回放输入与玩家名单不匹配";
-                    return null;
-                }
-            framesRead++;
-            if (framesRead == Info.FrameCount && stream.Position != stream.Length)
-            {
-                error = "回放文件帧数与内容不符";
-                return null;
-            }
-            return frame;
-        }
 
-        // 调用方先移交持有权；失败时 .tmp 仍不会成为可播放的正式文件。
-        public string Complete()
-        {
+            string directory = DirectoryPath;
+            string name = System.IO.Path.Combine(directory, $"{Info.RecordedAtUtc:yyyyMMdd_HHmmss_fff}_{Guid.NewGuid():N}");
+            string finalPath = name + ".replay";
+            // 文件 API 以异常报告失败；保存失败只放弃本局回放。先写 .tmp 再改名，半截文件不会进入列表。
             try
             {
-                writer.Flush();
-                stream.Position = FrameCountOffset;
-                writer.Write(Info.FrameCount);
-                writer.Flush();
-                stream.Flush(true);
+                Directory.CreateDirectory(directory);
+                File.WriteAllBytes(name + ".tmp", buffer.ToArray());
+                File.Move(name + ".tmp", finalPath);
             }
-            finally { Dispose(); }
-
-            if (Info.FrameCount == 0)
+            catch (IOException exception)
             {
-                File.Delete(path);
-                return null;
+                GameLog.Error("回放保存失败 " + finalPath, exception);
+                return false;
             }
-            string finalPath = System.IO.Path.ChangeExtension(path, ".replay");
-            File.Move(path, finalPath);
-            return finalPath;
+            catch (UnauthorizedAccessException exception)
+            {
+                GameLog.Error("回放保存失败 " + finalPath, exception);
+                return false;
+            }
+            GameLog.Info($"回放已保存：{finalPath}，共 {Info.FrameCount} 帧");
+            return true;
         }
 
-        public static List<Entry> List(string directory)
+        // 读取失败时返回 null。
+        public static ReplayFile Load(string path)
         {
+            byte[] bytes;
+            // 文件 API 以异常报告失败；列表与播放只需跳过这个文件。
+            try { bytes = File.ReadAllBytes(path); }
+            catch (IOException exception)
+            {
+                GameLog.Error("读取回放失败 " + path, exception);
+                return null;
+            }
+            catch (UnauthorizedAccessException exception)
+            {
+                GameLog.Error("读取回放失败 " + path, exception);
+                return null;
+            }
+
+            if (bytes.Length < HeaderSize)
+            {
+                GameLog.Error("回放文件已截断 " + path);
+                return null;
+            }
+            using (var reader = new BinaryReader(new MemoryStream(bytes)))
+            {
+                if (reader.ReadUInt32() != Magic || reader.ReadUInt32() != Revision)
+                {
+                    GameLog.Error("不支持的回放文件或修订号 " + path);
+                    return null;
+                }
+                var header = new Header
+                {
+                    RecordedAtUtc = new DateTime(reader.ReadInt64(), DateTimeKind.Utc),
+                    LocalPlayerId = reader.ReadUInt32(),
+                    FrameCount = reader.ReadUInt32(),
+                    MatchStart = ReadMessage(reader, S2CMatchStart.Parser, path)
+                };
+                if (header.MatchStart == null) return null;
+
+                var frames = new List<S2CFrame>();
+                while (reader.BaseStream.Position < bytes.Length)
+                {
+                    S2CFrame frame = ReadMessage(reader, S2CFrame.Parser, path);
+                    if (frame == null) return null;
+                    frames.Add(frame);
+                }
+                return new ReplayFile(header, frames);
+            }
+        }
+
+        // 目录读取失败时返回 null。
+        public static List<Entry> List()
+        {
+            string directory = DirectoryPath;
             var entries = new List<Entry>();
             if (!Directory.Exists(directory)) return entries;
-            foreach (string path in Directory.GetFiles(directory, "*.replay"))
+            string[] paths;
+            // 文件 API 以异常报告失败；列表界面需要继续可用。
+            try { paths = Directory.GetFiles(directory, "*.replay"); }
+            catch (IOException exception)
             {
-                var entry = new Entry { Path = path };
-                try
-                {
-                    using (ReplayFile file = Open(path, out string error))
-                    {
-                        entry.Info = file?.Info;
-                        entry.Error = error;
-                    }
-                }
-                catch (Exception error) when (error is IOException || error is UnauthorizedAccessException)
-                {
-                    entry.Error = error.Message;
-                }
-                if (entry.Info == null) GameLog.Error($"无法读取回放 {path}：{entry.Error}");
-                entries.Add(entry);
+                GameLog.Error("无法读取回放目录 " + directory, exception);
+                return null;
             }
+            catch (UnauthorizedAccessException exception)
+            {
+                GameLog.Error("无法读取回放目录 " + directory, exception);
+                return null;
+            }
+            foreach (string path in paths)
+                entries.Add(new Entry { Path = path, Info = Load(path)?.Info });
             entries.Sort((a, b) => (b.Info?.RecordedAtUtc ?? DateTime.MinValue)
                 .CompareTo(a.Info?.RecordedAtUtc ?? DateTime.MinValue));
             return entries;
         }
 
-        public static void Delete(string path) { File.Delete(path); }
+        public static bool Delete(string path)
+        {
+            // 文件 API 以异常报告失败；删除失败时保留列表现状。
+            try { File.Delete(path); }
+            catch (IOException exception)
+            {
+                GameLog.Error("删除回放失败 " + path, exception);
+                return false;
+            }
+            catch (UnauthorizedAccessException exception)
+            {
+                GameLog.Error("删除回放失败 " + path, exception);
+                return false;
+            }
+            return true;
+        }
 
-        void WriteMessage(IMessage message)
+        static void WriteMessage(BinaryWriter writer, IMessage message)
         {
             byte[] bytes = message.ToByteArray();
             writer.Write(bytes.Length);
             writer.Write(bytes);
         }
 
-        byte[] ReadMessage(out string error)
+        // 读取 int32 长度前缀的消息，截断或解析失败时返回 null。
+        static T ReadMessage<T>(BinaryReader reader, MessageParser<T> parser, string path) where T : class, IMessage<T>
         {
-            error = null;
+            Stream stream = reader.BaseStream;
+            if (stream.Length - stream.Position < sizeof(int))
+            {
+                GameLog.Error("回放文件已截断 " + path);
+                return null;
+            }
             int length = reader.ReadInt32();
             if (length <= 0 || length > stream.Length - stream.Position)
             {
-                error = "回放消息长度无效或文件已截断";
+                GameLog.Error("回放消息长度无效或文件已截断 " + path);
                 return null;
             }
-            return reader.ReadBytes(length);
-        }
-
-        public void Dispose()
-        {
-            // BinaryReader/Writer 不持有额外资源，直接关闭唯一的底层流。
-            stream.Dispose();
+            byte[] bytes = reader.ReadBytes(length);
+            // Protobuf 以异常报告损坏数据。
+            try { return parser.ParseFrom(bytes); }
+            catch (InvalidProtocolBufferException exception)
+            {
+                GameLog.Error("回放消息解析失败 " + path, exception);
+                return null;
+            }
         }
     }
 }

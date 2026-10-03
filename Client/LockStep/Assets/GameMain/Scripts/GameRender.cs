@@ -11,25 +11,23 @@ namespace GameMain
         [SerializeField] GameObject localCharacterPrefab;
         [SerializeField] GameObject remoteCharacterPrefab;
 
-        EventComponent events;
-
         void OnEnable()
         {
-            events = GameEntry.Get<EventComponent>();
-            events.Subscribe(CharacterSpawnedEventArgs.EventId, OnCharacterSpawned);
+            GameEntry.Application.Events.Subscribe(CharacterSpawnedEventArgs.EventId, OnCharacterSpawned);
         }
 
         void OnDisable()
         {
-            events.Unsubscribe(CharacterSpawnedEventArgs.EventId, OnCharacterSpawned);
+            // 场景销毁时 GameEntry 及其事件组件可能已先释放。
+            GameEntry.Application?.Events.Unsubscribe(CharacterSpawnedEventArgs.EventId, OnCharacterSpawned);
         }
 
         void OnCharacterSpawned(object sender, GameEventArgs args)
         {
             var spawned = (CharacterSpawnedEventArgs)args;
             GameObject view = Instantiate(spawned.IsLocal ? localCharacterPrefab : remoteCharacterPrefab, transform);
-            view.name = $"Player {spawned.Character.PlayerId}";
-            spawned.Character.Entity.AddComponent<CharacterViewComponent>().Init(view.transform);
+            view.name = $"Player {spawned.PlayerId}";
+            spawned.Character.AddComponent<CharacterViewComponent>().Init(view.transform);
         }
     }
 }

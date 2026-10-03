@@ -1,3 +1,4 @@
+using GameMain.FrameSync;
 using LockStep.Framework;
 
 namespace GameMain.Character
@@ -9,20 +10,18 @@ namespace GameMain.Character
         const long MoveSpeed = 3 * CoordinateScale;
         const int DiagonalScale = 7071;
 
-        public uint PlayerId { get; private set; }
         public long X { get; private set; }
         public long Z { get; private set; }
 
-        public void Init(uint playerId, long x)
+        public void Init(long x)
         {
-            PlayerId = playerId;
             X = x;
         }
 
-        public void Step(int moveX, int moveZ, uint tickHz)
+        public void Step(int moveX, int moveZ)
         {
             int directionScale = moveX != 0 && moveZ != 0 ? DiagonalScale : CoordinateScale;
-            long divisor = (long)CoordinateScale * tickHz;
+            long divisor = (long)CoordinateScale * FrameSyncComponent.TickHz;
             X += MoveSpeed * moveX * directionScale / divisor;
             Z += MoveSpeed * moveZ * directionScale / divisor;
         }
