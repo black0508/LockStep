@@ -1,4 +1,4 @@
-namespace LockStep.Server.Config;
+namespace GameMain;
 
 public sealed class ServerConfig
 {

@@ -1,7 +1,6 @@
-using GameMain.Net;
 using Lockstep.Proto;
 
-namespace GameMain.Room.Handlers
+namespace GameMain
 {
     [MessageHandler(MsgId.S2CRoomUpdate)]
     public sealed class RoomUpdateHandler : MessageHandler<RoomComponent, S2CRoomUpdate>

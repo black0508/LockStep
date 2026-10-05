@@ -21,7 +21,7 @@
 
 两端的 `Framework/ReferencePool` 移植自 Game Framework，保留四文件结构、按类型分池、队列复用、预分配、移除和统计 API。来源版权与许可见 [Game Framework MIT License](ThirdPartyNotices/GameFramework-LICENSE.md)。
 
-接入差异：命名空间使用 `LockStep.Framework`，参数校验失败通过 `GameLog.Error` 记录并立即退出，`Acquire(Type)` 参数非法返回 `null`。对外接口的参数校验保留；`EnableStrictCheck` 默认关闭，两端启动时不再主动开启。需要排查重复归还时可显式开启，检查会在清理对象和修改池、统计之前拒绝重复归还。对象自身构造函数或 `Clear()` 的异常仍向调用方传播。
+接入差异：命名空间使用 `Framework`，参数校验失败通过 `GameLog.Error` 记录并立即退出，`Acquire(Type)` 参数非法返回 `null`。对外接口的参数校验保留；`EnableStrictCheck` 默认关闭，两端启动时不再主动开启。需要排查重复归还时可显式开启，检查会在清理对象和修改池、统计之前拒绝重复归还。对象自身构造函数或 `Clear()` 的异常仍向调用方传播。
 
 引用池按进程存活，事件参数和分发快照仍由 `EventComponent` 归还。`RemoveAll` 只清理某一类型的空闲引用，`ClearAll` 还会清除池和统计，应在所有借出引用归还后调用。当前仍按主线程使用，统计信息不作为多线程原子快照。
 

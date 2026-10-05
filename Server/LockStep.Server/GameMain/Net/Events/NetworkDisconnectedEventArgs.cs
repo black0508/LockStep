@@ -1,6 +1,6 @@
-using LockStep.Framework;
+using Framework;
 
-namespace LockStep.Server.Net.Events;
+namespace GameMain;
 
 public sealed class NetworkDisconnectedEventArgs : GameEventArgs
 {

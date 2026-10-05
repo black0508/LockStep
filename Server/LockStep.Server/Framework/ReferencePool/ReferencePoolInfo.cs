@@ -8,7 +8,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace LockStep.Framework
+namespace Framework
 {
     /// <summary>
     /// 引用池信息。

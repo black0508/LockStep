@@ -1,5 +1,5 @@
 using UnityEngine;
-using Component = LockStep.Framework.Component;
+using Component = Framework.Component;
 
 namespace GameMain
 {

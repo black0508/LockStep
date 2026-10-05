@@ -1,11 +1,10 @@
 using System;
 using System.IO;
 using System.Text;
-using GameMain.Replay;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GameMain.UI
+namespace GameMain
 {
     public sealed class ReplayItemUI : MonoBehaviour
     {

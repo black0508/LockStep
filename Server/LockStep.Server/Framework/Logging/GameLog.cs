@@ -1,7 +1,7 @@
 using System;
 using System.Globalization;
 
-namespace LockStep.Framework
+namespace Framework
 {
     public static class GameLog
     {

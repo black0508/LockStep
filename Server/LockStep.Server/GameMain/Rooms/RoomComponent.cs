@@ -3,13 +3,9 @@ using System.Collections.Generic;
 using Google.Protobuf;
 using Google.Protobuf.Collections;
 using Lockstep.Proto;
-using LockStep.Framework;
-using LockStep.Server.Config;
-using LockStep.Server.FrameSync;
-using LockStep.Server.Net;
-using LockStep.Server.Net.Events;
+using Framework;
 
-namespace LockStep.Server.Rooms;
+namespace GameMain;
 
 // 进程内唯一对局空间：名单、进房、广播、人齐开战。不做多房间索引。
 // PlayerId 按进房顺序递增分配，名单始终按 PlayerId 升序。

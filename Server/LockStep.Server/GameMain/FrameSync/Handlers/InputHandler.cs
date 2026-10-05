@@ -1,7 +1,6 @@
 using Lockstep.Proto;
-using LockStep.Server.Net;
 
-namespace LockStep.Server.FrameSync.Handlers;
+namespace GameMain;
 
 [MessageHandler(MsgId.C2SInput)]
 public sealed class InputHandler : MessageHandler<FrameSyncComponent, C2SInput>

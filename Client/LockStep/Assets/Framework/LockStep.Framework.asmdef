@@ -1,6 +1,6 @@
 {
     "name": "LockStep.Framework",
-    "rootNamespace": "LockStep.Framework",
+    "rootNamespace": "Framework",
     "references": [],
     "autoReferenced": true,
     "noEngineReferences": true

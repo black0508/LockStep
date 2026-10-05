@@ -1,12 +1,8 @@
 using System.Collections.Generic;
-using GameMain.FrameSync;
-using GameMain.FrameSync.Events;
-using GameMain.Replay.Events;
-using GameMain.Room.Events;
 using Lockstep.Proto;
-using LockStep.Framework;
+using Framework;
 
-namespace GameMain.Replay
+namespace GameMain
 {
     // 订阅联网对局事件录制回放；播放时按帧率把文件中的帧喂给帧同步。
     public sealed class ReplayComponent : Component
@@ -29,7 +25,7 @@ namespace GameMain.Replay
         void OnMatchStarted(object sender, GameEventArgs args)
         {
             var started = (MatchStartedEventArgs)args;
-            recording = new ReplayFile(started.Start, started.LocalPlayerId);
+            recording = new ReplayFile(started.Start, GameEntry.Application.Data.LocalPlayerId);
         }
 
         void OnFrameReceived(object sender, GameEventArgs args)
@@ -51,7 +47,12 @@ namespace GameMain.Replay
             StopPlayback();
             Playback = ReplayFile.Load(path);
             if (Playback == null) return false;
-            GameEntry.Application.FrameSync.Start(Playback.Info.MatchStart.Players, Playback.Info.LocalPlayerId, false);
+            GameData data = GameEntry.Application.Data;
+            data.Phase = GamePhase.Replay;
+            data.IsOnline = false;
+            data.LocalPlayerId = Playback.Info.LocalPlayerId;
+            GameEntry.Application.Units.Start(Playback.Info.MatchStart.Players);
+            GameEntry.Application.FrameSync.Start();
             return true;
         }
 
@@ -74,9 +75,12 @@ namespace GameMain.Replay
         // 只停止本组件启动的回放模拟。
         public void StopPlayback()
         {
-            if (Playback != null) GameEntry.Application.FrameSync.Stop();
+            if (Playback == null) return;
+            GameEntry.Application.FrameSync.Stop();
+            GameEntry.Application.Units.Stop();
             Playback = null;
             elapsed = 0;
+            GameEntry.Application.Data.Clear();
         }
 
         protected override void OnDestroy()

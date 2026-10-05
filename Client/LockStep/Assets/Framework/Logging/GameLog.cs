@@ -1,7 +1,7 @@
 using System;
 using System.Globalization;
 
-namespace LockStep.Framework
+namespace Framework
 {
     // 默认写控制台。宿主可改成 Debug.Log / LogWarning / LogError，避免框架引用 Unity。
     public static class GameLog

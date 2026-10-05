@@ -1,7 +1,6 @@
-using GameMain.Net;
 using Lockstep.Proto;
 
-namespace GameMain.FrameSync.Handlers
+namespace GameMain
 {
     [MessageHandler(MsgId.S2CFrame)]
     public sealed class FrameHandler : MessageHandler<FrameSyncComponent, S2CFrame>

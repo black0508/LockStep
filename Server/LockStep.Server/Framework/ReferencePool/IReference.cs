@@ -5,7 +5,7 @@
 // Feedback: mailto:ellan@gameframework.cn
 //------------------------------------------------------------
 
-namespace LockStep.Framework
+namespace Framework
 {
     /// <summary>
     /// 引用接口。

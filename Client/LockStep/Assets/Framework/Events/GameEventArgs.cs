@@ -1,6 +1,6 @@
 using System;
 
-namespace LockStep.Framework
+namespace Framework
 {
     public abstract class GameEventArgs : EventArgs, IReference
     {

@@ -1,10 +1,8 @@
 using System.Collections.Generic;
 using Lockstep.Proto;
-using LockStep.Framework;
-using LockStep.Server.Net;
-using LockStep.Server.Rooms;
+using Framework;
 
-namespace LockStep.Server.FrameSync;
+namespace GameMain;
 
 // 服务端按客户端标注的目标帧缓存输入、固定频率封帧，不模拟角色位置。缺失输入时沿用上一帧实际采用的方向。
 public sealed class FrameSyncComponent : Component

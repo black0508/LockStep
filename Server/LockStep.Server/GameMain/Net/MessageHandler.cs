@@ -1,9 +1,9 @@
 using System;
 using Google.Protobuf;
 using Lockstep.Proto;
-using LockStep.Framework;
+using Framework;
 
-namespace LockStep.Server.Net;
+namespace GameMain;
 
 [AttributeUsage(AttributeTargets.Class, Inherited = false)]
 public sealed class MessageHandlerAttribute : Attribute

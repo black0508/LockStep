@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace LockStep.Framework
+namespace Framework
 {
     // 主线程上的小型 EC 容器，不认识 Unity、网络或业务组件。
     public sealed class World : IDisposable

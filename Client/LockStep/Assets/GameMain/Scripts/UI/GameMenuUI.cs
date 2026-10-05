@@ -1,17 +1,13 @@
 using System.Collections.Generic;
 using System.IO;
-using GameMain.FrameSync;
-using GameMain.Replay;
-using GameMain.Replay.Events;
-using GameMain.Room;
-using GameMain.Room.Events;
 using Lockstep.Proto;
-using LockStep.Framework;
+using Framework;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GameMain.UI
+namespace GameMain
 {
+    // TODO： UI这块写的代码非常的垃圾，后续看有无时间可以重构掉系统性的UI架构
     // 布局和控件引用由预制体保存；只绑定 UI 操作，不采集输入或执行模拟。
     public sealed class GameMenuUI : MonoBehaviour
     {
@@ -84,8 +80,8 @@ namespace GameMain.UI
         {
             if (page == Page.Online)
             {
-                RoomComponent.Status phase = GameEntry.Application.Room.Phase;
-                if (phase == RoomComponent.Status.Playing)
+                GamePhase phase = GameEntry.Application.Data.Phase;
+                if (phase == GamePhase.Playing)
                 {
                     leaveGameLabel.text = "结束对局并返回";
                     onlineStatus.text = "对局进行中 · 正在录制回放";
@@ -93,7 +89,7 @@ namespace GameMain.UI
                 else
                 {
                     leaveGameLabel.text = "取消并返回";
-                    onlineStatus.text = phase == RoomComponent.Status.Joined
+                    onlineStatus.text = phase == GamePhase.Joined
                         ? "已进入房间，等待另一位玩家…" : "正在连接并加入房间…";
                 }
             }

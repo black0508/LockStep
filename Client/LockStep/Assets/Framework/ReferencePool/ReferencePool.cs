@@ -8,7 +8,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace LockStep.Framework
+namespace Framework
 {
     /// <summary>
     /// 进程级全局引用池。归还后，调用方不能再持有或使用该对象。

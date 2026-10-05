@@ -1,7 +1,7 @@
 using System;
 using kcp2k;
 
-namespace GameMain.Net
+namespace GameMain
 {
     public class KcpClientTransport : INetworkTransport
     {

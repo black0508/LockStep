@@ -1,6 +1,6 @@
 using System;
 
-namespace LockStep.Framework
+namespace Framework
 {
     // 组件保存状态与行为，生命周期由所属实体和 World 驱动。
     public abstract class Component : IDisposable

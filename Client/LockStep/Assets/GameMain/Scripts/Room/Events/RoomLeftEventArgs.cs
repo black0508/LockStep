@@ -1,7 +1,7 @@
 using Lockstep.Proto;
-using LockStep.Framework;
+using Framework;
 
-namespace GameMain.Room.Events
+namespace GameMain
 {
     public enum RoomLeaveReason
     {

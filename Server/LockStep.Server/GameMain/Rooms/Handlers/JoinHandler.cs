@@ -1,7 +1,6 @@
 using Lockstep.Proto;
-using LockStep.Server.Net;
 
-namespace LockStep.Server.Rooms.Handlers;
+namespace GameMain;
 
 [MessageHandler(MsgId.C2SJoin)]
 public sealed class JoinHandler : MessageHandler<RoomComponent, C2SJoin>

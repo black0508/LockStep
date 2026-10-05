@@ -1,11 +1,7 @@
 using System;
-using LockStep.Framework;
-using LockStep.Server.Config;
-using LockStep.Server.FrameSync;
-using LockStep.Server.Net;
-using LockStep.Server.Rooms;
+using Framework;
 
-namespace LockStep.Server;
+namespace GameMain;
 
 // 业务组合根：组件按依赖顺序创建（后创建的在 OnAwake 中取用前面的），关闭时逆序释放。
 public sealed class GameApplication : IDisposable

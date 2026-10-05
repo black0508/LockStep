@@ -1,10 +1,8 @@
-﻿using System;
+﻿﻿using System;
 using System.Threading;
 using System.Diagnostics;
-using LockStep.Server;
-using LockStep.Server.Config;
-using LockStep.Server.Net;
-using LockStep.Framework;
+using GameMain;
+using Framework;
 
 class Program
 {

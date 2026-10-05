@@ -1,6 +1,6 @@
 using System;
 
-namespace GameMain.Net
+namespace GameMain
 {
     public interface INetworkTransport : IDisposable
     {

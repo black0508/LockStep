@@ -1,8 +1,4 @@
-using GameMain.Character;
-using GameMain.FrameSync;
-using GameMain.Net;
-using GameMain.Room;
-using GameMain.Replay;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace GameMain
@@ -16,29 +12,28 @@ namespace GameMain
             GameApplication application = GameEntry.Application;
             if (application == null) return;
             FrameSyncComponent frameSync = application.FrameSync;
-            RoomComponent room = application.Room;
+            GameData data = application.Data;
             NetworkComponent network = application.Network;
-            ReplayComponent replay = application.Replay;
+            UnitComponent units = application.Units;
             if (readoutStyle == null)
             {
                 readoutStyle = new GUIStyle(GUI.skin.label) { fontSize = 16 };
                 readoutStyle.normal.textColor = Color.white;
             }
 
-            ReplayFile.Header info = replay.Playback?.Info;
-            uint localPlayerId = info?.LocalPlayerId ?? room.LocalPlayerId;
-            string text = info != null
+            uint localPlayerId = data.LocalPlayerId;
+            string text = data.Phase == GamePhase.Replay
                 ? $"Replay  player={localPlayerId}  applied={frameSync.AppliedFrame}  {FrameSyncComponent.TickHz}Hz"
-                : $"{room.Phase}  player={localPlayerId}  input={frameSync.InputFrame}"
+                : $"{data.Phase}  player={localPlayerId}  input={frameSync.InputFrame}"
                     + $"  applied={frameSync.AppliedFrame}  {FrameSyncComponent.TickHz}Hz  RTT={network.RttMilliseconds}ms";
-            foreach (var pair in frameSync.Characters)
+            IReadOnlyCollection<Unit> all = units.GetAll();
+            foreach (Unit unit in all)
             {
-                CharacterComponent character = pair.Value.GetComponent<CharacterComponent>();
-                string mark = pair.Key == localPlayerId ? "*" : "";
-                text += $"\nP{pair.Key}{mark}  x={character.X}  z={character.Z}";
+                string mark = unit.PlayerId == localPlayerId ? "*" : "";
+                text += $"\nP{unit.PlayerId}{mark}  x={unit.X}  z={unit.Z}";
             }
 
-            var area = new Rect(8, 8, 720, 24 * (frameSync.Characters.Count + 1));
+            var area = new Rect(8, 8, 720, 24 * (all.Count + 1));
             Color previous = GUI.color;
             GUI.color = Color.black;
             GUI.Label(new Rect(area.x + 1, area.y + 1, area.width, area.height), text, readoutStyle);

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace LockStep.Framework
+namespace Framework
 {
     public sealed class Entity : IDisposable
     {

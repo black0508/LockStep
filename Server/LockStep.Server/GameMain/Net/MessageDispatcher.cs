@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Reflection;
 using Google.Protobuf;
 using Lockstep.Proto;
-using LockStep.Framework;
+using Framework;
 
-namespace LockStep.Server.Net;
+namespace GameMain;
 
 public sealed class MessageDispatcher
 {

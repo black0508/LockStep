@@ -1,6 +1,6 @@
 using System;
 
-namespace LockStep.Server.Net
+namespace GameMain
 {
     public interface INetworkServerHost : IDisposable
     {

@@ -1,6 +1,6 @@
-using LockStep.Framework;
+using Framework;
 
-namespace GameMain.Replay.Events
+namespace GameMain
 {
     public enum ReplayRecordResult { Saved, Empty, SaveFailed }
 

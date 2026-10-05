@@ -1,7 +1,6 @@
-using GameMain.Net;
 using Lockstep.Proto;
 
-namespace GameMain.Room.Handlers
+namespace GameMain
 {
     [MessageHandler(MsgId.S2CJoinAck)]
     public sealed class JoinAckHandler : MessageHandler<RoomComponent, S2CJoinAck>

@@ -8,7 +8,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace LockStep.Framework
+namespace Framework
 {
     public static partial class ReferencePool
     {

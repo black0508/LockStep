@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace LockStep.Framework
+namespace Framework
 {
     // 主线程同步事件；FireNow 接管参数，分发结束后自动清理并归还引用池。
     public sealed class EventComponent : Component

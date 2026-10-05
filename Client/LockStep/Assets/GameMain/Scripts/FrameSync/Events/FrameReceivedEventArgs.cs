@@ -1,7 +1,7 @@
 using Lockstep.Proto;
-using LockStep.Framework;
+using Framework;
 
-namespace GameMain.FrameSync.Events
+namespace GameMain
 {
     // 联网时收到并执行完一帧权威帧后发布。
     public sealed class FrameReceivedEventArgs : GameEventArgs

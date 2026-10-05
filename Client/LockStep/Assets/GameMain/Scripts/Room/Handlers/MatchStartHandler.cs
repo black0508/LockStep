@@ -1,7 +1,6 @@
-using GameMain.Net;
 using Lockstep.Proto;
 
-namespace GameMain.Room.Handlers
+namespace GameMain
 {
     [MessageHandler(MsgId.S2CMatchStart)]
     public sealed class MatchStartHandler : MessageHandler<RoomComponent, S2CMatchStart>

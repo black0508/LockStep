@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Net.Sockets;
 using Google.Protobuf;
 using Lockstep.Proto;
-using LockStep.Framework;
-using LockStep.Server.Net.Events;
+using Framework;
 
-namespace LockStep.Server.Net;
+namespace GameMain;
 
 public sealed class NetworkComponent : Component
 {

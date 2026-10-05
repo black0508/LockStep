@@ -1,11 +1,10 @@
 using System;
 using System.Net.Sockets;
-using GameMain.Net.Events;
 using Google.Protobuf;
 using Lockstep.Proto;
-using LockStep.Framework;
+using Framework;
 
-namespace GameMain.Net
+namespace GameMain
 {
     public sealed class NetworkComponent : Component
     {

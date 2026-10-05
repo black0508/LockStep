@@ -1,7 +1,6 @@
-using GameMain.Net;
 using Lockstep.Proto;
 
-namespace GameMain.Room.Handlers
+namespace GameMain
 {
     [MessageHandler(MsgId.S2CJoinReject)]
     public sealed class JoinRejectHandler : MessageHandler<RoomComponent, S2CJoinReject>

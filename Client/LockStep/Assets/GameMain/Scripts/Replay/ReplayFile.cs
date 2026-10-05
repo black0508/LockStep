@@ -1,12 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using GameMain.FrameSync;
 using Google.Protobuf;
 using Lockstep.Proto;
-using LockStep.Framework;
+using Framework;
 
-namespace GameMain.Replay
+namespace GameMain
 {
     // 一局回放：录制时逐帧追加后整体保存，播放时整体读入。只负责读写成败，原因写日志；内容由本程序写入，读取时不校验对局规则。
     public sealed class ReplayFile

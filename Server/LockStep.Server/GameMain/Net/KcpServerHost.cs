@@ -2,7 +2,7 @@ using System;
 using System.Runtime.InteropServices;
 using kcp2k;
 
-namespace LockStep.Server.Net;
+namespace GameMain;
 // Windows 下 UDP 收到 ICMP Port Unreachable（客户端退出、端口没人听）时，
 // 下一次 ReceiveFrom 会抛 SocketException 10054。kcp2k 只在 DualMode 的
 // IPv6 分支禁用了这个行为，IPv4 分支没有，所以这里补上。

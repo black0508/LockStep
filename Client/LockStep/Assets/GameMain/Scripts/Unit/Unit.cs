@@ -1,21 +1,26 @@
-using GameMain.FrameSync;
-using LockStep.Framework;
+using Framework;
 
-namespace GameMain.Character
+namespace GameMain
 {
-    // 纯逻辑角色：整数坐标只在执行权威帧时改变，表现层只读。
-    public sealed class CharacterComponent : Component
+    // 一名玩家：整数坐标只在执行权威帧时改变，表现层只读。实体只用来挂表现组件。
+    public sealed class Unit
     {
         public const int CoordinateScale = 10000;
         const long MoveSpeed = 3 * CoordinateScale;
         const int DiagonalScale = 7071;
 
+        public uint PlayerId { get; }
+        public bool IsLocal { get; }
         public long X { get; private set; }
         public long Z { get; private set; }
+        internal Entity Entity { get; }
 
-        public void Init(long x)
+        internal Unit(World world, uint playerId, bool isLocal, long x)
         {
+            PlayerId = playerId;
+            IsLocal = isLocal;
             X = x;
+            Entity = world.CreateEntity();
         }
 
         public void Step(int moveX, int moveZ)
@@ -24,6 +29,11 @@ namespace GameMain.Character
             long divisor = (long)CoordinateScale * FrameSyncComponent.TickHz;
             X += MoveSpeed * moveX * directionScale / divisor;
             Z += MoveSpeed * moveZ * directionScale / divisor;
+        }
+
+        internal void Dispose()
+        {
+            Entity.Dispose();
         }
     }
 }

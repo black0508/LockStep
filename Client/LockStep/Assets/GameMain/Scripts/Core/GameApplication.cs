@@ -1,9 +1,5 @@
 using System;
-using GameMain.FrameSync;
-using GameMain.Net;
-using GameMain.Room;
-using GameMain.Replay;
-using LockStep.Framework;
+using Framework;
 
 namespace GameMain
 {
@@ -14,9 +10,11 @@ namespace GameMain
         readonly World world = new World();
 
         public Entity Root { get; }
+        public GameData Data { get; } = new GameData();
         public EventComponent Events { get; private set; }
         public NetworkComponent Network { get; private set; }
         public InputComponent Input { get; private set; }
+        public UnitComponent Units { get; private set; }
         public FrameSyncComponent FrameSync { get; private set; }
         public ReplayComponent Replay { get; private set; }
         public RoomComponent Room { get; private set; }
@@ -34,6 +32,7 @@ namespace GameMain
             Network = Root.AddComponent<NetworkComponent>();
             Network.Init(new KcpClientTransport());
             Input = Root.AddComponent<InputComponent>();
+            Units = Root.AddComponent<UnitComponent>();
             FrameSync = Root.AddComponent<FrameSyncComponent>();
             Replay = Root.AddComponent<ReplayComponent>();
             Room = Root.AddComponent<RoomComponent>();
@@ -42,8 +41,7 @@ namespace GameMain
 
         public bool StartOnline()
         {
-            if (Room.Phase != RoomComponent.Status.None || Replay.Playback != null)
-                return false;
+            if (Data.Phase != GamePhase.None) return false;
             // 旧 transport 可能同步发布断线（例如上次 DNS 失败），须在新进房状态之前清理。
             Network.Disconnect();
             Room.BeginJoin();
@@ -56,8 +54,7 @@ namespace GameMain
 
         public bool StartReplay(string path)
         {
-            if (Room.Phase != RoomComponent.Status.None || Replay.Playback != null)
-                return false;
+            if (Data.Phase != GamePhase.None) return false;
             // 同步取消旧 transport（包括连接中的会话），之后才创建回放角色。
             Network.Disconnect();
             return Replay.BeginPlayback(path);
